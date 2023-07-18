@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Thanh Diep</title>
+
+  <style type="text/css">
+  .zoom {
+    position: sticky;
+    top: 30vh;
+    will-change: transform;
+  
+    width: 100vw;
+    transform: scale(2.2);
+    margin: 0 auto; /* Added this line to center the image horizontally */
+    object-fit: cover;
+    align-self: center;
+  }
+
+  .bottom {
+    height: 100vh;
+  }
+
+  .top {
+    height: 30vh;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .top {
+      height: 0vh;
+    }
+
+    .zoom {
+      top: 18vh;
+      height: 100vh;
+      width: auto;
+    }
+  }
+
+  .wrap {
+    height: 200vh;
+  }
+  </style>
+</head>
+
+<body>
+<section class="top"></section>
+    
+<section class="wrap">
+  <img class="zoom" src="images/Timelapse-2k-60p.mov" >
+</section>
+    
+<section class="bottom">
+
+
+</section>
+
+  <script type="text/javascript">
+   const zoom = document.querySelector('.zoom');
+const minZoom = 1;
+const maxZoom = 2;
+
+addEventListener('scroll', e => {
+	const vh = window.innerHeight / 100;
+  const scrollTop = document.documentElement.scrollTop;
+  const start = 100 * vh;
+  const stop = 200 * vh;
+  if (scrollTop > start && scrollTop < stop) {
+	  const scale = Math.max(2.2 - (scrollTop - start) / 500, 1);
+  	zoom.style.transform = `scale(${scale})`
+  }
+})
+  </script>
+</body>
+</html>

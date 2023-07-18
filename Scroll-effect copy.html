@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <title>Thanh Diep</title>
+
+  <style type="text/css">
+    
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.grid {
+  position: absolute;
+  top: 70vh;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  width: 100%;
+  height: 100%;
+  grid-gap: 10px;
+}
+
+.grid-item1 {
+  background-image: url("images/IMG_1605.jpeg");
+  background-size: cover;
+  background-position: center;
+  grid-column: 1/4;
+  grid-row: 1/3;
+  border-radius: 5px;
+}
+
+.grid-item2 {
+  background-image: url(images/IMG_2113.jpeg);
+  background-size: cover;
+  background-position: center;
+  grid-column: 1/3;
+  grid-row: 3/5;
+  border-radius: 5px;
+}
+
+.grid-item3 {
+  background-image: url(images/IMG_1659.jpeg);
+  background-size: cover;
+  background-position: center;
+  grid-column: 1/5;
+  grid-row: 5/30;
+  border-radius: 5px;
+}
+
+.grid-item4 {
+  background-image: url("images/Goal1.25x.mov");
+  background-size: cover;
+  background-position: center;
+  grid-column: 3/5;
+  grid-row: 3/5;
+  border-radius: 5px;
+}
+
+.grid-item5 {
+  background-image: url("images/joel-filipe-RFDP7_80v5A-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  grid-column: 4/6;
+  grid-row: 1/3;
+  border-radius: 5px;
+}
+
+.grid-item6 {
+  background-image: url("https://images.unsplash.com/photo-1534703580202-6123d4189ef6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5478b30dec2346f00a40ab259d162068&auto=format&fit=crop&w=634&q=80");
+  background-size: cover;
+  background-position: center;
+  grid-column: 5/5;
+  grid-row: 3/5;
+  border-radius: 5px;
+}
+
+.grid-item7 {
+  background-image: url("images/CarGame.mov");
+  background-size: cover;
+  background-position: center;
+  grid-column: 5/5;
+  grid-row: 5/6;
+  border-radius: 5px;
+}
+
+.grid-item8 {
+  background-image: url("images/shunya-koide-1emWndlDHs0-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  grid-column: 6/8;
+  grid-row: 1/6;
+  border-radius: 5px;
+}
+
+.grid-item9 {
+  background-image: url("images/_f4lvq0tdq_page-0001.jpg");
+  background-size: cover;
+  background-position: center;
+  grid-column: 5/8;
+  grid-row: 6/30;
+  border-radius: 5px;
+}
+
+.grid-item:hover:not(.grid-text) {
+  filter: blur(5px);
+  transition: 0.4s;
+}
+
+.grid-item:hover .grid-text {
+  opacity: 1;
+  transition: 0.4s;
+}
+
+.grid-text1 {
+  background-image: url("images/IMG_1605.jpeg");
+  background-size: cover;
+  background-position: center;
+  grid-column: 1/4;
+  grid-row: 1/3;
+  border-radius: 5px;
+}
+
+.grid-text2 {
+  grid-column: 1/3;
+  grid-row: 3/5;
+  border-radius: 5px;
+}
+
+.grid-text3 {
+  grid-column: 1/5;
+  grid-row: 5/30;
+  border-radius: 5px;
+}
+
+.grid-text4 {
+  grid-column: 3/5;
+  grid-row: 3/5;
+  border-radius: 5px;
+}
+
+.grid-text5 {
+  grid-column: 4/6;
+  grid-row: 1/3;
+  border-radius: 5px;
+}
+
+.grid-text6 {
+  grid-column: 5/5;
+  grid-row: 3/5;
+  border-radius: 5px;
+}
+
+.grid-text7 {
+  grid-column: 5/5;
+  grid-row: 5/6;
+  border-radius: 5px;
+}
+
+.grid-text8 {
+  grid-column: 6/8;
+  grid-row: 1/6;
+  border-radius: 5px;
+}
+
+.grid-text9 {
+  grid-column: 5/8;
+  grid-row: 6/30;
+  border-radius: 5px;
+}
+
+.grid-text {
+  opacity: 1;
+  color: white;
+  display: block;
+  text-align: center;
+  top: 45%;
+  filter: blur(0);
+  position: relative;
+}
+  </style>
+</head>
+
+<body>
+    
+   
+<div class="grid inline-photo show-on-scroll">
+  <div class="grid-item1 grid-item inline-photo show-on-scroll">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item2 grid-item inline-photo show-on-scroll left">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item3 grid-item inline-photo show-on-scroll left">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item4 grid-item inline-photo show-on-scroll">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item5 grid-item inline-photo show-on-scroll left">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item6 grid-item inline-photo show-on-scroll right">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item7 grid-item inline-photo show-on-scroll">
+    <a class="grid-text">Technology</a>
+  </div> 
+  <div class="grid-item8 grid-item inline-photo show-on-scroll right">
+    <a class="grid-text">Technology</a>
+  </div>
+  <div class="grid-item9 grid-item inline-photo show-on-scroll right">
+    <a class="grid-text">Technology</a>
+  </div>
+</div>
+  <script type="text/javascript">
+  
+    </script>
+    
+    
+    
+
+</body>
+</html>
