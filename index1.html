@@ -13,31 +13,27 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
-    
-    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
  
   <title>Thanh Diep</title>
 
   <style type="text/css">
       
       body{
-          max-width: 100vw;
-          width:100vw;
-          background:black;
-     
+        max-width: 100vw;
+    width: 100vw;
+    background: black;
+    margin: 0; /* Reset default margin */
       }
-    
-
 
           
 .box {
   background-color: white;
   height: 1px;
   opacity:0%;
-  margin-right:15px;
+  margin-right: 15px;
   width: 0px;
 }
 
@@ -50,18 +46,13 @@
 .transform-active {
   background-color: white;
   height: 1px;
-  float: right;
-  width: 530px;
+
+  width: 250px;
   opacity:100%;
   transition: width opacity 1s ease; 
 }        
       
- @media only screen and (max-width: 700px) {
- .transform-active  {
-    width:305px;
-  }
-}   
-      
+
       
      
       
@@ -84,7 +75,7 @@
           height: 5px;  
           width: 100%;  
           background-color: white;    
-          mix-blend-mode: difference;
+         mix-blend-mode: difference;
  
           display: block;  
          
@@ -99,20 +90,22 @@
       
       .nav{      
           position:fixed;  
-
+          float:right;
           right:0px;
           top:70px;   
           color:white; 
           text-align: right;
           text-decoration: none;
-display: none;
+          padding: 0; 
           margin: 0 20px; 
           transition: 0.3s ease; 
           z-index:4; 
           opacity:0%;
           font-weight: 400;
-          font-family: "Rubik" sans-serif;
+          font-family: arial;
+          text-transform: uppercase;
           letter-spacing: 3px;
+          font-size:2em;
       } 
       
       .nav li{  list-style: none;  
@@ -126,20 +119,10 @@ display: none;
       a {   text-decoration: none; 
           color:white; 
           letter-spacing: 3px;
-          font-family: poppins; 
-          text-transform: uppercase;
-          font-size: 2em;
+          font-family: helvetica;   
           z-index:4; 
           } 
   
-      
-        @media only screen and (max-width: 700px) {
- a  {
-    font-size: 1em;
-  }
-}   
-   
-      
       
       .change .bar{
           background-color: white;} 
@@ -155,9 +138,7 @@ display: none;
       
       .change{     
           opacity:100%;   
-          transition: opacity 1s;
-          display: block;
-      } 
+          transition: opacity 1s;  } 
       
         #menu-bar {
       z-index: 2;
@@ -177,49 +158,163 @@ display: none;
       }
       .change-bg{
           opacity: 90%;
-          transition: opacity 3s;
-        z-index:3;
-          display: block;   
+          transition: opacity 1s ease;
+              z-index:3;
+          display: block;
+          
+          
     
       }
       
-      .nav:has(.fancy:hover) .word:not(.fancy:hover) {
-  opacity: 0.5;
-}
-      .word {
-  color: white;
-  transition: opacity 0.7s ease;
-}
-      
-      
-      
-      
-      
-      
       .logo {      
-          font-family:poppins;
-          font-size: 2.5em;     
-          font-weight: 600; 
+          font-family:arial;
+          font-size: 40px;     
+          font-weight: 800; 
+          width:100vw;
+          height:60px;
           text-transform: uppercase;
-          mix-blend-mode: difference;
+   
+          
+  
           letter-spacing: 7px;   
           color:  white;    
           position: fixed;  
-          top: -45px;     
+          top: -40px;     
           left: 0;  
           z-index: 2;
           padding-top: 15px;    
           padding-left: 30px;    
-      }
-      
-      
+      } 
       @media only screen and (max-width: 700px) {
  .logo  {
-    font-size: 2em;
-     top:-32.5px;
+    font-size: 5vw;
   }
 }   
       
+      
+
+.clear-fix {
+	clear: both;
+}
+
+.grid-container {
+	width: 100vw;
+	position: relative;
+	margin: 0 auto;
+    left: 0;
+	top: 70vh;
+    display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+    margin: 0; /* Add this line to remove the default margin */
+    padding: 0; /* Add this line to remove the default padding */
+    object-fit: cover;
+     -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+
+}
+
+    @media only screen and (max-width: 1100px) {
+ .grid-container  {
+    top:50vh;
+  }
+}   
+.panel {
+	position: relative;
+	
+	width: 20vw;
+	height: 20vw;
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+     object-fit: cover;
+}
+
+.panel:hover {
+	transition: all 0.2s ease-out;
+    transform: scale(102%);
+}
+
+.panel:nth-child(11n+1) {
+	margin-right: 1vw;
+	position: relative;
+    left: 0;   
+	width: 20vw;
+	height: 20vw;
+}
+
+.panel:nth-child(11n+2) {
+	margin-right: 1vw;
+	margin-left: 0vw;
+	width: 40vw;
+	height: 20vw;
+}  
+
+.panel:nth-child(11n+3) {
+	margin-left: 0px;
+    margin-right: 0px;
+	width: 38vw;
+	height: 20vw;
+ 
+   
+}
+
+.panel:nth-child(11n+4) {
+	margin-right: 1vw;
+	margin-top: 1vw;
+	width: 50vw;
+	height: 20vw;
+}
+
+.panel:nth-child(11n+5) {
+	margin-right: 1vw;
+	margin-top: 1vw;
+	width: 30vw;
+	height: 20vw;
+}
+
+.panel:nth-child(11n+6) {
+	
+
+	margin-top: 1vw;
+	width: 18vw;
+	position: relative;
+	height: 20vw;
+}
+
+.panel:nth-child(11n+7) {
+	
+	width: 40vw;
+	height: 41vw;
+	margin-top: 1vw;
+}
+
+.panel:nth-child(11n+8) {
+	float: left;
+	width: 59vw;
+	height: 41vw;
+	margin-top: 1vw;
+	margin-left: 1vw;
+	border-radius: 5px;
+}
+
+.panel:nth-child(11n+9) {
+	margin-top: 1vw;
+	width: 40vw;
+}
+
+.panel:nth-child(11n+10) {
+	margin-left: 1vw;
+	margin-top: 1vw;
+	width: 20vw;
+}
+
+.panel:nth-child(11n+11) {
+	margin-left: 1vw;
+	border-radius: 5px;
+	margin-top: 1vw;
+	width: 38vw;
+}
 
 
 .panel-wrapper {
@@ -271,89 +366,44 @@ display: none;
 .panel-vingette {
 	position: relative;
 	top: 0;
-
+	left: 0;
 	width: 100%;
 	height: 100%;
 	z-index: 5;
 	opacity: 0.7;
-
 	background: black;
 }
 
 .panel-img {
 	position: absolute;
 	top: 0;
-
+	left: 0;
 	display: block;
-
+	margin: 0 auto;
 	min-width: 100%;
 	height: 100%;
     object-fit: cover;
 }
 
-
-      
-      
-.grid-wrapper .wide {
-	grid-column: span 2;
-}
-.grid-wrapper .tall {
-	grid-row: span 2;
-}
-.grid-wrapper .big {
-	grid-column: span 2;
-	grid-row: span 2;
-}
-    
-      
-      img {
-	max-width: 100%;
-	height: auto;
-	vertical-align: middle;
-	display: inline-block;
-}
-
-/* Main CSS */
-.grid-wrapper > div {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.grid-wrapper > div > img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 5px;
-}
-
-.grid-wrapper {
-	display: grid;
-    position: relative;
-    top:90vh;
-	grid-gap: 10px;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	grid-auto-rows: 200px;
-	grid-auto-flow: dense;
-}
-      
-      
-      
-      
- 
-      
+          
 .typing-demo {
-  width:63.5vw;
-  animation: typing 2.2s steps(30), blink .5s step-end infinite alternate ; 
+  width:12.7em;
+  animation: typing 2.2s steps(30), blink .5s step-end infinite alternate ;
+  
   white-space: nowrap;
   overflow: hidden;
   color:white;
-  font-weight: 100;
+    font-weight: 100;
   border-right: 3px solid;
   font-family: monospace;
-  font-size: 5vw;
+  font-size: 4em;
   position: absolute;
   top:27vh;
   left:18vw;
+  
+
+
+
 }
 
 @keyframes typing {
@@ -368,6 +418,9 @@ display: none;
   }
 
 }
+
+
+      
       .introduction-text{
           color:white;  
           position: absolute;
@@ -375,75 +428,18 @@ display: none;
           left:18vw;
           top:36vh;
           font-family: monospace;
-          font-size: 2vw;
+          font-size: 2em;
           align-items: center;
           
 
       }
       .introduction-container{
           height:30vh;
-          position: absolute;
-          width:10vw;
+          position: relative;
+          width:100vw;
       }
       
-      @media only screen and (max-width: 1100px) {
-.introduction-text {
-    top:33vh;
-  }
-}
-         @media only screen and (max-width: 600px) {
-.introduction-text {
-    top:31vh;
-    left:18vw;
-  }
-}
 
-      
-      
- 
-      
-      
-      
-.curtain {
-  /*  2 Contrasting Colors  */
-  background-image: linear-gradient(to bottom,black 50%, white 50%);
-    position: relative;
-    top:70vh;
-    width:100vw;
-}
-/* To extend till the bottom of the screen */
-.curtain::after {
-  content: "";
-  display: block;
-  height: 160vh;
-
-}
-
-.invert {
-    /* Stick the div to the top */
-    position: sticky;
-    top: 0vw;
-
-    /* blend the differences */
-    mix-blend-mode: difference;
-
-    /* Center the content */
-    display: grid;
-    place-items: center;
-  
-    /* Set the height of the child div */
-    height: 100vh;
-}
-
-h1 {
-    /** set the color of the text **/
-    color: white;
-    font-size: 10vw;
-    letter-spacing: 4px;
-    font-family: poppins;
-    font-weight:600;
-    text-transform: uppercase
-}
 
 
 
@@ -468,53 +464,18 @@ h1 {
     </div>
 
     <ul class="nav" id="nav">
-        
-     <div class="word fancy">
-      <li><a href="#" class="word fancy">Home</a></li>
+      <li><a href="#">Home</a></li>
        <div class="box transform"></div>
-    </div>  
-
-         <div class="word fancy">
-      <li><a href="#" class="word fancy">About</a></li>
+      <li><a href="#">About</a></li>
         <div class="box transform"></div>
-    </div>  
-        <div class="word fancy">
-      <li><a href="#" class="word fancy">Contact</a></li>
+      <li><a href="#">Contact</a></li>
        <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-      <li><a href="#" class="word fancy">Projects</a></li>
+      <li><a href="#">Projects</a></li>
          <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-      <li><a href="#" class="word fancy">Technology</a></li>
+      <li><a href="#">Technology</a></li>
          <div class="box transform"></div>
-    </div>  
-       <div class="word fancy">
-        <li><a href="#" class="word fancy">Science</a></li>
+        <li><a href="#">Science</a></li>
          <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-        <li><a href="#" class="word fancy">SciTech Extracurriculars</a></li>
-         <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Extracurriculars</a></li>
-         <div class="box transform"></div>
-         </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Careers</a></li>
-         <div class="box transform"></div>
-         </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Report Cards</a></li>
-         <div class="box transform"></div>
-         </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Information</a></li>
-         <div class="box transform"></div>
-         </div>  
-
     </ul>
   </div>
     
@@ -533,8 +494,9 @@ h1 {
     </p>
   </div>
     
-    
-<div class="grid-wrapper ">
+ 
+
+<div class="grid-container ">
 	<div class="panel ">
 		<div class="panel-wrapper inline-photo show-on-scroll left">
 			<div class="panel-overlay">
@@ -549,7 +511,7 @@ h1 {
 	</div>
       
 	<div class="panel">
-	<div class="panel-wrapper ">
+	<div class="panel-wrapper inline-photo show-on-scroll">
 			<div class="panel-overlay">
 				<div class="panel-text">
 					<div class="panel-title">Assessments</div>
@@ -560,7 +522,7 @@ h1 {
 			<img class="panel-img" src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg" alt=""/>
 		</div></div>
       
-	<div class="panel tall">
+	<div class="panel">
 			<div class="panel-wrapper inline-photo show-on-scroll right">
 				<div class="panel-overlay">
 				<div class="panel-text">
@@ -573,7 +535,7 @@ h1 {
 		</div>
 	</div>
 	
-	<div class="panel wide">
+	<div class="panel">
 		<div class="panel-wrapper inline-photo show-on-scroll left">
 			<div class="panel-overlay">
 				<div class="panel-text">
@@ -600,7 +562,7 @@ h1 {
 			<img class="panel-img" src="images/Water.jpeg" alt=""/>
 		</div>	
 	</div>
-      <div class="panel tall">
+      <div class="panel">
 		<div class="panel-wrapper inline-photo show-on-scroll right">
 			<div class="panel-overlay">
 				<div class="panel-text">
@@ -613,7 +575,7 @@ h1 {
 		</div>	
 	</div>
 	
-	<div class="panel big">
+	<div class="panel">
 		<div class="panel-wrapper inline-photo show-on-scroll left">
 			<div class="panel-overlay">
 				<div class="panel-text">
@@ -635,11 +597,11 @@ h1 {
 				</div>
 	  <div class="panel-vingette" alt=""></div>
 			</div>
-			<img class="panel-img" src="images/Goal1.25x.mov" alt=""/>
+			<img class="panel-img" src="images/Goal2x.mov" alt=""/>
 		</div>
 	</div>
       
-      <div class="panel wide">
+      <div class="panel">
 		<div class="panel-wrapper inline-photo show-on-scroll right">
 			<div class="panel-overlay">
 				<div class="panel-text">
@@ -652,20 +614,21 @@ h1 {
 		</div>
 	</div>
 	
-	<div class="panel big">
+	<div class="panel">
 		<div class="panel-wrapper inline-photo show-on-scroll">
 			<div class="panel-overlay">
 				<div class="panel-text">
 					<div class="panel-title">Report Cards</div>
 					
-						</div>
+					
+				</div>
 		  <div class="panel-vingette" alt=""></div>
 			</div>
 			<img class="panel-img" src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg" alt=""/>
 		</div>	
 	</div>
       
-	<div class="panel tall">
+	<div class="panel">
 		<div class="panel-wrapper inline-photo show-on-scroll left">
 			<div class="panel-overlay">
 				<div class="panel-text">
@@ -679,22 +642,7 @@ h1 {
 	</div>
   </div>
     
-    <div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Extracurriculars</div>
-					
-				</div>
-	  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/Goal1.25x.mov" alt=""/>
-		</div>
-	</div>
-    
-    
 
-    
 
  
  
@@ -705,19 +653,14 @@ h1 {
       document.getElementById("nav").classList.toggle("change");
 
       document.getElementById("menu-bg").classList.toggle("change-bg");
+    
+
     }
-
-
-
-    window.onscroll = function() {
-      scrollFunction()
-    };
-
-      
-         $("#menu").click(function() {
+        $("#menu").click(function() {
   $('.transform').toggleClass('transform-active');
 });
-
+      
+     
     </script>
     
     
