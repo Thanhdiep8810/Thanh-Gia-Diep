@@ -85,9 +85,7 @@
           width: 100%;  
           background-color: white;    
           mix-blend-mode: difference;
- 
           display: block;  
-         
           transition: 0.3s ease; } 
  
       #bar1{ 
@@ -99,13 +97,13 @@
       
       .nav{      
           position:fixed;  
-
+          transition: opacity 1s ease; 
           right:0px;
           top:70px;   
           color:white; 
           text-align: right;
           text-decoration: none;
-display: none;
+          display: none;
           margin: 0 20px; 
           transition: 0.3s ease; 
           z-index:4; 
@@ -261,7 +259,7 @@ display: none;
 }
 
 .panel-title {
-	font-size: 1.4vw;
+	font-size: 1.5em;
 	font-weight: 300;
     letter-spacing: 2px;
     color: #fff;
@@ -342,7 +340,7 @@ display: none;
  
       
 .typing-demo {
-  width:63.5vw;
+  width:12.7em;
   animation: typing 2.2s steps(30), blink .5s step-end infinite alternate ; 
   white-space: nowrap;
   overflow: hidden;
@@ -350,9 +348,9 @@ display: none;
   font-weight: 100;
   border-right: 3px solid;
   font-family: monospace;
-  font-size: 5vw;
+  font-size: 3em;
   position: absolute;
-  top:27vh;
+  top:7em;
   left:18vw;
 }
 
@@ -374,8 +372,9 @@ display: none;
           width:64vw;
           left:18vw;
           top:36vh;
-          font-family: monospace;
-          font-size: 2vw;
+          
+          font-family: arial;
+          font-size: 2em;
           align-items: center;
           
 
@@ -386,19 +385,7 @@ display: none;
           width:10vw;
       }
       
-      @media only screen and (max-width: 1100px) {
-.introduction-text {
-    top:33vh;
-  }
-}
-         @media only screen and (max-width: 600px) {
-.introduction-text {
-    top:31vh;
-    left:18vw;
-  }
-}
-
-      
+       
       
  
       
@@ -456,15 +443,15 @@ h1 {
    
   <div id="menu-bar">
     <div id="menu" onclick="onClickMenu()">
-      <svg class="bar" id="bar1" viewBox="0 0 100 5">
-        <rect x="0" y="0" width="100" height="5" fill="black"/>
-      </svg>
-      <svg class="bar" id="bar2" viewBox="0 0 100 5">
-        <rect x="0" y="0" width="100" height="5" fill="black"/>
-      </svg>
-      <svg class="bar" id="bar3" viewBox="0 0 100 5">
-        <rect x="0" y="0" width="100" height="5" fill="black"/>
-      </svg>
+ <div class="bar" id="bar1" viewBox="0 0 100 5">
+  <rect x="0" y="0" width="100" height="5" fill="black"/>
+</div>
+<div class="bar" id="bar2" viewBox="0 0 100 5">
+  <rect x="0" y="0" width="100" height="5" fill="black"/>
+</div>
+<div class="bar" id="bar3" viewBox="0 0 100 5">
+  <rect x="0" y="0" width="100" height="5" fill="black"/>
+</div>
     </div>
 
     <ul class="nav" id="nav">
