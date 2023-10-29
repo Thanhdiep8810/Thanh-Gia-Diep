@@ -1,670 +1,90 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Your Website</title>
     
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="manifest" href="site.webmanifest">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
- 
-  <title>Thanh Diep</title>
-
-  <style type="text/css">
-      
-      body{
-        max-width: 100vw;
-    width: 100vw;
-    background: black;
-    margin: 0; /* Reset default margin */
-      }
-
-          
-.box {
-  background-color: white;
-  height: 1px;
-  opacity:0%;
-  margin-right: 15px;
-  width: 0px;
-}
-
-.transform {
-    
-  transition: all 1s ease;  
- 
-}
-
-.transform-active {
-  background-color: white;
-  height: 1px;
-
-  width: 250px;
-  opacity:100%;
-  transition: width opacity 1s ease; 
-}        
-      
-
-      
-     
-      
-   #menu{   
-       cursor: pointer;  
-       width: 35px;  
-       height: 40px;  
-       margin: 40px 0 10px 20px;   
-       float: right;   
-       position: fixed;   
-       transition: 1s;  
-       top:-10px;   
-       right:30px;   
-       z-index:4;   
-       color: white;  
-       mix-blend-mode: difference;
-        }
-      
-      .bar{  
-          height: 5px;  
-          width: 100%;  
-          background-color: white;    
-         mix-blend-mode: difference;
- 
-          display: block;  
-         
-          transition: 0.3s ease; } 
- 
-      #bar1{ 
-          transform: translateY(-4px);
-             } 
-      
-      #bar3{ 
-          transform: translateY(4px);  } 
-      
-      .nav{      
-          position:fixed;  
-          float:right;
-          right:0px;
-          top:70px;   
-          color:white; 
-          text-align: right;
-          text-decoration: none;
-          padding: 0; 
-          margin: 0 20px; 
-          transition: 0.3s ease; 
-          z-index:4; 
-          opacity:0%;
-          font-weight: 400;
-          font-family: arial;
-          text-transform: uppercase;
-          letter-spacing: 3px;
-          font-size:2em;
-      } 
-      
-      .nav li{  list-style: none;  
-
-          padding-top: 10px; 
-          padding-right: 15px;
-          padding-bottom: 10px;
-          z-index:4; }
-      
-
-      a {   text-decoration: none; 
-          color:white; 
-          letter-spacing: 3px;
-          font-family: helvetica;   
-          z-index:4; 
-          } 
-  
-      
-      .change .bar{
-          background-color: white;} 
-      
-      .change #bar1{  
-          transform: translateY(10px) rotateZ(-45deg); } 
-      
-      .change #bar3{ 
-          transform: translateX(0px) rotate(45deg); } 
-      
-      .change #bar2{  
-          opacity: 0;  } 
-      
-      .change{     
-          opacity:100%;   
-          transition: opacity 1s;  } 
-      
-        #menu-bar {
-      z-index: 2;
-      margin-right: 0px;
-    }
-      .menu-bg{
-          width: 100vw;
-          height: 100vh;
-          background: black;
-          opacity:0%;
-          position: fixed;
-          top: 0;
-          left:0;
-          z-index: 3;
-          display: none;
-    
-      }
-      .change-bg{
-          opacity: 90%;
-          transition: opacity 1s ease;
-              z-index:3;
-          display: block;
-          
-          
-    
-      }
-      
-      .logo {      
-          font-family:arial;
-          font-size: 40px;     
-          font-weight: 800; 
-          width:100vw;
-          height:60px;
-          text-transform: uppercase;
    
-          
-  
-          letter-spacing: 7px;   
-          color:  white;    
-          position: fixed;  
-          top: -40px;     
-          left: 0;  
-          z-index: 2;
-          padding-top: 15px;    
-          padding-left: 30px;    
-      } 
-      @media only screen and (max-width: 700px) {
- .logo  {
-    font-size: 5vw;
-  }
-}   
-      
-      
 
-.clear-fix {
-	clear: both;
+    <style type="text/css">
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
 }
 
-.grid-container {
-	width: 100vw;
-	position: relative;
-	margin: 0 auto;
+.container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
     left: 0;
-	top: 70vh;
-    display: flex;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-    margin: 0; /* Add this line to remove the default margin */
-    padding: 0; /* Add this line to remove the default padding */
-    object-fit: cover;
-     -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
-
+    transition: transform 1s ease-in-out; /* Duration for scrolling up */
 }
 
-    @media only screen and (max-width: 1100px) {
- .grid-container  {
-    top:50vh;
-  }
-}   
-.panel {
-	position: relative;
-	
-	width: 20vw;
-	height: 20vw;
-	cursor: pointer;
-	transition: all 0.2s ease-out;
-     object-fit: cover;
-}
-
-.panel:hover {
-	transition: all 0.2s ease-out;
-    transform: scale(102%);
-}
-
-.panel:nth-child(11n+1) {
-	margin-right: 1vw;
-	position: relative;
-    left: 0;   
-	width: 20vw;
-	height: 20vw;
-}
-
-.panel:nth-child(11n+2) {
-	margin-right: 1vw;
-	margin-left: 0vw;
-	width: 40vw;
-	height: 20vw;
-}  
-
-.panel:nth-child(11n+3) {
-	margin-left: 0px;
-    margin-right: 0px;
-	width: 38vw;
-	height: 20vw;
- 
-   
-}
-
-.panel:nth-child(11n+4) {
-	margin-right: 1vw;
-	margin-top: 1vw;
-	width: 50vw;
-	height: 20vw;
-}
-
-.panel:nth-child(11n+5) {
-	margin-right: 1vw;
-	margin-top: 1vw;
-	width: 30vw;
-	height: 20vw;
-}
-
-.panel:nth-child(11n+6) {
-	
-
-	margin-top: 1vw;
-	width: 18vw;
-	position: relative;
-	height: 20vw;
-}
-
-.panel:nth-child(11n+7) {
-	
-	width: 40vw;
-	height: 41vw;
-	margin-top: 1vw;
-}
-
-.panel:nth-child(11n+8) {
-	float: left;
-	width: 59vw;
-	height: 41vw;
-	margin-top: 1vw;
-	margin-left: 1vw;
-	border-radius: 5px;
-}
-
-.panel:nth-child(11n+9) {
-	margin-top: 1vw;
-	width: 40vw;
-}
-
-.panel:nth-child(11n+10) {
-	margin-left: 1vw;
-	margin-top: 1vw;
-	width: 20vw;
-}
-
-.panel:nth-child(11n+11) {
-	margin-left: 1vw;
-	border-radius: 5px;
-	margin-top: 1vw;
-	width: 38vw;
-}
-
-
-.panel-wrapper {
-	position: relative;
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-	overflow: hidden !important;
-	border-radius: 5px;
-    object-fit: cover;
+.video-container {
+    position: absolute;
+    width: 100vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 2;
     
 }
 
-.panel-overlay {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	opacity: 0;
-	transition: all 0.3s ease-out;
-    
+video {
+    width: 70vw;
+    height: auto;
     object-fit: cover;
 }
 
-.panel-overlay:hover {
-	opacity: 1;
-	transition: all 0.3s ease-out;
-}
-
-.panel-text {
-	position: absolute;
-	width: 100%;
-    top: 47.5%;
-	height: 60px;
-	margin: 0 auto;
-	text-align: center;
-	bottom: 0;
-	z-index: 10;
-}
-
-.panel-title {
-	font-size: 1.4vw;
-	font-weight: 300;
-    letter-spacing: 2px;
+.content {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    transition: transform 1s ease-in-out;
     color: #fff;
-    font-family: monospace;
-}
-
-.panel-vingette {
-	position: relative;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 5;
-	opacity: 0.7;
-	background: black;
-}
-
-.panel-img {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: block;
-	margin: 0 auto;
-	min-width: 100%;
-	height: 100%;
-    object-fit: cover;
-}
-
-          
-.typing-demo {
-  width:12.7em;
-  animation: typing 2.2s steps(30), blink .5s step-end infinite alternate ;
-  
-  white-space: nowrap;
-  overflow: hidden;
-  color:white;
-    font-weight: 100;
-  border-right: 3px solid;
-  font-family: monospace;
-  font-size: 4em;
-  position: absolute;
-  top:27vh;
-  left:18vw;
-  
-
-
-
-}
-
-@keyframes typing {
-  from {
-    width: 0
-  }
-}
-    
-@keyframes blink {
-  50% {
-    border-color: transparent
-  }
-
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
 }
 
 
-      
-      .introduction-text{
-          color:white;  
-          position: absolute;
-          width:64vw;
-          left:18vw;
-          top:36vh;
-          font-family: monospace;
-          font-size: 2em;
-          align-items: center;
-          
-
-      }
-      .introduction-container{
-          height:30vh;
-          position: relative;
-          width:100vw;
-      }
-      
-
-
-
-
-
-  </style>
+    </style>
 </head>
-
 <body>
-    
-   
-  <div id="menu-bar">
-    <div id="menu" onclick="onClickMenu()">
-      <svg class="bar" id="bar1" viewBox="0 0 100 5">
-        <rect x="0" y="0" width="100" height="5" fill="black"/>
-      </svg>
-      <svg class="bar" id="bar2" viewBox="0 0 100 5">
-        <rect x="0" y="0" width="100" height="5" fill="black"/>
-      </svg>
-      <svg class="bar" id="bar3" viewBox="0 0 100 5">
-        <rect x="0" y="0" width="100" height="5" fill="black"/>
-      </svg>
+    <div class="container">
+        <div class="video-container">
+            <video id="intro-video" autoplay muted>
+                <source src="images/H.mp4" type="video/mp4">
+                <source src="images/H.ogg" type="video/ogg">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="content">
+            <h1>Welcome to Your Website</h1>
+            <p>This is your website content. The video and text will move up after playback.</p>
+        </div>
     </div>
 
-    <ul class="nav" id="nav">
-      <li><a href="#">Home</a></li>
-       <div class="box transform"></div>
-      <li><a href="#">About</a></li>
-        <div class="box transform"></div>
-      <li><a href="#">Contact</a></li>
-       <div class="box transform"></div>
-      <li><a href="#">Projects</a></li>
-         <div class="box transform"></div>
-      <li><a href="#">Technology</a></li>
-         <div class="box transform"></div>
-        <li><a href="#">Science</a></li>
-         <div class="box transform"></div>
-    </ul>
-  </div>
-    
-  <div class="menu-bg" id="menu-bg"></div>
 
-  <p class="logo">Thanh Diep</p>
-    
-    
-  <div class="introduction-container">
-    <div class="typing-demo ">
-      Hi, my name is Thanh.
+    <script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.querySelector(".container");
+    const video = document.getElementById("intro-video");
+    const content = document.querySelector(".content");
+
+    video.addEventListener("ended", function() {
+        container.style.transform = "translateY(-100%)";
+        content.style.transform = "translateY(-10%)";
+      
         
-    </div>
-     <p class="introduction-text inline-photo show-on-scroll">
-       I am a student attending Port Credit Secondary School in the SciTech program. I will lead others to create and design technology and experiences that will advance our vision for a better future.
-    </p>
-  </div>
-    
- 
-
-<div class="grid-container ">
-	<div class="panel ">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">SciTech<br> Extracurriculars</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/CarGame.mov" alt=""/>
-		</div>
-	</div>
-      
-	<div class="panel">
-	<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Assessments</div>
-					
-				</div>
-				  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg" alt=""/>
-		</div></div>
-      
-	<div class="panel">
-			<div class="panel-wrapper inline-photo show-on-scroll right">
-				<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">About Me</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/Mountain_1.mp4" alt=""/>
-		</div>
-	</div>
-	
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Careers</div>
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/toa-heftiba-FV3GConVSss-unsplash.jpg" alt=""/>
-		</div>
-	</div>
-      
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Technology</div>
-					
-				</div>
-               
-                <div class="panel-vingette" alt=""></div>
-                
-			</div>
-			<img class="panel-img" src="images/Water.jpeg" alt=""/>
-		</div>	
-	</div>
-      <div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll right">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Contact</div>
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/photo-1534703580202-6123d4189ef6.jpeg" alt=""/>
-		</div>	
-	</div>
-	
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Science</div>
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/IMG_2113.png" alt=""/>
-		</div>
-	</div>
-      
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Extracurriculars</div>
-					
-				</div>
-	  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/Goal2x.mov" alt=""/>
-		</div>
-	</div>
-      
-      <div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll right">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Projects</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/IMG_1659.jpeg" alt=""/>
-		</div>
-	</div>
-	
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Report Cards</div>
-					
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg" alt=""/>
-		</div>	
-	</div>
-      
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Information</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/shunya-koide-1emWndlDHs0-unsplash.jpg" alt=""/>
-		</div>
-	</div>
-  </div>
-    
-
-
- 
- 
-
-  <script type="text/javascript">
-    function onClickMenu() {
-      document.getElementById("menu").classList.toggle("change");
-      document.getElementById("nav").classList.toggle("change");
-
-      document.getElementById("menu-bg").classList.toggle("change-bg");
-    
-
-    }
-        $("#menu").click(function() {
-  $('.transform').toggleClass('transform-active');
+    });
 });
-      
-     
     </script>
-    
-    
-    
-
 </body>
 </html>

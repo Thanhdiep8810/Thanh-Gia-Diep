@@ -1,714 +1,728 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="manifest" href="site.webmanifest">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap"
+      rel="stylesheet"
+    />
 
-    
-    <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
- 
-  <title>Thanh Diep</title>
+    <title>Thanh Diep</title>
 
-  <style type="text/css">
-      
-      body{
-          max-width: 100vw;
-          width:100vw;
-          background:black;
-     
+    <style type="text/css">
+      body {
+        background: black;
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal scroll */
       }
-    
 
-
-          
-.box {
-  background-color: white;
-  height: 1px;
-  opacity:0%;
-  margin-right:15px;
-  width: 0px;
-}
-
-.transform {
-    
-  transition: all 1s ease;  
- 
-}
-
-.transform-active {
-  background-color: white;
-  height: 1px;
-  float: right;
-  width: 530px;
-  opacity:100%;
-  transition: width opacity 1s ease; 
-}        
-      
- @media only screen and (max-width: 700px) {
- .transform-active  {
-    width:305px;
-  }
-}   
-      
-      
-     
-      
-   #menu{   
-       cursor: pointer;  
-       width: 35px;  
-       height: 40px;  
-       margin: 40px 0 10px 20px;   
-       float: right;   
-       position: fixed;   
-       transition: 1s;  
-       top:-10px;   
-       right:30px;   
-       z-index:4;   
-       color: white;  
-       mix-blend-mode: difference;
-        }
-      
-      .bar{  
-          height: 5px;  
-          width: 100%;  
-          background-color: white;    
-          mix-blend-mode: difference;
-          display: block;  
-          transition: 0.3s ease; } 
- 
-      #bar1{ 
-          transform: translateY(-4px);
-             } 
-      
-      #bar3{ 
-          transform: translateY(4px);  } 
-      
-      .nav{      
-          position:fixed;  
-          transition: opacity 1s ease; 
-          right:0px;
-          top:70px;   
-          color:white; 
-          text-align: right;
-          text-decoration: none;
-          display: none;
-          margin: 0 20px; 
-          transition: 0.3s ease; 
-          z-index:4; 
-          opacity:0%;
-          font-weight: 400;
-          font-family: "Rubik" sans-serif;
-          letter-spacing: 3px;
-      } 
-      
-      .nav li{  list-style: none;  
-
-          padding-top: 10px; 
-          padding-right: 15px;
-          padding-bottom: 10px;
-          z-index:4; }
-      
-
-      a {   text-decoration: none; 
-          color:white; 
-          letter-spacing: 3px;
-          font-family: poppins; 
-          text-transform: uppercase;
-          font-size: 2em;
-          z-index:4; 
-          } 
-  
-      
-        @media only screen and (max-width: 700px) {
- a  {
-    font-size: 1em;
-  }
-}   
-   
-      
-      
-      .change .bar{
-          background-color: white;} 
-      
-      .change #bar1{  
-          transform: translateY(10px) rotateZ(-45deg); } 
-      
-      .change #bar3{ 
-          transform: translateX(0px) rotate(45deg); } 
-      
-      .change #bar2{  
-          opacity: 0;  } 
-      
-      .change{     
-          opacity:100%;   
-          transition: opacity 1s;
-          display: block;
-      } 
-      
-        #menu-bar {
-      z-index: 2;
-      margin-right: 0px;
-    }
-      .menu-bg{
-          width: 100vw;
-          height: 100vh;
-          background: black;
-          opacity:0%;
-          position: fixed;
-          top: 0;
-          left:0;
-          z-index: 3;
-          display: none;
-    
+      .box {
+        background-color: white;
+        height: 1px;
+        opacity: 0%;
+        margin-right: 15px;
+        width: 0px;
       }
-      .change-bg{
-          opacity: 90%;
-          transition: opacity 3s;
-        z-index:3;
-          display: block;   
-    
+
+      .transform {
+        transition: all 1s ease;
       }
-      
-      .nav:has(.fancy:hover) .word:not(.fancy:hover) {
-  opacity: 0.5;
-}
-      .word {
-  color: white;
-  transition: opacity 0.7s ease;
-}
-      
-      
-      
-      
-      
-      
-      .logo {      
-          font-family:poppins;
-          font-size: 2.5em;     
-          font-weight: 600; 
-          text-transform: uppercase;
-          mix-blend-mode: difference;
-          letter-spacing: 7px;   
-          color:  white;    
-          position: fixed;  
-          top: -45px;     
-          left: 0;  
-          z-index: 2;
-          padding-top: 15px;    
-          padding-left: 30px;    
+
+      .transform-active {
+        background-color: white;
+        height: 1px;
+        float: right;
+        width: 530px;
+        opacity: 100%;
+        transition: width opacity 1s ease;
       }
-      
-      
+
       @media only screen and (max-width: 700px) {
- .logo  {
-    font-size: 2em;
-     top:-32.5px;
-  }
-}   
-      
+        .transform-active {
+          width: 305px;
+        }
+      }
 
+      #menu {
+        cursor: pointer;
+        width: 35px;
+        height: 40px;
+        margin: 40px 0 10px 20px;
+        float: right;
+        position: fixed;
+        transition: 1s;
+        top: -10px;
+        right: 30px;
+        z-index: 5;
+        color: white;
+        mix-blend-mode: difference;
+      }
 
-.panel-wrapper {
-	position: relative;
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-	overflow: hidden !important;
-	border-radius: 5px;
-    object-fit: cover;
-    
-}
+      .bar {
+        height: 5px;
+        width: 100%;
+        background-color: white;
+        mix-blend-mode: difference;
+        display: block;
+        transition: 0.3s ease;
+      }
 
-.panel-overlay {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	opacity: 0;
-	transition: all 0.3s ease-out;
-    
-    object-fit: cover;
-}
+      #bar1 {
+        transform: translateY(-4px);
+      }
 
-.panel-overlay:hover {
-	opacity: 1;
-	transition: all 0.3s ease-out;
-}
+      #bar3 {
+        transform: translateY(4px);
+      }
 
-.panel-text {
-	position: absolute;
-	width: 100%;
-    top: 47.5%;
-	height: 60px;
-	margin: 0 auto;
-	text-align: center;
-	bottom: 0;
-	z-index: 10;
-}
+      .nav {
+        position: fixed;
+        transition: opacity 1s ease;
+        right: 0px;
+        top: 60px;
+        color: white;
+        text-align: right;
 
-.panel-title {
-	font-size: 1.5em;
-	font-weight: 300;
-    letter-spacing: 2px;
-    color: #fff;
-    font-family: monospace;
-}
+        display: none;
+        margin: 0 20px;
+        transition: 0.3s ease;
+        z-index: 5;
+        opacity: 0%;
+      }
 
-.panel-vingette {
-	position: relative;
-	top: 0;
+      .nav li {
+        list-style: none;
+        padding-top: 5px;
+        padding-right: 15px;
+        padding-bottom: 5px;
+        z-index: 5;
+      }
 
-	width: 100%;
-	height: 100%;
-	z-index: 5;
-	opacity: 0.7;
+      a {
+        text-decoration: none;
+        color: white;
+        letter-spacing: 3px;
+        font-family: poppins, sans-serif;
+        text-transform: uppercase;
+        font-size: 2em;
+        z-index: 5;
+      }
 
-	background: black;
-}
+      @media only screen and (max-width: 700px) {
+        a {
+          font-size: 1em;
+        }
+      }
 
-.panel-img {
-	position: absolute;
-	top: 0;
+      .change .bar {
+        background-color: white;
+      }
 
-	display: block;
+      .change #bar1 {
+        transform: translateY(10px) rotateZ(-45deg);
+      }
 
-	min-width: 100%;
-	height: 100%;
-    object-fit: cover;
-}
+      .change #bar3 {
+        transform: translateX(0px) rotate(45deg);
+      }
 
+      .change #bar2 {
+        opacity: 0;
+      }
 
-      
-      
-.grid-wrapper .wide {
-	grid-column: span 2;
-}
-.grid-wrapper .tall {
-	grid-row: span 2;
-}
-.grid-wrapper .big {
-	grid-column: span 2;
-	grid-row: span 2;
-}
-    
-      
-      img {
-	max-width: 100%;
-	height: auto;
-	vertical-align: middle;
-	display: inline-block;
-}
+      .change {
+        opacity: 100%;
+        transition: opacity 1s;
+        display: block;
+      }
 
-/* Main CSS */
-.grid-wrapper > div {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.grid-wrapper > div > img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 5px;
-}
+      #menu-bar {
+        z-index: 2;
+        margin-right: 0px;
+      }
+      .menu-bg {
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        opacity: 0%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
 
-.grid-wrapper {
-	display: grid;
-    position: relative;
-    top:90vh;
-	grid-gap: 10px;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	grid-auto-rows: 200px;
-	grid-auto-flow: dense;
-}
-      
-      
-      
-      
- 
-      
-.typing-demo {
-  width:12.7em;
-  animation: typing 2.2s steps(30), blink .5s step-end infinite alternate ; 
-  white-space: nowrap;
-  overflow: hidden;
-  color:white;
-  font-weight: 100;
-  border-right: 3px solid;
-  font-family: monospace;
-  font-size: 3em;
-  position: absolute;
-  top:7em;
-  left:18vw;
-}
+      .change-bg {
+        opacity: 90%;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 4;
+      }
 
-@keyframes typing {
-  from {
-    width: 0
-  }
-}
-    
-@keyframes blink {
-  50% {
-    border-color: transparent
-  }
+      .nav:has(.fancy:hover) .word:not(.fancy:hover) {
+        opacity: 0.5;
+      }
+      .word {
+        color: white;
+        transition: opacity 0.7s ease;
+      }
+      .logo {
+        font-family: poppins;
+        font-size: 2.5em;
+        font-weight: 600;
+        text-transform: uppercase;
+        mix-blend-mode: difference;
+        letter-spacing: 7px;
+        color: white;
+        position: fixed;
+        top: -45px;
+        left: 0;
+        z-index: 3;
+        padding-top: 15px;
+        padding-left: 30px;
+      }
 
-}
-      .introduction-text{
-          color:white;  
-          position: absolute;
-          width:64vw;
-          left:18vw;
-          top:36vh;
-          
-          font-family: arial;
+      @media only screen and (max-width: 700px) {
+        .logo {
           font-size: 2em;
-          align-items: center;
-          
-
+          top: -32.5px;
+        }
       }
-      .introduction-container{
-          height:30vh;
-          position: absolute;
-          width:10vw;
+
+      .panel-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 5px;
+        object-fit: cover;
       }
-      
-       
-      
- 
-      
-      
-      
-.curtain {
-  /*  2 Contrasting Colors  */
-  background-image: linear-gradient(to bottom,black 50%, white 50%);
-    position: relative;
-    top:70vh;
-    width:100vw;
-}
-/* To extend till the bottom of the screen */
-.curtain::after {
-  content: "";
-  display: block;
-  height: 160vh;
 
-}
+      .panel-overlay {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        opacity: 0;
+        transition: all 0.3s ease-out;
 
-.invert {
-    /* Stick the div to the top */
-    position: sticky;
-    top: 0vw;
+        object-fit: cover;
+      }
 
-    /* blend the differences */
-    mix-blend-mode: difference;
+      .panel-overlay:hover {
+        opacity: 1;
+        transition: all 0.3s ease-out;
+      }
 
-    /* Center the content */
-    display: grid;
-    place-items: center;
-  
-    /* Set the height of the child div */
-    height: 100vh;
-}
+      .panel-text {
+        position: absolute;
+        width: 100%;
+        top: 46%;
+        height: 60px;
+        margin: 0 auto;
+        text-align: center;
+        bottom: 0;
+        z-index: 10;
+      }
 
-h1 {
-    /** set the color of the text **/
-    color: white;
-    font-size: 10vw;
-    letter-spacing: 4px;
-    font-family: poppins;
-    font-weight:600;
-    text-transform: uppercase
-}
+      .panel-title {
+        font-size: 1.5em;
+        font-weight: 300;
+        letter-spacing: 2px;
+        color: #fff;
+        font-family: monospace;
+      }
 
+      .panel-vingette {
+        position: relative;
+        top: 0;
 
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        opacity: 0.7;
 
+        background: black;
+      }
+      .panel-img {
+        position: absolute;
+        top: 0;
+        display: block;
+        min-width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+      }
 
-  </style>
-</head>
+      .grid-wrapper .wide {
+        grid-column: span 2;
+      }
+      .grid-wrapper .tall {
+        grid-row: span 2;
+      }
+      .grid-wrapper .big {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
 
-<body>
-    
+      img {
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
+        display: inline-block;
+      }
+
+      /* Main CSS */
+      .grid-wrapper > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .grid-wrapper > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+      }
+
+      .grid-wrapper {
+        display: grid;
+        z-index: 2;
+        position: relative;
+        top: 90vh;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(250px));
+        grid-auto-rows: 250px;
+        grid-auto-flow: dense;
+        max-width: 100vw; /* Set the maximum width to 100vw */
+      }
+
+      .typing-demo {
+        width: 12.7em;
+        animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
+        white-space: nowrap;
+        overflow: hidden;
+        color: white;
+        font-weight: 100;
+        border-right: 3px solid;
+        font-family: monospace;
+        
+        font-size: 4em;
+        position: absolute;
+        top: 4.6em;
+        left: 18vw;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      .introduction-text {
+        color: white;
+        position: absolute;
+        width: 64vw;
+        left: 18vw;
+        top: 36vh;
+        text-transform: uppercase;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        font-family: monospace;
+        font-size: 2em;
+        align-items: center;
+      }
+      @media only screen and (max-width: 900px) {
+        .typing-demo {
+          font-size: 2em;
+          top: 10em;
+        }
+        .introduction-text {
+          font-size: 1.5em;
+        }
+      }
+      .introduction-container {
+        height: 30vh;
+        position: absolute;
+        width: 10vw;
+      }
+
+      .curtain {
+        /*  2 Contrasting Colors  */
+        background-image: linear-gradient(to bottom, black 50%, white 50%);
+        position: relative;
+        top: 70vh;
+        width: 100vw;
+      }
+      /* To extend till the bottom of the screen */
+      .curtain::after {
+        content: "";
+        display: block;
+        height: 160vh;
+      }
+
+      .invert {
+        /* Stick the div to the top */
+        position: sticky;
+        top: 0vw;
+
+        /* blend the differences */
+        mix-blend-mode: difference;
+
+        /* Center the content */
+        display: grid;
+        place-items: center;
+
+        /* Set the height of the child div */
+        height: 100vh;
+      }
+
+      h1 {
+        /** set the color of the text **/
+        color: white;
+        font-size: 10vw;
+        letter-spacing: 4px;
+        font-family: poppins;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .hidden {
+        opacity: 0;
+        filter: blur(2px);
+        filter: saturation(0);
+        transition: all 1s ease-in-out;
+      }
+      .up {
+        transform: translateY(40%);
+      }
+      .down {
+        transform: translateY(-40%);
+      }
+      .right {
+        transform: translateX(-40%);
+      }
+      .left {
+        transform: translateX(40%);
+      }
+      .panel-move-up {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateY(0%);
+        transition: all 1s ease-in-out;
+      }
+      .panel-move-down {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateY(0%);
+        transition: all 1s ease-in-out;
+      }
+      .panel-move-right {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateX(0%);
+        transition: all 1s ease-in-out;
+      }
+
+      .panel-move-left {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateX(0%);
+        transition: all 1s ease-in-out;
+      }
+
    
-  <div id="menu-bar">
-    <div id="menu" onclick="onClickMenu()">
- <div class="bar" id="bar1" viewBox="0 0 100 5">
-  <rect x="0" y="0" width="100" height="5" fill="black"/>
-</div>
-<div class="bar" id="bar2" viewBox="0 0 100 5">
-  <rect x="0" y="0" width="100" height="5" fill="black"/>
-</div>
-<div class="bar" id="bar3" viewBox="0 0 100 5">
-  <rect x="0" y="0" width="100" height="5" fill="black"/>
-</div>
-    </div>
+    </style>
+  </head>
 
-    <ul class="nav" id="nav">
-        
-     <div class="word fancy">
-      <li><a href="#" class="word fancy">Home</a></li>
-       <div class="box transform"></div>
-    </div>  
+  <body>
+    <div id="menu-bar">
+      <div id="menu" onclick="onClickMenu()">
+        <div class="bar" id="bar1" viewBox="0 0 100 5">
+          <rect x="0" y="0" width="100" height="5" fill="black" />
+        </div>
+        <div class="bar" id="bar2" viewBox="0 0 100 5">
+          <rect x="0" y="0" width="100" height="5" fill="black" />
+        </div>
+        <div class="bar" id="bar3" viewBox="0 0 100 5">
+          <rect x="0" y="0" width="100" height="5" fill="black" />
+        </div>
+      </div>
 
-         <div class="word fancy">
-      <li><a href="#" class="word fancy">About</a></li>
-        <div class="box transform"></div>
-    </div>  
+      <ul class="nav" id="nav">
         <div class="word fancy">
-      <li><a href="#" class="word fancy">Contact</a></li>
-       <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-      <li><a href="#" class="word fancy">Projects</a></li>
-         <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-      <li><a href="#" class="word fancy">Technology</a></li>
-         <div class="box transform"></div>
-    </div>  
-       <div class="word fancy">
-        <li><a href="#" class="word fancy">Science</a></li>
-         <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-        <li><a href="#" class="word fancy">SciTech Extracurriculars</a></li>
-         <div class="box transform"></div>
-    </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Extracurriculars</a></li>
-         <div class="box transform"></div>
-         </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Careers</a></li>
-         <div class="box transform"></div>
-         </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Report Cards</a></li>
-         <div class="box transform"></div>
-         </div>  
- <div class="word fancy">
-         <li><a href="#" class="word fancy">Information</a></li>
-         <div class="box transform"></div>
-         </div>  
+          <li><a href="#" class="word fancy">Home</a></li>
+          <div class="box transform"></div>
+        </div>
 
-    </ul>
-  </div>
-    
-  <div class="menu-bg" id="menu-bg"></div>
-
-  <p class="logo">Thanh Diep</p>
-    
-    
-  <div class="introduction-container">
-    <div class="typing-demo ">
-      Hi, my name is Thanh.
-        
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">About</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Contact</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Projects</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Technology</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Science</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">SciTech Extracurriculars</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Extracurriculars</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Careers</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Report Cards</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy">Information</a></li>
+          <div class="box transform"></div>
+        </div>
+      </ul>
     </div>
-     <p class="introduction-text inline-photo show-on-scroll">
-       I am a student attending Port Credit Secondary School in the SciTech program. I will lead others to create and design technology and experiences that will advance our vision for a better future.
-    </p>
-  </div>
-    
-    
-<div class="grid-wrapper ">
-	<div class="panel ">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">SciTech<br> Extracurriculars</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/CarGame.mov" alt=""/>
-		</div>
-	</div>
-      
-	<div class="panel">
-	<div class="panel-wrapper ">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Assessments</div>
-					
-				</div>
-				  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg" alt=""/>
-		</div></div>
-      
-	<div class="panel tall">
-			<div class="panel-wrapper inline-photo show-on-scroll right">
-				<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">About Me</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/Mountain_1.mp4" alt=""/>
-		</div>
-	</div>
-	
-	<div class="panel wide">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Careers</div>
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/toa-heftiba-FV3GConVSss-unsplash.jpg" alt=""/>
-		</div>
-	</div>
-      
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Technology</div>
-					
-				</div>
-               
-                <div class="panel-vingette" alt=""></div>
-                
-			</div>
-			<img class="panel-img" src="images/Water.jpeg" alt=""/>
-		</div>	
-	</div>
-      <div class="panel tall">
-		<div class="panel-wrapper inline-photo show-on-scroll right">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Contact</div>
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/photo-1534703580202-6123d4189ef6.jpeg" alt=""/>
-		</div>	
-	</div>
-	
-	<div class="panel big">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Science</div>
-					
-				</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/IMG_2113.png" alt=""/>
-		</div>
-	</div>
-      
-	<div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Extracurriculars</div>
-					
-				</div>
-	  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/Goal1.25x.mov" alt=""/>
-		</div>
-	</div>
-      
-      <div class="panel wide">
-		<div class="panel-wrapper inline-photo show-on-scroll right">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Projects</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/IMG_1659.jpeg" alt=""/>
-		</div>
-	</div>
-	
-	<div class="panel big">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Report Cards</div>
-					
-						</div>
-		  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg" alt=""/>
-		</div>	
-	</div>
-      
-	<div class="panel tall">
-		<div class="panel-wrapper inline-photo show-on-scroll left">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Information</div>
-					
-				</div>
-			  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/shunya-koide-1emWndlDHs0-unsplash.jpg" alt=""/>
-		</div>
-	</div>
-  </div>
-    
-    <div class="panel">
-		<div class="panel-wrapper inline-photo show-on-scroll">
-			<div class="panel-overlay">
-				<div class="panel-text">
-					<div class="panel-title">Extracurriculars</div>
-					
-				</div>
-	  <div class="panel-vingette" alt=""></div>
-			</div>
-			<img class="panel-img" src="images/Goal1.25x.mov" alt=""/>
-		</div>
-	</div>
-    
-    
 
-    
+    <div class="menu-bg" id="menu-bg"></div>
 
- 
- 
+    <p class="logo">Thanh Diep</p>
 
-  <script type="text/javascript">
-    function onClickMenu() {
-      document.getElementById("menu").classList.toggle("change");
-      document.getElementById("nav").classList.toggle("change");
+    <div class="introduction-container">
+      <div class="typing-demo">Hi, my name is Thanh.</div>
+      <p class="introduction-text hidden up" data-direction="up">
+        I am a student attending Port Credit Secondary School in the SciTech
+        program. I will lead others to create and design technology and
+        experiences that will advance our vision for a better future.
+      </p>
+    </div>
 
-      document.getElementById("menu-bg").classList.toggle("change-bg");
-    }
+    <div class="grid-wrapper">
 
+      <div class="panel hidden right" data-direction="right">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">
+                SciTech<br />
+                Extracurriculars
+              </div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/CarGame.mov" alt="" />
+        </div>
+      </div>
 
+      <div class="panel hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Assessments</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg"
+            alt=""
+          />
+        </div>
+      </div>
 
-    window.onscroll = function() {
-      scrollFunction()
-    };
+      <div class="panel tall hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">About Me</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/Mountain_1.mp4" alt="" />
+        </div>
+      </div>
 
-      
-         $("#menu").click(function() {
-  $('.transform').toggleClass('transform-active');
-});
+      <div class="panel wide hidden left" data-direction="left">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Careers</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/toa-heftiba-FV3GConVSss-unsplash.jpg"
+            alt=""
+          />
+        </div>
+      </div>
 
+      <div class="panel hidden right" data-direction="right">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Technology</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/Water.jpeg" alt="" />
+        </div>
+      </div>
+
+      <div class="panel tall hidden down" data-direction="down">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Contact</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/photo-1534703580202-6123d4189ef6.jpeg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="panel big hidden left" data-direction="left">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Science</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/IMG_2113.png" alt="" />
+        </div>
+      </div>
+
+      <div class="panel hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Extracurriculars</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/Goal2x.mov" alt="" />
+        </div>
+      </div>
+
+      <div class="panel wide hidden right" data-direction="right">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Projects</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/IMG_1659.jpeg" alt="" />
+        </div>
+      </div>
+
+      <div class="panel tall hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Information</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/shunya-koide-1emWndlDHs0-unsplash.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="panel hidden left" data-direction="left">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Report Cards</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="panel hidden">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function onClickMenu() {
+        document.getElementById("menu").classList.toggle("change");
+        document.getElementById("nav").classList.toggle("change");
+        document.getElementById("menu-bg").classList.toggle("change-bg");
+      }
+
+      $("#menu").click(function () {
+        $(".transform").toggleClass("transform-active");
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const panel = entry.target;
+            const direction = panel.getAttribute("data-direction");
+            panel.classList.remove("hidden"); // Remove the hidden class
+            panel.classList.add(`panel-move-${direction}`); // Add the animation class
+            observer.unobserve(panel); // Remove observer for this panel
+          }
+        });
+      });
+
+      const hiddenElements = document.querySelectorAll(".hidden");
+      hiddenElements.forEach((el) => {
+        observer.observe(el); // Start observing hidden panels
+      });
     </script>
-    
-    
-    
-
-</body>
+  </body>
 </html>
