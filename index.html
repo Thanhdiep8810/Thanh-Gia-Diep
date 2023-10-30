@@ -19,9 +19,13 @@
     <title>Thanh Diep</title>
 
     <style type="text/css">
+      html{
+         scroll-behavior: smooth;
+         scroll-behavior: 2000ms;
+      }
       body {
         background: black;
-        scroll-behavior: smooth;
+     
         margin: 0; /* Remove default margin */
         overflow-x: hidden; /* Prevent horizontal scroll */
       }
@@ -103,7 +107,7 @@
         z-index: 5;
       }
 
-      a {
+      .nav-text {
         text-decoration: none;
         color: white;
         letter-spacing: 3px;
@@ -470,48 +474,48 @@
 
       <ul class="nav" id="nav">
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Home</a></li>
+          <li><a href="#" class="word fancy nav-text">Home</a></li>
           <div class="box transform"></div>
         </div>
 
         <div class="word fancy">
-          <li><a href="#" class="word fancy">About</a></li>
+          <li><a href="#" class="word fancy nav-text">About</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Contact</a></li>
+          <li><a href="#" class="word fancy nav-text">Contact</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Projects</a></li>
+          <li><a href="#" class="word fancy nav-text">Projects</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Technology</a></li>
+          <li><a href="#" class="word fancy nav-text">Technology</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy ">
+          <li><a href="#" class="word fancy nav-text">Science</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Science</a></li>
+          <li><a href="#" class="word fancy nav-text">SciTech Extracurriculars</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">SciTech Extracurriculars</a></li>
+          <li><a href="#" class="word fancy nav-text">Extracurriculars</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Extracurriculars</a></li>
+          <li><a href="#" class="word fancy nav-text">Careers</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Careers</a></li>
+          <li><a href="#" class="word fancy nav-text">Report Cards</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy">Report Cards</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy">Information</a></li>
+          <li><a href="#" class="word fancy nav-text">Information</a></li>
           <div class="box transform"></div>
         </div>
       </ul>
@@ -519,7 +523,7 @@
 
     <div class="menu-bg" id="menu-bg"></div>
 
-    <p class="logo">Thanh Diep</p>
+    <a href="Index.html"><p class="logo">Thanh Diep</p></a>
 
     <div class="introduction-container">
       <div class="typing-demo">Hi, my name is Thanh.</div>
@@ -530,7 +534,7 @@
       </p>
     </div>
 
-    <a data-scroll href="#grid"><div class="downArrow bounce">
+    <a data-scroll href="#grid"><div class="downArrow bounce hidden up">
       <img
         class="downArrowFilter"
         width="50"
