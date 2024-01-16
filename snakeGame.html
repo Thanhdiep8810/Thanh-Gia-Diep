@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Thanh Diep | Snake Game</title>
+
+    <style type="text/css">
+      html{
+         scroll-behavior: smooth;
+         scroll-behavior: 2000ms;
+      }
+      body {
+        background: black;
+     
+        margin: 0; /* Remove default margin */
+        overflow-x: hidden; /* Prevent horizontal scroll */
+      }
+
+      .box {
+        background-color: white;
+        height: 1px;
+        opacity: 0%;
+        margin-right: 15px;
+        width: 0px;
+      }
+
+      .transform {
+        transition: all 1s ease;
+      }
+
+      .transform-active {
+        background-color: white;
+        height: 1px;
+        float: right;
+        width: clamp(1em, 55vw, 33em);
+        opacity: 100%;
+        transition: width opacity 1s ease;
+      }
+
+      #menu {
+        cursor: pointer;
+        width: 35px;
+        height: 40px;
+        margin: 40px 0 10px 20px;
+        float: right;
+        position: fixed;
+        transition: 1s;
+        top: -10px;
+        right: 30px;
+        z-index: 5;
+        color: white;
+        mix-blend-mode: difference;
+      }
+
+      .bar {
+        height: 5px;
+        width: 100%;
+        background-color: white;
+        mix-blend-mode: difference;
+        display: block;
+        transition: 0.3s ease;
+      }
+
+      #bar1 {
+        transform: translateY(-4px);
+      }
+
+      #bar3 {
+        transform: translateY(4px);
+      }
+
+      .nav {
+        position: fixed;
+        transition: opacity 1s ease;
+        right: 0px;
+        top: 60px;
+        color: white;
+        text-align: right;
+        display: none;
+        margin: 0 20px;
+        transition: 0.3s ease;
+        z-index: 5;
+        opacity: 0%;
+        max-height: 90vh; /* Set the maximum height for the navigation bar */
+        overflow-y: auto; /* Enable vertical scrolling when it exceeds the maximum height */
+        width: auto;
+      }
+      .nav li {
+        list-style: none;
+        padding-top: 5px;
+        padding-right: 15px;
+        padding-bottom: 5px;
+        z-index: 5;
+      }
+
+      .nav-text {
+        text-decoration: none;
+        color: white;
+        letter-spacing: 3px;
+        font-family: poppins, sans-serif;
+        text-transform: uppercase;
+        font-size: clamp(1em, 3vw, 2em);
+        z-index: 5;
+      }
+
+      .change .bar {
+        background-color: white;
+      }
+
+      .change #bar1 {
+        transform: translateY(10px) rotateZ(-45deg);
+      }
+
+      .change #bar3 {
+        transform: translateX(0px) rotate(45deg);
+      }
+
+      .change #bar2 {
+        opacity: 0;
+      }
+
+      .change {
+        opacity: 100%;
+        transition: opacity 1s;
+        display: block;
+      }
+
+      #menu-bar {
+        z-index: 2;
+        margin-right: 0px;
+      }
+      .menu-bg {
+        width: 100vw;
+        height: 100vh;
+        background: black;
+        opacity: 0%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .change-bg {
+        opacity: 90%;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 4;
+      }
+
+      .nav:has(.fancy:hover) .word:not(.fancy:hover) {
+        opacity: 0.5;
+      }
+      .word {
+        color: white;
+        transition: opacity 0.7s ease;
+      }
+      .logo {
+        font-family: poppins;
+        font-size: 2.5em;
+        font-weight: 600;
+        text-transform: uppercase;
+        mix-blend-mode: difference;
+        letter-spacing: 7px;
+        color: white;
+        position: fixed;
+        top: -45px;
+        left: 0;
+        z-index: 3;
+        padding-top: 15px;
+        padding-left: 30px;
+      }
+
+      .panel-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        border-radius: 5px;
+        object-fit: cover;
+      }
+
+      .panel-overlay {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        opacity: 0;
+        transition: all 0.3s ease-out;
+
+        object-fit: cover;
+      }
+
+      .panel-overlay:hover {
+        opacity: 1;
+        transition: all 0.3s ease-out;
+      }
+
+      .panel-text {
+        position: absolute;
+        width: 100%;
+        top: 46%;
+        height: 60px;
+        margin: 0 auto;
+        text-align: center;
+        bottom: 0;
+        z-index: 10;
+      }
+
+      .panel-title {
+        font-size: 1.5em;
+        font-weight: 300;
+        letter-spacing: 2px;
+        color: #fff;
+        font-family: monospace;
+      }
+
+      .panel-vingette {
+        position: relative;
+        top: 0;
+
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        opacity: 0.7;
+
+        background: black;
+      }
+      .panel-img {
+        position: absolute;
+        top: 0;
+        display: block;
+        min-width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+      }
+
+      .grid-wrapper .wide {
+        grid-column: span 2;
+      }
+      .grid-wrapper .tall {
+        grid-row: span 2;
+      }
+      .grid-wrapper .big {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
+        display: inline-block;
+      }
+
+      /* Main CSS */
+      .grid-wrapper > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .grid-wrapper > div > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+      }
+
+      .grid-wrapper {
+        display: grid;
+        z-index: 2;
+        position: relative;
+        top: 90vh;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fit, minmax(clamp(243px, 244px, 15vw), 1fr));
+        grid-auto-rows: clamp(199px, 200px, 10vw);
+        grid-auto-flow: dense;
+        max-width: 100vw; /* Set the maximum width to 100vw */
+      }
+
+      .typing-demo {
+        width: 6em;
+        animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
+        white-space: nowrap;
+        overflow: hidden;
+        color: white;
+        font-weight: 100;
+        border-right: 3px solid;
+        font-family: monospace;
+        font-size: clamp(1.5em, 3vw, 3em);
+        position: absolute;
+        top: clamp(3.5em, 30%, 9em);
+        left: 18vw;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+
+      .introduction-text {
+        color: white;
+        position: absolute;
+        width: 64vw;
+        left: 18vw;
+        top: clamp(6em, 35%, 15em);
+        text-transform: uppercase;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        font-family: monospace;
+        font-size: clamp(1em, 2vw, 2em);
+        align-items: center;
+      }
+
+      .introduction-container {
+        height: 30vh;
+        display: grid;
+        align-content: center;
+        place-items: center;
+        width: 10vw;
+      }
+
+      .downArrowFilter {
+        filter: invert(100%) brightness(100%) contrast(100%);
+      }
+
+      .downArrow {
+        position: absolute;
+        top: 85vh;
+        left: 50%;
+        transform: translateX(-45%);
+        z-index: 2;
+      }
+      .bounce {
+        animation: bounce 3s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-30px);
+        }
+        60% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .curtain {
+        /*  2 Contrasting Colors  */
+        background-image: linear-gradient(to bottom, black 50%, white 50%);
+        position: relative;
+        top: 70vh;
+        width: 100vw;
+      }
+      /* To extend till the bottom of the screen */
+      .curtain::after {
+        content: "";
+        display: block;
+        height: 160vh;
+      }
+
+      .invert {
+        /* Stick the div to the top */
+        position: sticky;
+        top: 0vw;
+
+        /* blend the differences */
+        mix-blend-mode: difference;
+
+        /* Center the content */
+        display: grid;
+        place-items: center;
+
+        /* Set the height of the child div */
+        height: 100vh;
+      }
+
+      h1 {
+        /** set the color of the text **/
+        color: white;
+        font-size: 10vw;
+        letter-spacing: 4px;
+        font-family: poppins;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .hidden {
+        opacity: 0;
+        filter: blur(2px);
+        filter: saturation(0);
+        transition: all 1s ease-in-out;
+      }
+      .up {
+        transform: translateY(40%);
+      }
+      .down {
+        transform: translateY(-40%);
+      }
+      .right {
+        transform: translateX(-40%);
+      }
+      .left {
+        transform: translateX(40%);
+      }
+      .panel-move-up {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateY(0%);
+        transition: all 1s ease-in-out;
+      }
+      .panel-move-down {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateY(0%);
+        transition: all 1s ease-in-out;
+      }
+      .panel-move-right {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateX(0%);
+        transition: all 1s ease-in-out;
+      }
+
+      .panel-move-left {
+        filter: blur(0px);
+        filter: saturation(1);
+        transform: translateX(0%);
+        transition: all 1s ease-in-out;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="menu-bar">
+      <div id="menu" onclick="onClickMenu()">
+        <div class="bar" id="bar1" viewBox="0 0 100 5">
+          <rect x="0" y="0" width="100" height="5" fill="black" />
+        </div>
+        <div class="bar" id="bar2" viewBox="0 0 100 5">
+          <rect x="0" y="0" width="100" height="5" fill="black" />
+        </div>
+        <div class="bar" id="bar3" viewBox="0 0 100 5">
+          <rect x="0" y="0" width="100" height="5" fill="black" />
+        </div>
+      </div>
+
+      <ul class="nav" id="nav">
+        <div class="word fancy">
+          <li><a href="index.html" class="word fancy nav-text">Home</a></li>
+          <div class="box transform"></div>
+        </div>
+
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">About</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">Contact</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="project.html" class="word fancy nav-text">Projects</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">Technology</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy ">
+          <li><a href="#" class="word fancy nav-text">Science</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">SciTech Extracurriculars</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">Extracurriculars</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">Careers</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">Report Cards</a></li>
+          <div class="box transform"></div>
+        </div>
+        <div class="word fancy">
+          <li><a href="#" class="word fancy nav-text">Information</a></li>
+          <div class="box transform"></div>
+        </div>
+      </ul>
+    </div>
+
+    <div class="menu-bg" id="menu-bg"></div>
+
+    <a href="index.html"><p class="logo">Thanh Diep</p></a>
+
+    <div class="introduction-container">
+      <div class="typing-demo">Snake Game</div>
+      <p class="introduction-text hidden up" data-direction="up">
+        Throught my years at Port Credit Secondary School, I was able to develop projects that have placed an everlasting impact on myself.
+      </p>
+    </div>
+
+    <a data-scroll href="#grid"><div class="downArrow bounce hidden up">
+      <img
+        class="downArrowFilter"
+        width="50"
+        height="50"
+        alt=""
+        src="images/down-arrow.png"
+      />
+    </div>
+  </a>
+
+    <div class="grid-wrapper" id="grid">
+      <div class="panel hidden right" data-direction="right">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">
+                Snake Game
+              </div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/Screen Recording 2024-01-14 at 3.38.20 PM.mov" alt="" />
+        </div>
+      </div>
+
+      <div class="panel hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Experience</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/Experience.mov"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="panel tall hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title"></div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/Mountain_1.mp4" alt="" />
+        </div>
+      </div>
+
+      <div class="panel wide hidden left" data-direction="left">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title"></div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/2650401.png"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="panel hidden right" data-direction="right">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title"></div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/IMG_3089.MOV" alt="" />
+        </div>
+      </div>
+
+      <div class="panel tall hidden down" data-direction="down">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Contact</div>
+            </div>
+            <div class="panel-vingette" alt="Technological Design"></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/wood.jpeg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="panel big hidden left" data-direction="left">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Computer Engineering</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/computer.jpeg" alt="" />
+        </div>
+      </div>
+
+      <div class="panel hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Extracurriculars</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/Goal2x.mov" alt="" />
+        </div>
+      </div>
+
+      <div class="panel wide hidden right" data-direction="right" href = "project.html">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title" href = "project.html">Projects</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img class="panel-img" src="images/IMG_1659.jpeg" alt="" />
+        </div>
+      </div>
+
+      <div class="panel tall hidden up" data-direction="up">
+        <div class="panel-wrapper">
+          <div class="panel-overlay">
+            <div class="panel-text">
+              <div class="panel-title">Information</div>
+            </div>
+            <div class="panel-vingette" alt=""></div>
+          </div>
+          <img
+            class="panel-img"
+            src="images/shunya-koide-1emWndlDHs0-unsplash.jpg"
+            alt=""
+          />
+        </div>
+      </div>
+
+      
+    </div>
+
+    <script type="text/javascript">
+      function onClickMenu() {
+        document.getElementById("menu").classList.toggle("change");
+        document.getElementById("nav").classList.toggle("change");
+        document.getElementById("menu-bg").classList.toggle("change-bg");
+      }
+
+      $("#menu").click(function () {
+        $(".transform").toggleClass("transform-active");
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const panel = entry.target;
+            const direction = panel.getAttribute("data-direction");
+            panel.classList.remove("hidden"); // Remove the hidden class
+            panel.classList.add(`panel-move-${direction}`); // Add the animation class
+            observer.unobserve(panel); // Remove observer for this panel
+          }
+        });
+      });
+
+      const hiddenElements = document.querySelectorAll(".hidden");
+      hiddenElements.forEach((el) => {
+        observer.observe(el); // Start observing hidden panels
+      });
+
+      smoothScroll.init();
+    </script>
+  </body>
+</html>
