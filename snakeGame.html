@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
 
-    <title>Thanh Diep | Snake Game</title>
+    <title>Thanh Diep | Snake Game </title>
 
     <style type="text/css">
       html{
@@ -182,64 +182,8 @@
         padding-top: 15px;
         padding-left: 30px;
       }
-
-      .panel-wrapper {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        border-radius: 5px;
-        object-fit: cover;
-      }
-
-      .panel-overlay {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        z-index: 2;
-        opacity: 0;
-        transition: all 0.3s ease-out;
-
-        object-fit: cover;
-      }
-
-      .panel-overlay:hover {
-        opacity: 1;
-        transition: all 0.3s ease-out;
-      }
-
-      .panel-text {
-        position: absolute;
-        width: 100%;
-        top: 46%;
-        height: 60px;
-        margin: 0 auto;
-        text-align: center;
-        bottom: 0;
-        z-index: 10;
-      }
-
-      .panel-title {
-        font-size: 1.5em;
-        font-weight: 300;
-        letter-spacing: 2px;
-        color: #fff;
-        font-family: monospace;
-      }
-
-      .panel-vingette {
-        position: relative;
-        top: 0;
-
-        width: 100%;
-        height: 100%;
-        z-index: 5;
-        opacity: 0.7;
-
-        background: black;
-      }
-      .panel-img {
+      
+        .img {
         position: absolute;
         top: 0;
         display: block;
@@ -249,51 +193,8 @@
         border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
       }
 
-      .grid-wrapper .wide {
-        grid-column: span 2;
-      }
-      .grid-wrapper .tall {
-        grid-row: span 2;
-      }
-      .grid-wrapper .big {
-        grid-column: span 2;
-        grid-row: span 2;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-      }
-
-      /* Main CSS */
-      .grid-wrapper > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .grid-wrapper > div > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
-      }
-
-      .grid-wrapper {
-        display: grid;
-        z-index: 2;
-        position: relative;
-        top: 90vh;
-        grid-gap: 10px;
-        grid-template-columns: repeat(auto-fit, minmax(clamp(243px, 244px, 15vw), 1fr));
-        grid-auto-rows: clamp(199px, 200px, 10vw);
-        grid-auto-flow: dense;
-        max-width: 100vw; /* Set the maximum width to 100vw */
-      }
-
       .typing-demo {
-        width: 6em;
+        width: 6.2em;
         animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
         white-space: nowrap;
         overflow: hidden;
@@ -455,6 +356,37 @@
         transform: translateX(0%);
         transition: all 1s ease-in-out;
       }
+
+      .container{
+        
+        width:64vw;
+        
+        color:white;
+        position:relative;
+        left:18vw;
+        top:80vh;
+        
+        text-transform: uppercase;
+        font-weight: 400;
+        letter-spacing: 0.2em;
+        font-family: monospace;
+        font-size: clamp(1em, 2vw, 2em);
+
+      }
+      .image-container {
+            width: 64vw;
+            
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Crop the image while maintaining aspect ratio */
+        }
+        .title{
+          font-size: 2em;
+        }
     </style>
   </head>
 
@@ -474,7 +406,7 @@
 
       <ul class="nav" id="nav">
         <div class="word fancy">
-          <li><a href="index.html" class="word fancy nav-text">Home</a></li>
+          <li><a href="#" class="word fancy nav-text">Home</a></li>
           <div class="box transform"></div>
         </div>
 
@@ -528,11 +460,12 @@
     <div class="introduction-container">
       <div class="typing-demo">Snake Game</div>
       <p class="introduction-text hidden up" data-direction="up">
-        Throught my years at Port Credit Secondary School, I was able to develop projects that have placed an everlasting impact on myself.
+        The Snake game is one of the most loved and iconic games of our generation. To pay homage to this amazing game, I created my own version using Java.
+
       </p>
     </div>
 
-    <a data-scroll href="#grid"><div class="downArrow bounce hidden up">
+    <a data-scroll href="#container"><div class="downArrow bounce hidden up">
       <img
         class="downArrowFilter"
         width="50"
@@ -543,147 +476,95 @@
     </div>
   </a>
 
-    <div class="grid-wrapper" id="grid">
-      <div class="panel hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">
-                Snake Game
-              </div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/Screen Recording 2024-01-14 at 3.38.20 PM.mov" alt="" />
-        </div>
-      </div>
+  <div class="container" id="container"> 
 
-      <div class="panel hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Experience</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/Experience.mov"
-            alt=""
-          />
-        </div>
-      </div>
+    <div class="title"><br><br><br>Day One - January 12, 2024<br><br></div>
 
-      <div class="panel tall hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/Mountain_1.mp4" alt="" />
-        </div>
-      </div>
-
-      <div class="panel wide hidden left" data-direction="left">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/2650401.png"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div class="panel hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/IMG_3089.MOV" alt="" />
-        </div>
-      </div>
-
-      <div class="panel tall hidden down" data-direction="down">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Contact</div>
-            </div>
-            <div class="panel-vingette" alt="Technological Design"></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/wood.jpeg"
-            alt=""
-          />
-        </div>
-      </div>
-
-      <div class="panel big hidden left" data-direction="left">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Computer Engineering</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/computer.jpeg" alt="" />
-        </div>
-      </div>
-
-      <div class="panel hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Extracurriculars</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/Goal2x.mov" alt="" />
-        </div>
-      </div>
-
-      <div class="panel wide hidden right" data-direction="right" href = "project.html">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title" href = "project.html">Projects</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/IMG_1659.jpeg" alt="" />
-        </div>
-      </div>
-
-      <div class="panel tall hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Information</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/shunya-koide-1emWndlDHs0-unsplash.jpg"
-            alt=""
-          />
-        </div>
-      </div>
-
+    <div class="content">
+      import hsa_ufa.Console;<br>
+      import java.awt.Color;<br>
       
-    </div>
+      public class SnakeGame1 {<br>
+      
+          public static void main(String[] args) {<br>
+              Console c = new Console(600, 600, "Snake Game");<br>
+              c.setBackgroundColor(Color.BLACK);<br>
+              c.clear();<br>
+      
+              int rows = 24; int cols = 24; int tileSize = 25;<br>
+      
+              while (true) {<br>
+                  drawGrid(c, rows, cols, tileSize); // draw the grid<br>
+              }<br>
+          }<br>
+      
+          private static void drawGrid(Console c, int rows, int cols, int tileSize) {<br>
+              for (int row = 0; row <= rows; row++) {<br>
+                  int y = row * tileSize;<br>
+                  c.setColor(Color.GRAY);<br>
+                  c.drawLine(0, y, cols * tileSize, y);<br>
+              }<br>
+      
+              for (int col = 0; col <= cols; col++) {<br>
+                  int x = col * tileSize;<br>
+                  c.setColor(Color.GRAY);<br>
+                  c.drawLine(x, 0, x, rows * tileSize);<br>
+              }<br>
+          }<br>
+      }<br><br><br>
+      Today, i made a gray grid with a black background which will by used as the interface for my snake game. I made every square 25 units by 25 units and the console size 600 by 600. This created 24 rows and columns.<br><br>
+      </div>
+
+<div class="image-container"><img src="images/Screenshot 2024-01-17 at 11.57.03 AM.png"></div>
+ 
+  </div>
+
+  <div class="container" id="container"> 
+
+    <div class="title"><br><br><br>Day Two - January 15, 2024<br><br></div>
+
+    <div class="content">
+      import hsa_ufa.Console;<br>
+      import java.awt.Color;<br>
+      
+      public class SnakeGame1 {<br>
+      
+          public static void main(String[] args) {<br>
+              Console c = new Console(600, 600, "Snake Game");<br>
+              c.setBackgroundColor(Color.BLACK);<br>
+              c.clear();<br>
+      
+              int rows = 24; int cols = 24; int tileSize = 25;<br>
+      
+              while (true) {<br>
+                  drawGrid(c, rows, cols, tileSize); // draw the grid<br>
+              }<br>
+          }<br>
+      
+          private static void drawGrid(Console c, int rows, int cols, int tileSize) {<br>
+              for (int row = 0; row <= rows; row++) {<br>
+                  int y = row * tileSize;<br>
+                  c.setColor(Color.GRAY);<br>
+                  c.drawLine(0, y, cols * tileSize, y);<br>
+              }<br>
+      
+              for (int col = 0; col <= cols; col++) {<br>
+                  int x = col * tileSize;<br>
+                  c.setColor(Color.GRAY);<br>
+                  c.drawLine(x, 0, x, rows * tileSize);<br>
+              }<br>
+          }<br>
+      }<br><br><br>
+      Today, i made a gray grid with a black background which will by used as the interface for my snake game. I made every square 25 units by 25 units and the console size 600 by 600. This created 24 rows and columns.<br><br>
+      </div>
+
+<div class="image-container"><img src="images/Screenshot 2024-01-17 at 11.57.03 AM.png"></div>
+ 
+  </div>
+  
+
+   
+      
 
     <script type="text/javascript">
       function onClickMenu() {
