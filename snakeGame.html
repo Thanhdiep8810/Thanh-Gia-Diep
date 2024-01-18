@@ -16,20 +16,87 @@
       rel="stylesheet"
     />
 
-    <title>Thanh Diep | Snake Game </title>
+    <title>Thanh Diep | Snake Game</title>
 
     <style type="text/css">
-      html{
-         scroll-behavior: smooth;
-         scroll-behavior: 2000ms;
+      html {
+        scroll-behavior: smooth;
+        scroll-behavior: 2000ms;
       }
       body {
         background: black;
-     
+
         margin: 0; /* Remove default margin */
         overflow-x: hidden; /* Prevent horizontal scroll */
       }
 
+      .introduction-text{
+          color:white;  
+          position: absolute;
+          width:64vw;
+          left:18vw;
+          top:36vh;
+          font-family: monospace;
+          font-size: 2vw;
+          align-items: center;
+          
+
+      }
+      .introduction-container{
+          height:30vh;
+          position: relative;
+          width:100vw;
+      }
+      
+      @media only screen and (max-width: 1100px) {
+.introduction-text {
+    top:33vh;
+  }
+}
+         @media only screen and (max-width: 600px) {
+.introduction-text {
+    top:31vh;
+    left:18vw;
+  }
+}
+
+.curtain {
+  /*  2 Contrasting Colors  */
+  background-image: linear-gradient(to bottom,black 50%, white 50%);
+    position: relative;
+    top:70vh;
+}
+/* To extend till the bottom of the screen */
+.curtain::after {
+  content: "";
+  display: block;
+  height: 160vh;
+
+}
+
+.invert {
+    /* Stick the div to the top */
+    position: sticky;
+    top: 0vw;
+
+    /* blend the differences */
+    mix-blend-mode: difference;
+
+    /* Center the content */
+    display: grid;
+    place-items: center;
+  
+    /* Set the height of the child div */
+    height: 100vh;
+}
+
+h1 {
+    /** set the color of the text **/
+    color: white;
+    font-size: 10vw;
+    letter-spacing: 4px;
+    font-family: monospace
+}
       .box {
         background-color: white;
         height: 1px;
@@ -182,8 +249,8 @@
         padding-top: 15px;
         padding-left: 30px;
       }
-      
-        .img {
+
+      .img {
         position: absolute;
         top: 0;
         display: block;
@@ -220,7 +287,7 @@
         }
       }
 
-      .introduction-text {
+      .intro-text {
         color: white;
         position: absolute;
         width: 64vw;
@@ -234,7 +301,7 @@
         align-items: center;
       }
 
-      .introduction-container {
+      .intro-container {
         height: 30vh;
         display: grid;
         align-content: center;
@@ -355,38 +422,40 @@
         filter: saturation(1);
         transform: translateX(0%);
         transition: all 1s ease-in-out;
+      }.white-container{
+        width:100vw;
+        background-color: white;
       }
 
-      .container{
+      .container {
+        width: 64vw;
+        background-color: white;
         
-        width:64vw;
-        
-        color:white;
-        position:relative;
-        left:18vw;
-        top:80vh;
-        
+
+        color: black;
+        position: relative;
+        left: 18vw;
+        top: 80vh;
+
         text-transform: uppercase;
         font-weight: 400;
         letter-spacing: 0.2em;
         font-family: monospace;
         font-size: clamp(1em, 2vw, 2em);
-
       }
       .image-container {
-            width: 64vw;
-            
-            overflow: hidden;
-        }
+        width: 64vw;
+        overflow: hidden;
+      }
 
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Crop the image while maintaining aspect ratio */
-        }
-        .title{
-          font-size: 2em;
-        }
+      .image-container img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Crop the image while maintaining aspect ratio */
+      }
+      .title {
+        font-size: 2em;
+      }
     </style>
   </head>
 
@@ -411,7 +480,7 @@
         </div>
 
         <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">About</a></li>
+          <li><a href="index.html" class="word fancy nav-text">About</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
@@ -419,19 +488,23 @@
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="project.html" class="word fancy nav-text">Projects</a></li>
+          <li>
+            <a href="project.html" class="word fancy nav-text">Projects</a>
+          </li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
           <li><a href="#" class="word fancy nav-text">Technology</a></li>
           <div class="box transform"></div>
         </div>
-        <div class="word fancy ">
+        <div class="word fancy">
           <li><a href="#" class="word fancy nav-text">Science</a></li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">SciTech Extracurriculars</a></li>
+          <li>
+            <a href="#" class="word fancy nav-text">SciTech Extracurriculars</a>
+          </li>
           <div class="box transform"></div>
         </div>
         <div class="word fancy">
@@ -453,118 +526,339 @@
       </ul>
     </div>
 
+    <div class="curtain">
+      <div class="invert">
+        <h1>Daily Journal</h1>
+      </div>
+    </div>
+
     <div class="menu-bg" id="menu-bg"></div>
 
     <a href="index.html"><p class="logo">Thanh Diep</p></a>
 
-    <div class="introduction-container">
+    <div class="intro-container">
       <div class="typing-demo">Snake Game</div>
-      <p class="introduction-text hidden up" data-direction="up">
-        The Snake game is one of the most loved and iconic games of our generation. To pay homage to this amazing game, I created my own version using Java.
-
+      <p class="intro-text hidden up" data-direction="up">
+        The Snake game is one of the most loved and iconic games of our
+        generation. To pay homage to this amazing game, I created my own version
+        using Java.
       </p>
     </div>
 
-    <a data-scroll href="#container"><div class="downArrow bounce hidden up">
-      <img
-        class="downArrowFilter"
-        width="50"
-        height="50"
-        alt=""
-        src="images/down-arrow.png"
-      />
+    <a data-scroll href="#container"
+      ><div class="downArrow bounce hidden up">
+        <img
+          class="downArrowFilter"
+          width="50"
+          height="50"
+          alt=""
+          src="images/down-arrow.png"
+        />
+      </div>
+    </a>
+<div class="white-container">
+    <div class="container" id="container">
+      <div class="title">
+        <br /><br /><br />Day One - January 10, 2024<br /><br />
+      </div>
+
+      <div class="content">
+        //T.Diep<br />
+        //January 10, 2024<br />
+        //Snake Game, my version of the classic game where the user can change
+        the difficulty of the game. Use the arrow keys to move and eat apples
+        and grow larger.<br />
+
+        import hsa_ufa.Console;<br />
+        import java.awt.Color;<br />
+
+        public class SnakeGame1 {<br />
+
+        public static void main(String[] args) {<br />
+        Console c = new Console(600, 600, "Snake Game");<br />
+        c.setBackgroundColor(Color.BLACK);<br />
+        c.clear();<br />
+
+        int rows = 24; int cols = 24; int tileSize = 25;<br />
+
+        while (true) {<br />
+        drawGrid(c, rows, cols, tileSize); // draw the grid<br />
+        }<br />
+        }<br />
+
+        private static void drawGrid(Console c, int rows, int cols, int
+        tileSize) {<br />
+        for (int row = 0; row <= rows; row++) {<br />
+        int y = row * tileSize;<br />
+        c.setColor(Color.GRAY);<br />
+        c.drawLine(0, y, cols * tileSize, y);<br />
+        }<br />
+
+        for (int col = 0; col <= cols; col++) {<br />
+        int x = col * tileSize;<br />
+        c.setColor(Color.GRAY);<br />
+        c.drawLine(x, 0, x, rows * tileSize);<br />
+        }<br />
+        }<br />
+        }<br /><br /><br />
+        Today, i made a gray grid with a black background which will by used as
+        the interface for my snake game. I made every square 25 units by 25
+        units and the console size 600 by 600. This created 24 rows and
+        columns.<br /><br />
+      </div>
+
+      <div class="image-container">
+        <img src="images/Screenshot 2024-01-17 at 11.57.03 AM.png" />
+      </div>
     </div>
-  </a>
 
-  <div class="container" id="container"> 
-
-    <div class="title"><br><br><br>Day One - January 12, 2024<br><br></div>
-
-    <div class="content">
-      import hsa_ufa.Console;<br>
-      import java.awt.Color;<br>
-      
-      public class SnakeGame1 {<br>
-      
-          public static void main(String[] args) {<br>
-              Console c = new Console(600, 600, "Snake Game");<br>
-              c.setBackgroundColor(Color.BLACK);<br>
-              c.clear();<br>
-      
-              int rows = 24; int cols = 24; int tileSize = 25;<br>
-      
-              while (true) {<br>
-                  drawGrid(c, rows, cols, tileSize); // draw the grid<br>
-              }<br>
-          }<br>
-      
-          private static void drawGrid(Console c, int rows, int cols, int tileSize) {<br>
-              for (int row = 0; row <= rows; row++) {<br>
-                  int y = row * tileSize;<br>
-                  c.setColor(Color.GRAY);<br>
-                  c.drawLine(0, y, cols * tileSize, y);<br>
-              }<br>
-      
-              for (int col = 0; col <= cols; col++) {<br>
-                  int x = col * tileSize;<br>
-                  c.setColor(Color.GRAY);<br>
-                  c.drawLine(x, 0, x, rows * tileSize);<br>
-              }<br>
-          }<br>
-      }<br><br><br>
-      Today, i made a gray grid with a black background which will by used as the interface for my snake game. I made every square 25 units by 25 units and the console size 600 by 600. This created 24 rows and columns.<br><br>
+    <div class="container" id="container">
+      <div class="title">
+        <br /><br /><br />Day Two - January 11, 2024<br /><br />
       </div>
 
-<div class="image-container"><img src="images/Screenshot 2024-01-17 at 11.57.03 AM.png"></div>
- 
-  </div>
+      <div class="content">
+        //T.Diep<br />
+        //January 11, 2024<br />
+        //Snake Game, my version of the classic game where the user can change
+        the difficulty of the game. Use the arrow keys to move and eat apples
+        and grow larger.<br />
 
-  <div class="container" id="container"> 
+        import hsa_ufa.Console;<br />
+        import java.awt.Color;<br />
 
-    <div class="title"><br><br><br>Day Two - January 15, 2024<br><br></div>
+        public class SnakeGame {<br />
 
-    <div class="content">
-      import hsa_ufa.Console;<br>
-      import java.awt.Color;<br>
-      
-      public class SnakeGame1 {<br>
-      
-          public static void main(String[] args) {<br>
-              Console c = new Console(600, 600, "Snake Game");<br>
-              c.setBackgroundColor(Color.BLACK);<br>
-              c.clear();<br>
-      
-              int rows = 24; int cols = 24; int tileSize = 25;<br>
-      
-              while (true) {<br>
-                  drawGrid(c, rows, cols, tileSize); // draw the grid<br>
-              }<br>
-          }<br>
-      
-          private static void drawGrid(Console c, int rows, int cols, int tileSize) {<br>
-              for (int row = 0; row <= rows; row++) {<br>
-                  int y = row * tileSize;<br>
-                  c.setColor(Color.GRAY);<br>
-                  c.drawLine(0, y, cols * tileSize, y);<br>
-              }<br>
-      
-              for (int col = 0; col <= cols; col++) {<br>
-                  int x = col * tileSize;<br>
-                  c.setColor(Color.GRAY);<br>
-                  c.drawLine(x, 0, x, rows * tileSize);<br>
-              }<br>
-          }<br>
-      }<br><br><br>
-      Today, i made a gray grid with a black background which will by used as the interface for my snake game. I made every square 25 units by 25 units and the console size 600 by 600. This created 24 rows and columns.<br><br>
+        public static void main(String[] args) {<br />
+
+        Console c = new Console(600, 600, "Snake Game");<br />
+        c.setBackgroundColor(Color.BLACK);<br />
+        
+        int rows = 24; // Number of rows in the grid<br />
+        int cols = 24; // Number of columns in the grid<br />
+        int tileSize = 25; // Size of each tile<br />
+
+        int headX = 5; // Initial X-coordinate of the snake head<br />
+        int headY = 5; // Initial Y-coordinate of the snake head<br />
+
+        int directionX = 1; // Initial X-direction of the snake (1 for right)<br />
+        int directionY = 0; // Initial Y-direction of the snake (0 for no
+        vertical movement)<br />
+
+        long lastUpdateTime = System.currentTimeMillis();<br />
+        long updateInterval = 100; // Time in milliseconds between updates<br />
+
+        // Draw the initial snake head and grid lines<br />
+        drawSnakeHead(c, headX, headY, tileSize);<br />
+
+        // Game loop<br />
+        do {<br />
+        // Check if it's time to update the game<br />
+        long currentTime = System.currentTimeMillis();<br />
+
+        if (currentTime - lastUpdateTime >= updateInterval) {<br />
+        // Update the snake's position<br />
+        headX += directionX;<br />
+        headY += directionY;<br />
+
+        // Draw the entire scene, including the snake and grid lines
+        c.clear();<br />
+        drawSnakeHead(c, headX, headY, tileSize);<br />
+
+        // Update the last update time<br />
+        lastUpdateTime = currentTime;<br />
+        } // Check for arrow key input<br />
+        if (c.isKeyDown(Console.VK_UP) && directionY == 0) {<br />
+        directionX = 0;<br />
+        directionY = -1;<br />
+        } else if (c.isKeyDown(Console.VK_DOWN) && directionY == 0) {<br />
+        directionX = 0;<br />
+        directionY = 1;<br />
+        } else if (c.isKeyDown(Console.VK_LEFT) && directionX == 0) {<br />
+        directionX = -1;<br />
+        directionY = 0;<br />
+        } else if (c.isKeyDown(Console.VK_RIGHT) && directionX == 0) {<br />
+        directionX = 1;<br />
+        directionY = 0;<br />
+        }<br />
+        } while (true);<br />
+        }<br />
+
+        private static void drawSnakeHead(Console c, int x, int y, int size)
+        {<br />
+        c.setColor(Color.GREEN);<br />
+        c.fillRect(x * size, y * size, size, size);<br />
+        }<br />
+
+        }<br /><br /><br />
+
+        Today, I made my snake, which can be moved using the arrow keys. It
+        cannot die yet and no borders have been set.<br /><br />
       </div>
 
-<div class="image-container"><img src="images/Screenshot 2024-01-17 at 11.57.03 AM.png"></div>
- 
-  </div>
-  
+      <div class="image-container">
+          <img src="images/firstSnakeGame (online-video-cutter.com).mp4">
+      </div>
+    </div>
 
-   
+
+    <div class="container" id="container">
+      <div class="title">
+        <br /><br /><br />Day Three - January 12, 2024<br /><br />
+      </div>
+
+      <div class="content">
+        //T.Diep<br />
+        //January 11, 2024<br />
+        //Snake Game, my version of the classic game where the user can change
+        the difficulty of the game. Use the arrow keys to move and eat apples
+        and grow larger.<br />
+
+   private static int appleX;<br />
+   private static int appleY;<br />
+
+
+       String choice;<br />
+       String name;<br />
+       c.setColor(Color.WHITE); // Set text color to white<br />
+       c.print("Welcome to my Snake Game, press enter to start: ");<br />
+       choice = c.readLine();<br />
+
+
+       c.print("What is your player name? ");<br />
+       name = c.readLine();<br />
+
+
+       if (choice.equals("")) {<br />
+           c.clear();<br />
+       }<br />
+
+
+       // Initial apple creation<br />
+       createApple(c, tileSize, rows, cols);<br />
       
+               // Check if the snake head touches the apple<br />
+               if (headX == appleX && headY == appleY) {<br />
+                   // Snake head touched the apple, move the apple to a new location<br />
+                   moveApple(c, tileSize, rows, cols);<br />
+               }<br />
+
+               drawApple(c, tileSize);<br />
+
+   private static void createApple(Console c, int size, int rows, int cols) {<br />
+       c.setColor(Color.RED);<br />
+       int maxRow = rows - 1;<br />
+       int maxCol = cols - 1;<br />
+       appleX = (int) (Math.random() * maxCol);<br />
+       appleY = (int) (Math.random() * maxRow);<br />
+       c.fillRect(appleX * size, appleY * size, size, size);<br />
+   }<br />
+
+
+   private static void moveApple(Console c, int size, int rows, int cols) {<br />
+       // Move the apple to a new location<br />
+       createApple(c, size, rows, cols);<br />
+   }<br />
+
+
+   private static void drawApple(Console c, int size) {<br />
+       c.setColor(Color.RED);<br />
+       c.fillRect(appleX * size, appleY * size, size, size);<br />
+   }<br /><br /><br />
+
+
+
+
+
+
+        Today, I made a menu page where you can enter your username, and i also made apples taht spawn one at a time and the snake can eat them when they touch.<br /><br />
+      </div>
+
+      <div class="image-container">
+          <img src="images/secondSnakeGame.mp4">
+      </div>
+    </div>
+
+    <div class="container" id="container">
+      <div class="title">
+        <br /><br /><br />Day Four - January 15, 2024<br /><br />
+      </div>
+
+      <div class="content">
+        //T.Diep<br />
+        //January 11, 2024<br />
+        //Snake Game, my version of the classic game where the user can change
+        the difficulty of the game. Use the arrow keys to move and eat apples
+        and grow larger.<br />
+
+   private static int appleX;<br />
+   private static int appleY;<br />
+
+
+       String choice;<br />
+       String name;<br />
+       c.setColor(Color.WHITE); // Set text color to white<br />
+       c.print("Welcome to my Snake Game, press enter to start: ");<br />
+       choice = c.readLine();<br />
+
+
+       c.print("What is your player name? ");<br />
+       name = c.readLine();<br />
+
+
+       if (choice.equals("")) {<br />
+           c.clear();<br />
+       }<br />
+
+
+       // Initial apple creation<br />
+       createApple(c, tileSize, rows, cols);<br />
+      
+               // Check if the snake head touches the apple<br />
+               if (headX == appleX && headY == appleY) {<br />
+                   // Snake head touched the apple, move the apple to a new location<br />
+                   moveApple(c, tileSize, rows, cols);<br />
+               }<br />
+
+               drawApple(c, tileSize);<br />
+
+   private static void createApple(Console c, int size, int rows, int cols) {<br />
+       c.setColor(Color.RED);<br />
+       int maxRow = rows - 1;<br />
+       int maxCol = cols - 1;<br />
+       appleX = (int) (Math.random() * maxCol);<br />
+       appleY = (int) (Math.random() * maxRow);<br />
+       c.fillRect(appleX * size, appleY * size, size, size);<br />
+   }<br />
+
+
+   private static void moveApple(Console c, int size, int rows, int cols) {<br />
+       // Move the apple to a new location<br />
+       createApple(c, size, rows, cols);<br />
+   }<br />
+
+
+   private static void drawApple(Console c, int size) {<br />
+       c.setColor(Color.RED);<br />
+       c.fillRect(appleX * size, appleY * size, size, size);<br />
+   }<br /><br /><br />
+
+
+
+Today, i made it so thatbthe snake grows everytime it eats and made scores and high scores. you can now die when you hit the walls.
+
+
+      </div>
+
+      <div class="image-container">
+          <img src="images/secondSnakeGame.mp4">
+      </div>
+    </div>
+
+    </div>
+
+
+
 
     <script type="text/javascript">
       function onClickMenu() {
