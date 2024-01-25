@@ -599,7 +599,7 @@
           }<br />
           }<br />
           }<br /><br /><br />
-          Today, i made a gray grid with a black background which will by used
+          Today, i made a gray grid with a black background which will be used
           as the interface for my snake game. I made every square 25 units by 25
           units and the console size 600 by 600. This created 24 rows and
           columns.<br /><br />
@@ -621,25 +621,7 @@
         </div>
 
         <div class="content hidden right" data-direction="right">
-          //T.Diep<br />
-          //January 11, 2024<br />
-          //Snake Game, my version of the classic game where the user can change
-          the difficulty of the game. Use the arrow keys to move and eat apples
-          and grow larger.<br />
-
-          import hsa_ufa.Console;<br />
-          import java.awt.Color;<br />
-
-          public class SnakeGame {<br />
-
-          public static void main(String[] args) {<br />
-
-          Console c = new Console(600, 600, "Snake Game");<br />
-          c.setBackgroundColor(Color.BLACK);<br />
-
-          int rows = 24; // Number of rows in the grid<br />
-          int cols = 24; // Number of columns in the grid<br />
-          int tileSize = 25; // Size of each tile<br />
+        
 
           int headX = 5; // Initial X-coordinate of the snake head<br />
           int headY = 5; // Initial Y-coordinate of the snake head<br />
@@ -716,15 +698,7 @@
         </div>
 
         <div class="content hidden up" data-direction="up">
-          //T.Diep<br />
-          //January 11, 2024<br />
-          //Snake Game, my version of the classic game where the user can change
-          the difficulty of the game. Use the arrow keys to move and eat apples
-          and grow larger.<br />
-
-          private static int appleX;<br />
-          private static int appleY;<br />
-
+          
           String choice;<br />
           String name;<br />
           c.setColor(Color.WHITE); // Set text color to white<br />
@@ -771,7 +745,7 @@
           }<br /><br /><br />
 
           Today, I made a menu page where you can enter your username, and i
-          also made apples taht spawn one at a time and the snake can eat them
+          also made apples that spawn one at a time and the snake can eat them
           when they touch.<br /><br />
         </div>
 
@@ -791,31 +765,9 @@
         </div>
 
         <div class="content hidden right" data-direction="right">
-          //T.Diep<br />
-          //January 11, 2024<br />
-          //Snake Game, my version of the classic game where the user can change
-          the difficulty of the game. Use the arrow keys to move and eat apples
-          and grow larger.<br />
+         
 
-          private static int appleX;<br />
-          private static int appleY;<br />
-
-          String choice;<br />
-          String name;<br />
-          c.setColor(Color.WHITE); // Set text color to white<br />
-          c.print("Welcome to my Snake Game, press enter to start: ");<br />
-          choice = c.readLine();<br />
-
-          c.print("What is your player name? ");<br />
-          name = c.readLine();<br />
-
-          if (choice.equals("")) {<br />
-          c.clear();<br />
-          }<br />
-
-          // Initial apple creation<br />
-          createApple(c, tileSize, rows, cols);<br />
-
+          
           // Check if the snake head touches the apple<br />
           if (headX == appleX && headY == appleY) {<br />
           // Snake head touched the apple, move the apple to a new location<br />
@@ -865,62 +817,23 @@
         </div>
 
         <div class="content hidden right" data-direction="right">
-          //T.Diep<br />
-          //January 11, 2024<br />
-          //Snake Game, my version of the classic game where the user can change
-          the difficulty of the game. Use the arrow keys to move and eat apples
-          and grow larger.<br />
-
-          private static int appleX;<br />
-          private static int appleY;<br />
-
-          String choice;<br />
-          String name;<br />
-          c.setColor(Color.WHITE); // Set text color to white<br />
-          c.print("Welcome to my Snake Game, press enter to start: ");<br />
-          choice = c.readLine();<br />
-
-          c.print("What is your player name? ");<br />
-          name = c.readLine();<br />
-
-          if (choice.equals("")) {<br />
-          c.clear();<br />
-          }<br />
-
-          // Initial apple creation<br />
-          createApple(c, tileSize, rows, cols);<br />
-
-          // Check if the snake head touches the apple<br />
-          if (headX == appleX && headY == appleY) {<br />
-          // Snake head touched the apple, move the apple to a new location<br />
-          moveApple(c, tileSize, rows, cols);<br />
-          }<br />
-
-          drawApple(c, tileSize);<br />
-
-          private static void createApple(Console c, int size, int rows, int
-          cols) {<br />
-          c.setColor(Color.RED);<br />
-          int maxRow = rows - 1;<br />
-          int maxCol = cols - 1;<br />
-          appleX = (int) (Math.random() * maxCol);<br />
-          appleY = (int) (Math.random() * maxRow);<br />
-          c.fillRect(appleX * size, appleY * size, size, size);<br />
-          }<br />
-
-          private static void moveApple(Console c, int size, int rows, int cols)
-          {<br />
-          // Move the apple to a new location<br />
-          createApple(c, size, rows, cols);<br />
-          }<br />
-
-          private static void drawApple(Console c, int size) {<br />
-          c.setColor(Color.RED);<br />
-          c.fillRect(appleX * size, appleY * size, size, size);<br />
+          if (headX < 0 || headX >= cols || headY < 0 || headY >= rows || checkSelfCollision(snakeBody))</br>
+          private static boolean checkSelfCollision(ArrayList<Tile> snakeBody) {</br>
+            Tile head = snakeBody.get(0);</br>
+            int headX = head.x;</br>
+            int headY = head.y;</br>
+    
+            for (int i = 1; i < snakeBody.size(); i++) {</br>
+                Tile segment = snakeBody.get(i);</br>
+                if (headX == segment.x && headY == segment.y) {</br>
+                    return true; // Collision with the body</br>
+                }</br>
+            }</br>
+            return false;</br>
+        }</br>
           }<br /><br /><br />
 
-          Today, i made it so that the snake grows everytime it eats and made
-          scores and high scores. you can now die when you hit the walls.<br /><br />
+          Today, i made it so that the snake dies when it hits itself<br /><br />
         </div>
 
         <div class="image-container">
@@ -939,14 +852,7 @@
         </div>
 
         <div class="content hidden right" data-direction="right">
-          //T.Diep<br />
-          //January, 24, 2024<br />
-          //Snake Game, my version of the classic game where the user can
-          change<br />
-          //the difficulty of the game. Use the arrow keys to move and eat
-          apples<br />
-          //and grow larger.<br />
-
+   
           import java.io.*;<br />
 
           c.print("Welcome to my Snake Game, press anything to start: ");<br />
@@ -1130,7 +1036,7 @@
 
         <div class="content hidden right" style="height:20vh;" data-direction="right">
 
-          These three days were dedicated to, buidling my site using html, css, and javascript.
+          These three days were dedicated to, building my site using html, css, and javascript.
           <br /><br />
         </div>
     </div>
