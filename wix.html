@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop Web Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .toolbox {
+      width: 20%;
+      background-color: #f4f4f4;
+      padding: 10px;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      float: left;
+    }
+
+    .canvas {
+      width: 80%;
+      height: 100vh;
+      background-color: #fff;
+      border: 2px dashed #ddd;
+      margin-left: 20%;
+      position: relative;
+    }
+
+    .toolbox-item {
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      cursor: grab;
+    }
+
+    .draggable {
+      position: absolute;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      cursor: grab;
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbox">
+  <div class="toolbox-item" draggable="true">Text</div>
+  <div class="toolbox-item" draggable="true">Image</div>
+  <div class="toolbox-item" draggable="true">Button</div>
+</div>
+
+<div class="canvas" id="canvas">
+  <!-- Dropped elements will appear here -->
+</div>
+
+<script>
+  const toolboxItems = document.querySelectorAll('.toolbox-item');
+  const canvas = document.getElementById('canvas');
+
+  toolboxItems.forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', item.textContent);
+    });
+  });
+
+  canvas.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+
+  canvas.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const type = e.dataTransfer.getData('text/plain');
+
+    const element = document.createElement('div');
+    element.textContent = type;
+    element.className = 'draggable';
+    element.style.left = `${e.clientX - canvas.offsetLeft}px`;
+    element.style.top = `${e.clientY - canvas.offsetTop}px`;
+    element.draggable = true;
+
+    element.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', `${e.target.offsetLeft},${e.target.offsetTop}`);
+      e.target.classList.add('dragging');
+    });
+
+    element.addEventListener('dragend', (e) => {
+      const coords = e.dataTransfer.getData('text/plain').split(',');
+      element.style.left = `${e.clientX - canvas.offsetLeft}px`;
+      element.style.top = `${e.clientY - canvas.offsetTop}px`;
+      e.target.classList.remove('dragging');
+    });
+
+    canvas.appendChild(element);
+  });
+</script>
+
+</body>
+</html>

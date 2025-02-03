@@ -1,821 +1,858 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;700&display=swap"
-    />
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title>Thanh Diep</title>
-    <link href="css/satoshi.css" rel="stylesheet" />
 
-    <style type="text/css">
-      html {
-        scroll-behavior: smooth;
-        scroll-behavior: 2000ms;
-      }
-      body {
-        background: #10100e;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;700&display=swap" />
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <title>Thanh Diep</title>
+  <link href="css/satoshi.css" rel="stylesheet" />
 
-        margin: 0; /* Remove default margin */
-        overflow-x: hidden; /* Prevent horizontal scroll */
-      }
+  <style type="text/css">
+    html {
+      scroll-behavior: smooth;
+      scroll-behavior: 2000ms;
+    }
 
-      .box {
-        background-color: #f7f7f7;
-        height: 1px;
-        opacity: 0%;
-        margin-right: 15px;
-        width: 0px;
-        transition: all 1s ease-in-out;
-      }
+    body {
+      background: #10100e;
 
-      .transform {
-        transition: all 1s ease-in-out;
-      }
+      margin: 0;
+      /* Remove default margin */
+      overflow-x: hidden;
+      /* Prevent horizontal scroll */
+    }
 
-      .transform-active {
-        background-color: #FFFFE3;
-        height: 1px;
-        float: right;
-        width: clamp(1em, 55vw, 34em);
-        opacity: 100%;
-        transition: width opacity 1s ease-in-out;
+    .box {
+      background-color: #f7f7f7;
+      height: 1px;
+      opacity: 0%;
+      margin-right: 15px;
+      width: 0px;
+      transition: all 1s ease-in-out;
+    }
+
+    .transform {
+      transition: all 1s ease-in-out;
+    }
+
+    .transform-active {
+      background-color: #FFFFE3;
+      height: 1px;
+      float: right;
+      width: clamp(1em, 55vw, 34em);
+      opacity: 100%;
+      transition: width opacity 1s ease-in-out;
+    }
+
+    #menu {
+      cursor: pointer;
+      width: 35px;
+      height: 40px;
+      margin: 40px 0 10px 20px;
+      float: right;
+      position: fixed;
+      transition: 1s;
+      top: -10px;
+      right: 30px;
+      z-index: 5;
+      color: #FFFFE3;
+      mix-blend-mode: difference;
+    }
+
+    .bar {
+      height: 5px;
+      width: 100%;
+      background-color: #FFFFE3;
+      mix-blend-mode: difference;
+      display: block;
+      transition: 0.3s ease;
+    }
+
+    #bar1 {
+      transform: translateY(-4px);
+    }
+
+    #bar3 {
+      transform: translateY(4px);
+    }
+
+    .nav {
+      position: fixed;
+      transition: opacity 1s ease;
+      right: 0px;
+      top: 60px;
+      color: #FFFFE3;
+      text-align: right;
+      display: none;
+      margin: 0 20px;
+      transition: 0.3s ease;
+      z-index: 5;
+      opacity: 0%;
+      max-height: 90vh;
+      /* Set the maximum height for the navigation bar */
+      overflow-y: auto;
+      /* Enable vertical scrolling when it exceeds the maximum height */
+      width: auto;
+    }
+
+    .nav li {
+      list-style: none;
+      padding-top: 5px;
+      padding-right: 15px;
+      padding-bottom: 5px;
+      z-index: 5;
+    }
+
+    .nav-text {
+      text-decoration: none;
+      color: #FFFFE3;
+      letter-spacing: 3px;
+      font-family: "Satoshi-Bold";
+      text-transform: uppercase;
+      font-size: clamp(1em, 3vw, 2em);
+      z-index: 5;
+    }
+
+    .change .bar {
+      background-color: #FFFFE3;
+    }
+
+    .change #bar1 {
+      transform: translateY(10px) rotateZ(-45deg);
+    }
+
+    .change #bar3 {
+      transform: translateX(0px) rotate(45deg);
+    }
+
+    .change #bar2 {
+      opacity: 0;
+    }
+
+    .change {
+      opacity: 100%;
+      transition: opacity 1s;
+      display: block;
+    }
+
+    #menu-bar {
+      z-index: 2;
+      margin-right: 0px;
+    }
+
+    .menu-bg {
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      opacity: 0%;
+      position: fixed;
+      transition: opacity 0.5s ease-in-out;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .change-bg {
+      opacity: 90%;
+      transition: opacity 1s ease-in-out;
+      z-index: 4;
+    }
+
+    .nav:has(.fancy:hover) .word:not(.fancy:hover) {
+      opacity: 0.5;
+    }
+
+    .word {
+      color: #FFFFE3;
+      transition: opacity 0.7s ease;
+    }
+
+    .logo {
+      font-size: 3em;
+      font-weight: 600;
+      text-transform: uppercase;
+      mix-blend-mode: difference;
+      letter-spacing: 7px;
+      color: #FFFFE3;
+      font-family: "Satoshi-Black";
+      position: fixed;
+      top: -50px;
+      left: 0;
+      z-index: 3;
+      padding-top: 15px;
+      padding-left: 30px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .logo {
+        font-size: 1.5em;
+        padding-top: 35px;
       }
 
       #menu {
-        cursor: pointer;
-        width: 35px;
-        height: 40px;
-        margin: 40px 0 10px 20px;
-        float: right;
-        position: fixed;
-        transition: 1s;
-        top: -10px;
-        right: 30px;
-        z-index: 5;
-        color: #FFFFE3;
-        mix-blend-mode: difference;
+        top: -22px;
       }
+    }
 
-      .bar {
-        height: 5px;
-        width: 100%;
-        background-color: #FFFFE3;
-        mix-blend-mode: difference;
-        display: block;
-        transition: 0.3s ease;
-      }
+    .panel-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 5px;
+      object-fit: cover;
+    }
 
-      #bar1 {
-        transform: translateY(-4px);
-      }
+    .panel-overlay {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      opacity: 0;
+      transition: all 0.3s ease-out;
 
-      #bar3 {
-        transform: translateY(4px);
-      }
+      object-fit: cover;
+    }
 
-      .nav {
-        position: fixed;
-        transition: opacity 1s ease;
-        right: 0px;
-        top: 60px;
-        color: #FFFFE3;
-        text-align: right;
-        display: none;
-        margin: 0 20px;
-        transition: 0.3s ease;
-        z-index: 5;
-        opacity: 0%;
-        max-height: 90vh; /* Set the maximum height for the navigation bar */
-        overflow-y: auto; /* Enable vertical scrolling when it exceeds the maximum height */
-        width: auto;
-      }
-      .nav li {
-        list-style: none;
-        padding-top: 5px;
-        padding-right: 15px;
-        padding-bottom: 5px;
-        z-index: 5;
-      }
+    .panel-overlay:hover {
+      opacity: 1;
+      transition: all 0.3s ease-out;
+    }
 
-      .nav-text {
-        text-decoration: none;
-        color: #FFFFE3;
-        letter-spacing: 3px;
-        font-family: "Satoshi-Bold";
-        text-transform: uppercase;
-        font-size: clamp(1em, 3vw, 2em);
-        z-index: 5;
-      }
+    .panel-text {
+      position: absolute;
+      width: 100%;
+      top: 46%;
+      height: 60px;
+      margin: 0 auto;
+      text-align: center;
+      bottom: 0;
+      z-index: 3;
+    }
 
-      .change .bar {
-        background-color: #FFFFE3;
-      }
+    .panel-title {
+      font-size: clamp(15px, 2vw, 18px);
+      font-family: "Satoshi-Light";
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #FFFFE3;
+    }
 
-      .change #bar1 {
-        transform: translateY(10px) rotateZ(-45deg);
-      }
+    .panel-vingette {
+      position: relative;
+      top: 0;
 
-      .change #bar3 {
-        transform: translateX(0px) rotate(45deg);
-      }
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      opacity: 0.7;
+      background: black;
+    }
 
-      .change #bar2 {
-        opacity: 0;
-      }
+    .panel-img {
+      position: absolute;
+      top: 0;
+      display: block;
+      min-width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+    }
 
-      .change {
-        opacity: 100%;
-        transition: opacity 1s;
-        display: block;
-      }
+    .grid-wrapper .wide {
+      grid-column: span 2;
+    }
 
-      #menu-bar {
-        z-index: 2;
-        margin-right: 0px;
-      }
-      .menu-bg {
-        width: 100vw;
-        height: 100vh;
-        background: black;
-        opacity: 0%;
-        position: fixed;
-        transition: opacity 0.5s ease-in-out;
-        top: 0;
-        left: 0;
-        z-index: 1;
-      }
+    .grid-wrapper .tall {
+      grid-row: span 2;
+    }
 
-      .change-bg {
-        opacity: 90%;
-        transition: opacity 1s ease-in-out;
-        z-index: 4;
-      }
+    .grid-wrapper .big {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
 
-      .nav:has(.fancy:hover) .word:not(.fancy:hover) {
-        opacity: 0.5;
-      }
-      .word {
-        color: #FFFFE3;
-        transition: opacity 0.7s ease;
-      }
-      .logo {
-        font-size: 3em;
-        font-weight: 600;
-        text-transform: uppercase;
-        mix-blend-mode: difference;
-        letter-spacing: 7px;
-        color: #FFFFE3;
-        font-family: "Satoshi-Black";
-        position: fixed;
-        top: -50px;
-        left: 0;
-        z-index: 3;
-        padding-top: 15px;
-        padding-left: 30px;
-      }
-      @media screen and (max-width: 600px) {
-        .logo {
-          font-size: 1.5em;
-          padding-top: 35px;
-        }
-        #menu {
-          top: -22px;
-        }
-      }
+    img {
+      max-width: 100%;
+      height: auto;
+      vertical-align: middle;
+      display: inline-block;
+    }
 
-      .panel-wrapper {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        border-radius: 5px;
-        object-fit: cover;
-      }
+    /* Main CSS */
+    .grid-wrapper>div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      .panel-overlay {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        z-index: 2;
-        opacity: 0;
-        transition: all 0.3s ease-out;
+    .grid-wrapper>div>img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+    }
 
-        object-fit: cover;
-      }
+    .grid-wrapper {
+      display: grid;
+      z-index: 2;
+      position: relative;
+      top: 90vh;
+      grid-gap: 10px;
+      grid-template-columns: repeat(auto-fit,
+          minmax(clamp(150px, 400px, 15vw), 1fr));
+      grid-auto-rows: clamp(200px, 400px, 10vw);
+      grid-auto-flow: dense;
+      max-width: 100vw;
+      /* Set the maximum width to 100vw */
+    }
 
-      .panel-overlay:hover {
-        opacity: 1;
-        transition: all 0.3s ease-out;
-      }
+    .introduction-container {
+      height: 50vh;
+      /* Adjust based on content size */
+      display: flex;
+      position: relative;
+      top: 20vh;
+      flex-direction: column;
+      justify-content: center;
+      /* Centers vertically */
+      align-items: center;
+      /* Centers horizontally */
+      text-align: center;
+      /* Centers text inside */
+    }
 
-      .panel-text {
-        position: absolute;
-        width: 100%;
-        top: 46%;
-        height: 60px;
-        margin: 0 auto;
-        text-align: center;
-        bottom: 0;
-        z-index: 3;
-      }
-
-      .panel-title {
-        font-size: clamp(15px, 2vw, 18px);
-        font-family: "Satoshi-Light";
-        font-weight: 300;
-        letter-spacing: 2px;
-        color: #FFFFE3;
-      }
-
-      .panel-vingette {
-        position: relative;
-        top: 0;
-
-        width: 100%;
-        height: 100%;
-        z-index: 2;
-        opacity: 0.7;
-        background: black;
-      }
-      .panel-img {
-        position: absolute;
-        top: 0;
-        display: block;
-        min-width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
-      }
-
-      .grid-wrapper .wide {
-        grid-column: span 2;
-      }
-      .grid-wrapper .tall {
-        grid-row: span 2;
-      }
-      .grid-wrapper .big {
-        grid-column: span 2;
-        grid-row: span 2;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-        vertical-align: middle;
-        display: inline-block;
-      }
-
-      /* Main CSS */
-      .grid-wrapper > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .grid-wrapper > div > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px; /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
-      }
-
-      .grid-wrapper {
-        display: grid;
-        z-index: 2;
-        position: relative;
-        top: 90vh;
-        grid-gap: 10px;
-        grid-template-columns: repeat(
-          auto-fit,
-          minmax(clamp(150px, 400px, 15vw), 1fr)
-        );
-        grid-auto-rows: clamp(200px, 400px, 10vw);
-        grid-auto-flow: dense;
-        max-width: 100vw; /* Set the maximum width to 100vw */
-      }
-
-      .introduction-container {
-        height: 50vh; /* Adjust based on content size */
-        display: flex;
-        position: relative;
-        top: 20vh;
-        flex-direction: column;
-        justify-content: center; /* Centers vertically */
-        align-items: center; /* Centers horizontally */
-        text-align: center; /* Centers text inside */
-      }
-
-      .typing-demo {
-        animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
-        white-space: nowrap;
-        overflow: hidden;
-        color: #FFFFE3;
-        border-right: 3px solid;
-        font-family: "Satoshi-Medium";
-        font-size: clamp(20px, 5vw, 91px);
-        width: clamp(
-          8em,
+    .typing-demo {
+      animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #FFFFE3;
+      border-right: 3px solid;
+      font-family: "Satoshi-Medium";
+      font-size: clamp(20px, 5vw, 91px);
+      width: clamp(8em,
           51vw,
-          40em
-        ); /* Ensure consistent width with introduction-text */
+          40em);
+      /* Ensure consistent width with introduction-text */
+    }
+
+    .program-demo {
+      animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #FFFFE3;
+      border-right: 3px solid;
+      font-family: "Satoshi-Medium";
+      font-size: clamp(20px, 5vw, 91px);
+      width: clamp(5em,
+          1vw,
+          5em);
+     
+      /* Ensure consistent width with introduction-text */
+    }
+    .future-demo {
+      animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #FFFFE3;
+      border-right: 3px solid;
+      font-family: "Satoshi-Medium";
+      font-size: clamp(20px, 5vw, 91px);
+      width: clamp(11em,
+          1vw,
+          15em);
+     
+      /* Ensure consistent width with introduction-text */
+    }
+
+    .introduction-text {
+      color: #FFFFE3;
+      text-transform: uppercase;
+      text-align: left;
+      font-family: "Satoshi-Light";
+      font-size: clamp(1em, 2vw, 2em);
+      width: clamp(8em, 51vw, 40em);
+      /* Match the width of typing-demo */
+      margin-top: 1em;
+      /* Space between typing-demo and introduction-text */
+    }
+
+    .introduction-text {
+      color: #FFFFE3;
+      text-transform: uppercase;
+      text-align: left;
+      font-family: "Satoshi-Light";
+      font-size: clamp(1em, 2vw, 2em);
+      width: clamp(8em, 51vw, 40em);
+      /* Match the width of typing-demo */
+      margin-top: 1em;
+      /* Space between typing-demo and introduction-text */
+    }
+
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    .downArrowFilter {
+      filter: invert(100%) brightness(100%) contrast(100%);
+    }
+
+    .downArrow {
+      position: absolute;
+      align-items: center;
+      top: 85vh;
+      left: calc(50% - 25px);
+      /* Center the arrow based on its width */
+      z-index: 2;
+    }
+
+    .bounce {
+      animation: bounce 3s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
       }
 
-      .introduction-text {
-        color: #FFFFE3;
-        text-transform: uppercase;
-        text-align: left;
-        font-family: "Satoshi-Light";
-        font-size: clamp(1em, 2vw, 2em);
-        width: clamp(8em, 51vw, 40em); /* Match the width of typing-demo */
-        margin-top: 1em; /* Space between typing-demo and introduction-text */
+      40% {
+        transform: translateY(-30px);
       }
 
-      @keyframes typing {
-        from {
-          width: 0;
-        }
+      60% {
+        transform: translateY(-15px);
       }
+    }
 
-      @keyframes blink {
-        50% {
-          border-color: transparent;
-        }
-      }
+    .curtain {
+      /*  2 Contrasting Colors  */
+      background-image: linear-gradient(to bottom, black 50%, white 50%);
+      position: relative;
+      top: 70vh;
+      width: 100vw;
+    }
 
-      .downArrowFilter {
-        filter: invert(100%) brightness(100%) contrast(100%);
-      }
+    /* To extend till the bottom of the screen */
+    .curtain::after {
+      content: "";
+      display: block;
+      height: 160vh;
+    }
 
-      .downArrow {
-        position: absolute;
-        align-items: center;
-        top: 85vh;
-        left: calc(50% - 25px); /* Center the arrow based on its width */
-        z-index: 2;
-      }
+    .invert {
+      /* Stick the div to the top */
+      position: sticky;
+      top: 0vw;
 
-      .bounce {
-        animation: bounce 3s infinite;
-      }
+      /* blend the differences */
+      mix-blend-mode: difference;
 
-      @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
-          transform: translateY(0);
-        }
-        40% {
-          transform: translateY(-30px);
-        }
-        60% {
-          transform: translateY(-15px);
-        }
-      }
+      /* Center the content */
+      display: grid;
+      place-items: center;
 
-      .curtain {
-        /*  2 Contrasting Colors  */
-        background-image: linear-gradient(to bottom, black 50%, white 50%);
-        position: relative;
-        top: 70vh;
-        width: 100vw;
-      }
-      /* To extend till the bottom of the screen */
-      .curtain::after {
-        content: "";
-        display: block;
-        height: 160vh;
-      }
+      /* Set the height of the child div */
+      height: 100vh;
+    }
 
-      .invert {
-        /* Stick the div to the top */
-        position: sticky;
-        top: 0vw;
+    h1 {
+      /** set the color of the text **/
+      color: #FFFFE3;
+      font-size: 10vw;
+      letter-spacing: 4px;
 
-        /* blend the differences */
-        mix-blend-mode: difference;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
 
-        /* Center the content */
-        display: grid;
-        place-items: center;
+    .hidden {
+      opacity: 0;
+      filter: blur(2px);
+      filter: saturation(0);
+      transition: all 1s ease-in-out;
+    }
 
-        /* Set the height of the child div */
-        height: 100vh;
-      }
+    .up {
+      transform: translateY(40%);
+    }
 
-      h1 {
-        /** set the color of the text **/
-        color: #FFFFE3;
-        font-size: 10vw;
-        letter-spacing: 4px;
+    .down {
+      transform: translateY(-40%);
+    }
 
-        font-weight: 600;
-        text-transform: uppercase;
-      }
+    .right {
+      transform: translateX(-40%);
+    }
 
-      .hidden {
-        opacity: 0;
-        filter: blur(2px);
-        filter: saturation(0);
-        transition: all 1s ease-in-out;
-      }
-      .up {
-        transform: translateY(40%);
-      }
-      .down {
-        transform: translateY(-40%);
-      }
-      .right {
-        transform: translateX(-40%);
-      }
-      .left {
-        transform: translateX(40%);
-      }
-      .panel-move-up {
-        filter: blur(0px);
-        filter: saturation(1);
-        transform: translateY(0%);
-        transition: all 1s ease-in-out;
-      }
-      .panel-move-down {
-        filter: blur(0px);
-        filter: saturation(1);
-        transform: translateY(0%);
-        transition: all 1s ease-in-out;
-      }
-      .panel-move-right {
-        filter: blur(0px);
-        filter: saturation(1);
-        transform: translateX(0%);
-        transition: all 1s ease-in-out;
-      }
+    .left {
+      transform: translateX(40%);
+    }
 
-      .panel-move-left {
-        filter: blur(0px);
-        filter: saturation(1);
-        transform: translateX(0%);
-        transition: all 1s ease-in-out;
-      }
-    </style>
-  </head>
+    .panel-move-up {
+      filter: blur(0px);
+      filter: saturation(1);
+      transform: translateY(0%);
+      transition: all 1s ease-in-out;
+    }
 
-  <body>
-    <div id="menu-bar">
-      <div id="menu" onclick="onClickMenu()">
-        <div class="bar" id="bar1" viewBox="0 0 100 5">
-          <rect x="0" y="0" width="100" height="5" fill="black" />
-        </div>
-        <div class="bar" id="bar2" viewBox="0 0 100 5">
-          <rect x="0" y="0" width="100" height="5" fill="black" />
-        </div>
-        <div class="bar" id="bar3" viewBox="0 0 100 5">
-          <rect x="0" y="0" width="100" height="5" fill="black" />
-        </div>
+    .panel-move-down {
+      filter: blur(0px);
+      filter: saturation(1);
+      transform: translateY(0%);
+      transition: all 1s ease-in-out;
+    }
+
+    .panel-move-right {
+      filter: blur(0px);
+      filter: saturation(1);
+      transform: translateX(0%);
+      transition: all 1s ease-in-out;
+    }
+
+    .panel-move-left {
+      filter: blur(0px);
+      filter: saturation(1);
+      transform: translateX(0%);
+      transition: all 1s ease-in-out;
+    }
+
+    .program-container {
+      height: 50vh;
+      /* Adjust based on content size */
+      position: relative;
+      left:25vw;
+      top: 100vh;
+      justify-content: center;
+      /* Centers vertically */
+      align-items: center;
+      /* Centers horizontally */
+      text-align: center;
+      /* Centers text inside */
+    }
+    .future-container {
+      height: 50vh;
+      /* Adjust based on content size */
+      position: relative;
+      left:25vw;
+      top: 100vh;
+      justify-content: center;
+      /* Centers vertically */
+      align-items: center;
+      /* Centers horizontally */
+      text-align: center;
+      /* Centers text inside */
+      padding-bottom: 10vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="menu-bar">
+    <div id="menu" onclick="onClickMenu()">
+      <div class="bar" id="bar1" viewBox="0 0 100 5">
+        <rect x="0" y="0" width="100" height="5" fill="black" />
+      </div>
+      <div class="bar" id="bar2" viewBox="0 0 100 5">
+        <rect x="0" y="0" width="100" height="5" fill="black" />
+      </div>
+      <div class="bar" id="bar3" viewBox="0 0 100 5">
+        <rect x="0" y="0" width="100" height="5" fill="black" />
+      </div>
+    </div>
+
+    <ul class="nav" id="nav">
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Home</a></li>
+        <div class="box transform"></div>
       </div>
 
-      <ul class="nav" id="nav">
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Home</a></li>
-          <div class="box transform"></div>
-        </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">About</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Contact</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li>
+          <a href="project.html" class="word fancy nav-text">Projects</a>
+        </li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Technology</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Science</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li>
+          <a href="#" class="word fancy nav-text">SciTech Extracurriculars</a>
+        </li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Extracurriculars</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Careers</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Report Cards</a></li>
+        <div class="box transform"></div>
+      </div>
+      <div class="word fancy">
+        <li><a href="#" class="word fancy nav-text">Information</a></li>
+        <div class="box transform"></div>
+      </div>
+    </ul>
+  </div>
 
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">About</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Contact</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li>
-            <a href="project.html" class="word fancy nav-text">Projects</a>
-          </li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Technology</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Science</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li>
-            <a href="#" class="word fancy nav-text">SciTech Extracurriculars</a>
-          </li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Extracurriculars</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Careers</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Report Cards</a></li>
-          <div class="box transform"></div>
-        </div>
-        <div class="word fancy">
-          <li><a href="#" class="word fancy nav-text">Information</a></li>
-          <div class="box transform"></div>
-        </div>
-      </ul>
+  <div class="menu-bg" id="menu-bg"></div>
+
+  <a href="index.html">
+    <p class="logo">Thanh Diep</p>
+  </a>
+
+  <div class="introduction-container">
+    <div class="typing-demo">Hi, my name is Thanh.</div>
+    <p class="introduction-text hidden up" data-direction="up">
+      I am a student attending Port Credit Secondary School in the SciTech
+      program. I will lead others to create and design technology and
+      experiences that will advance our vision for a better future.
+    </p>
+  </div>
+
+  <a data-scroll href="#grid">
+    <div class="downArrow bounce hidden up">
+      <img class="downArrowFilter" width="50" height="50" alt="" src="images/down-arrow.png" />
     </div>
+  </a>
 
-    <div class="menu-bg" id="menu-bg"></div>
-
-    <a href="index.html"><p class="logo">Thanh Diep</p></a>
-
-    <div class="introduction-container">
-      <div class="typing-demo">Hi, my name is Thanh.</div>
-      <p class="introduction-text hidden up" data-direction="up">
-        I am a student attending Port Credit Secondary School in the SciTech
-        program. I will lead others to create and design technology and
-        experiences that will advance our vision for a better future.
-      </p>
-    </div>
-
-    <a data-scroll href="#grid"
-      ><div class="downArrow bounce hidden up">
-        <img
-          class="downArrowFilter"
-          width="50"
-          height="50"
-          alt=""
-          src="images/down-arrow.png"
-        />
+  <div class="grid-wrapper" id="grid">
+    <!-- SciTech Extracurriculars -->
+    <a href="scitech-extracurriculars.html" class="panel hidden right" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">
+              SciTech<br />
+              Extracurriculars
+            </div>
+          </div>
+          <div class="panel-vingette" alt=""></div>
+        </div>
+        <img class="panel-img" src="images/CarGame.mov" alt="" />
       </div>
     </a>
 
-    <div class="grid-wrapper" id="grid">
-      <!-- SciTech Extracurriculars -->
-      <a
-        href="scitech-extracurriculars.html"
-        class="panel hidden right"
-        data-direction="right"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">
-                SciTech<br />
-                Extracurriculars
-              </div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/CarGame.mov" alt="" />
-        </div>
-      </a>
+    <a class="panel hidden up" data-direction="up">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
 
-      <a class="panel hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-           
-            </div>
           </div>
-          <img class="panel-img" src="images/Kitchen.jpeg" alt="" />
         </div>
-      </a>
+        <img class="panel-img" src="images/Kitchen.jpeg" alt="" />
+      </div>
+    </a>
 
-      <a class="panel hidden down" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
+    <a class="panel hidden down" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title"></div>
           </div>
-          <img class="panel-img" src="images/Umbrella.jpeg" alt="" />
         </div>
-      </a>
+        <img class="panel-img" src="images/Umbrella.jpeg" alt="" />
+      </div>
+    </a>
 
-      <!-- About Me -->
-      <a href="about-me.html" class="panel tall hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">About Me</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <!-- About Me -->
+    <a href="about-me.html" class="panel tall hidden up" data-direction="up">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">About Me</div>
           </div>
-          <img class="panel-img" src="images/Church.jpeg" alt="" />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/Church.jpeg" alt="" />
+      </div>
+    </a>
 
-      <!-- Careers -->
-      <a
-        href="careers.html"
-        class="panel wide hidden left"
-        data-direction="left"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Careers</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <!-- Careers -->
+    <a href="careers.html" class="panel wide hidden left" data-direction="left">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Careers</div>
           </div>
-          <img
-            class="panel-img"
-            src="images/toa-heftiba-FV3GConVSss-unsplash.jpg"
-            alt=""
-          />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/toa-heftiba-FV3GConVSss-unsplash.jpg" alt="" />
+      </div>
+    </a>
 
-      <!-- Technology -->
-      <a
-        href="technology.html"
-        class="panel hidden right"
-        data-direction="right"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Technology</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <!-- Technology -->
+    <a href="technology.html" class="panel hidden right" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Technology</div>
           </div>
-          <img class="panel-img" src="images/Water.jpeg" alt="" />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/Water.jpeg" alt="" />
+      </div>
+    </a>
 
-      <!-- Contact -->
-      <a
-        href="contact.html"
-        class="panel tall hidden down"
-        data-direction="down"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Contact</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <!-- Contact -->
+    <a href="contact.html" class="panel tall hidden down" data-direction="down">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Contact</div>
           </div>
-          <img
-            class="panel-img"
-            src="images/photo-1534703580202-6123d4189ef6.jpeg"
-            alt=""
-          />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/photo-1534703580202-6123d4189ef6.jpeg" alt="" />
+      </div>
+    </a>
 
-      <!-- Science -->
-      <a
-        href="science.html"
-        class="panel big hidden left"
-        data-direction="left"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Science</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <!-- Science -->
+    <a href="science.html" class="panel big hidden left" data-direction="left">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Science</div>
           </div>
-          <img class="panel-img" src="images/IMG_2113.png" alt="" />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/IMG_2113.png" alt="" />
+      </div>
+    </a>
 
-      <a class="panel wide hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
+    <a class="panel wide hidden right" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title"></div>
           </div>
-          <img class="panel-img" src="images/CancunJetSki.JPG" alt="" />
         </div>
-      </a>
+        <img class="panel-img" src="images/CancunJetSki.JPG" alt="" />
+      </div>
+    </a>
 
-      <a
-        href="extracurriculars.html"
-        class="panel hidden up"
-        data-direction="up"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
+    <a href="extracurriculars.html" class="panel hidden up" data-direction="up">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+        </div>
+        <img class="panel-img" src="images/Mountain_1.mp4" alt="" />
+      </div>
+    </a>
+
+    <a href="project.html" class="panel big hidden right" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Projects</div>
           </div>
-          <img class="panel-img" src="images/Mountain_1.mp4" alt="" />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/IMG_1659.jpeg" alt="" />
+      </div>
+    </a>
 
-      <a
-        href="project.html"
-        class="panel big hidden right"
-        data-direction="right"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Projects</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <a href="information.html" class="panel tall hidden up" data-direction="up">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Information</div>
           </div>
-          <img class="panel-img" src="images/IMG_1659.jpeg" alt="" />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/shunya-koide-1emWndlDHs0-unsplash.jpg" alt="" />
+      </div>
+    </a>
 
-      <a
-        href="information.html"
-        class="panel tall hidden up"
-        data-direction="up"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Information</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <a href="reportCards.html" class="panel hidden left" data-direction="left">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Report Cards</div>
           </div>
-          <img
-            class="panel-img"
-            src="images/shunya-koide-1emWndlDHs0-unsplash.jpg"
-            alt=""
-          />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg" alt="" />
+      </div>
+    </a>
 
-      <a
-        href="reportCards.html"
-        class="panel hidden left"
-        data-direction="left"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Report Cards</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <a class="panel hidden right" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title"></div>
           </div>
-          <img
-            class="panel-img"
-            src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg"
-            alt=""
-          />
         </div>
-      </a>
+        <img class="panel-img" src="images/Chess.jpeg" alt="" />
+      </div>
+    </a>
 
-      <a class="panel hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
+    <!-- Assessments -->
+    <a href="assessments.html" class="panel hidden up" data-direction="up">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title">Assessments</div>
           </div>
-          <img class="panel-img" src="images/Chess.jpeg" alt="" />
+          <div class="panel-vingette" alt=""></div>
         </div>
-      </a>
+        <img class="panel-img" src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg" alt="" />
+      </div>
+    </a>
 
-      <!-- Assessments -->
-      <a href="assessments.html" class="panel hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Assessments</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
+    <a class="panel wide hidden right" data-direction="right">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+            <div class="panel-title"></div>
           </div>
-          <img
-            class="panel-img"
-            src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg"
-            alt=""
-          />
         </div>
-      </a>
+        <img class="panel-img" src="images/IMG_5687 2.MOV" alt="" />
+      </div>
+    </a>
 
-      <a class="panel wide hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-          </div>
-          <img class="panel-img" src="images/IMG_5687 2.MOV" alt="" />
-        </div>
-      </a>
-
-      <a
-      href="extracurriculars.html"
-      class="panel hidden up"
-      data-direction="up"
-    >
+    <a href="extracurriculars.html" class="panel hidden up" data-direction="up">
       <div class="panel-wrapper">
         <div class="panel-overlay">
           <div class="panel-text">
@@ -827,52 +864,74 @@
       </div>
     </a>
 
-    <a
-  
-    class="panel hidden up"
-    data-direction="up"
-  >
-    <div class="panel-wrapper">
-      <div class="panel-overlay">
-        <div class="panel-text">
-         
+    <a class="panel hidden up" data-direction="up">
+      <div class="panel-wrapper">
+        <div class="panel-overlay">
+          <div class="panel-text">
+
+          </div>
+          <div class="panel-vingette" alt=""></div>
         </div>
-        <div class="panel-vingette" alt=""></div>
+        <img class="panel-img" src="images/shrimp.jpeg" alt="" />
       </div>
-      <img class="panel-img" src="images/shrimp.jpeg" alt="" />
-    </div>
-  </a>
-    </div>
+    </a>
+  </div>
 
-    <script type="text/javascript">
-      function onClickMenu() {
-        document.getElementById("menu").classList.toggle("change");
-        document.getElementById("nav").classList.toggle("change");
-        document.getElementById("menu-bg").classList.toggle("change-bg");
-      }
+  <div class="program-container">
+    <div class="program-demo">Programs</div>
+    <p class="introduction-text hidden up" data-direction="up">
+      I am proficient in HTML, CSS, JAVASRIPT, and JAVA and knowledgeable in Python, C++, and PHP.
+    </p>
+  </div>
 
-      $("#menu").click(function () {
-        $(".transform").toggleClass("transform-active");
+  <div class="future-container">
+    <div class="future-demo">Foresight into the future</div>
+    <p class="introduction-text hidden up" data-direction="up">
+      My goal is to graduate with a 97% average and to be accepted 
+      into the Univeristy of Waterloo for Mechatronics enginnering 
+      or UofT for Engineering Science. During my time in univeristy,
+       I would like to gain experience my taking advantage of co-op
+        programs. After completeing undergrad, I would like to pursure
+         my master's or to get employed. Finally i would like to create
+          my own tech company. From this course, I would like to hone my 
+          criitcal thinking skills and to become proficient in our world's
+           most popular and used programing languages.
+  </div>
+
+  
+
+  
+
+  <script type="text/javascript">
+    function onClickMenu() {
+      document.getElementById("menu").classList.toggle("change");
+      document.getElementById("nav").classList.toggle("change");
+      document.getElementById("menu-bg").classList.toggle("change-bg");
+    }
+
+    $("#menu").click(function () {
+      $(".transform").toggleClass("transform-active");
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const panel = entry.target;
+          const direction = panel.getAttribute("data-direction");
+          panel.classList.remove("hidden"); // Remove the hidden class
+          panel.classList.add(`panel-move-${direction}`); // Add the animation class
+          observer.unobserve(panel); // Remove observer for this panel
+        }
       });
+    });
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const panel = entry.target;
-            const direction = panel.getAttribute("data-direction");
-            panel.classList.remove("hidden"); // Remove the hidden class
-            panel.classList.add(`panel-move-${direction}`); // Add the animation class
-            observer.unobserve(panel); // Remove observer for this panel
-          }
-        });
-      });
+    const hiddenElements = document.querySelectorAll(".hidden");
+    hiddenElements.forEach((el) => {
+      observer.observe(el); // Start observing hidden panels
+    });
 
-      const hiddenElements = document.querySelectorAll(".hidden");
-      hiddenElements.forEach((el) => {
-        observer.observe(el); // Start observing hidden panels
-      });
+    smoothScroll.init();
+  </script>
+</body>
 
-      smoothScroll.init();
-    </script>
-  </body>
 </html>
