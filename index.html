@@ -877,26 +877,6 @@
     </a>
   </div>
 
-  <div class="program-container">
-    <div class="program-demo">Programs</div>
-    <p class="introduction-text hidden up" data-direction="up">
-      I am proficient in HTML, CSS, JAVASRIPT, and JAVA and knowledgeable in Python, C++, and PHP.
-    </p>
-  </div>
-
-  <div class="future-container">
-    <div class="future-demo">Foresight into the future</div>
-    <p class="introduction-text hidden up" data-direction="up">
-      My goal is to graduate with a 97% average and to be accepted 
-      into the Univeristy of Waterloo for Mechatronics enginnering 
-      or UofT for Engineering Science. During my time in univeristy,
-       I would like to gain experience my taking advantage of co-op
-        programs. After completeing undergrad, I would like to pursure
-         my master's or to get employed. Finally i would like to create
-          my own tech company. From this course, I would like to hone my 
-          criitcal thinking skills and to become proficient in our world's
-           most popular and used programing languages.
-  </div>
 
   
 
@@ -931,6 +911,34 @@
     });
 
     smoothScroll.init();
+
+
+
+    // Disable right-click
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
+// Disable text selection
+document.addEventListener('selectstart', function(e) {
+  e.preventDefault();
+});
+
+// Disable copy
+document.addEventListener('copy', function(e) {
+  e.preventDefault();
+});
+
+// Disable certain key shortcuts (Ctrl+U, Ctrl+C, Ctrl+Shift+I, F12)
+document.addEventListener('keydown', function(e) {
+  if (
+    (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'c' || e.key === 'C')) || 
+    (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) || 
+    (e.key === 'F12')
+  ) {
+    e.preventDefault();
+  }
+});
   </script>
 </body>
 

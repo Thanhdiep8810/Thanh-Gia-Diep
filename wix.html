@@ -3,106 +3,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drag and Drop Web Builder</title>
+  <title>Animated Portfolio</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    html, body {
       margin: 0;
       padding: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #0f0f0f;
+      color: #d6cbb9;
+      scroll-behavior: smooth;
     }
 
-    .toolbox {
-      width: 20%;
-      background-color: #f4f4f4;
-      padding: 10px;
-      height: 100vh;
-      overflow-y: auto;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      float: left;
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15, 15, 15, 0.95);
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding: 1rem 0;
+      z-index: 1000;
     }
 
-    .canvas {
-      width: 80%;
+    nav a {
+      color: #f25e37;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffcc70;
+    }
+
+    .section {
       height: 100vh;
-      background-color: #fff;
-      border: 2px dashed #ddd;
-      margin-left: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 4vw;
+      font-weight: bold;
+      text-align: center;
       position: relative;
+      overflow: hidden;
+      transition: background 0.5s ease;
+      padding-top: 4rem;
     }
 
-    .toolbox-item {
-      padding: 10px;
-      margin: 10px 0;
-      background-color: #007bff;
-      color: #fff;
-      text-align: center;
-      border-radius: 5px;
-      cursor: grab;
+    .section:nth-child(even) {
+      background: radial-gradient(circle at center, #1a1a1a 0%, #0f0f0f 100%);
     }
 
-    .draggable {
-      position: absolute;
-      padding: 10px;
-      background-color: #007bff;
-      color: #fff;
-      text-align: center;
-      border-radius: 5px;
-      cursor: grab;
+    .scroll-title {
+      transform: translateY(100px) scale(0.9);
+      opacity: 0;
+      transition: all 1s ease-out;
+      background: linear-gradient(90deg, #f25e37, #ffcc70);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 2s infinite linear;
+      margin-bottom: 1rem;
+    }
+
+    .scroll-title.show {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .scroll-desc {
+      max-width: 600px;
+      font-size: 1rem;
+      color: #999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.5s ease-out;
+    }
+
+    .scroll-desc.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -100% 0; }
+      100% { background-position: 100% 0; }
+    }
+
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(242,94,55,0.7) 0%, rgba(242,94,55,0) 80%);
+      border-radius: 50%;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.1s ease-out;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
+  <div class="cursor" id="cursor"></div>
 
-<div class="toolbox">
-  <div class="toolbox-item" draggable="true">Text</div>
-  <div class="toolbox-item" draggable="true">Image</div>
-  <div class="toolbox-item" draggable="true">Button</div>
-</div>
+  <nav>
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-<div class="canvas" id="canvas">
-  <!-- Dropped elements will appear here -->
-</div>
+  <div class="section" id="hero" style="background:url('https://minhpham.design/assets/bg.jpg') center/cover no-repeat">
+    <div class="scroll-title">MAKING<br>GOOD<br>SH*T<br>SINCE<br>2009</div>
+    <div class="scroll-desc">Creative, bold, and passionate about impactful digital experiences.</div>
+  </div>
 
-<script>
-  const toolboxItems = document.querySelectorAll('.toolbox-item');
-  const canvas = document.getElementById('canvas');
+  <div class="section" id="about">
+    <div class="scroll-title">About Me</div>
+    <div class="scroll-desc">I blend design, code, and animation to build interactive experiences that inspire.</div>
+  </div>
 
-  toolboxItems.forEach(item => {
-    item.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', item.textContent);
-    });
-  });
+  <div class="section" id="work">
+    <div class="scroll-title">Work & Projects</div>
+    <div class="scroll-desc">Explore my latest case studies, design systems, and UI experiments.</div>
+  </div>
 
-  canvas.addEventListener('dragover', (e) => {
-    e.preventDefault();
-  });
+  <div class="section" id="contact">
+    <div class="scroll-title">Contact</div>
+    <div class="scroll-desc">Let's create something together. Get in touch with me via email or socials.</div>
+  </div>
 
-  canvas.addEventListener('drop', (e) => {
-    e.preventDefault();
-    const type = e.dataTransfer.getData('text/plain');
-
-    const element = document.createElement('div');
-    element.textContent = type;
-    element.className = 'draggable';
-    element.style.left = `${e.clientX - canvas.offsetLeft}px`;
-    element.style.top = `${e.clientY - canvas.offsetTop}px`;
-    element.draggable = true;
-
-    element.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', `${e.target.offsetLeft},${e.target.offsetTop}`);
-      e.target.classList.add('dragging');
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
     });
 
-    element.addEventListener('dragend', (e) => {
-      const coords = e.dataTransfer.getData('text/plain').split(',');
-      element.style.left = `${e.clientX - canvas.offsetLeft}px`;
-      element.style.top = `${e.clientY - canvas.offsetTop}px`;
-      e.target.classList.remove('dragging');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.scroll-title, .scroll-desc').forEach(el => {
+      observer.observe(el);
     });
-
-    canvas.appendChild(element);
-  });
-</script>
-
+  </script>
 </body>
 </html>
