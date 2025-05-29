@@ -13,7 +13,7 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <title>Thanh Diep</title>
+    <title>Personal Information</title>
     <link href="css/satoshi.css" rel="stylesheet" />
 
     <style type="text/css">
@@ -22,7 +22,7 @@
         scroll-behavior: 2000ms;
       }
       body {
-        background: #10100e;
+        background: white;
 
         margin: 0; /* Remove default margin */
         overflow-x: hidden; /* Prevent horizontal scroll */
@@ -304,14 +304,15 @@
       }
 
       .introduction-container {
-        height: 50vh; /* Adjust based on content size */
+        height: 100vh; /* Adjust based on content size */
         display: flex;
         position: relative;
-        top: 20vh;
+   
         flex-direction: column;
         justify-content: center; /* Centers vertically */
         align-items: center; /* Centers horizontally */
         text-align: center; /* Centers text inside */
+        background-color: black;
       }
 
       .typing-demo {
@@ -416,8 +417,9 @@
       h1 {
         /** set the color of the text **/
         color: #FFFFE3;
-        font-size: 10vw;
+        font-size: 6.5vw;
         letter-spacing: 4px;
+        font-family: "Satoshi-bold";
 
         font-weight: 600;
         text-transform: uppercase;
@@ -466,6 +468,45 @@
         transform: translateX(0%);
         transition: all 1s ease-in-out;
       }
+      
+
+      .curtain {
+        /*  2 Contrasting Colors  */
+        background-image: linear-gradient(to bottom, black 50%, white 50%);
+        position: relative;
+        top: -25vh;
+        width: 100vw;
+      }
+      /* To extend till the bottom of the screen */
+      .curtain::after {
+        content: "";
+        display: block;
+        height: 160vh;
+  
+      }
+
+      .invert {
+        /* Stick the div to the top */
+        position: sticky;
+        top: 0vw;
+
+        /* blend the differences */
+        mix-blend-mode: difference;
+
+        /* Center the content */
+        display: grid;
+        place-items: center;
+
+        /* Set the height of the child div */
+        height: 100vh;
+      }
+
+      .section-box {
+  background-color: #f1f1f1;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
     </style>
   </head>
 
@@ -549,300 +590,77 @@
       </p>
     </div>
 
-    <a data-scroll href="#grid"
-      ><div class="downArrow bounce hidden up">
-        <img
-          class="downArrowFilter"
-          width="50"
-          height="50"
-          alt=""
-          src="images/down-arrow.png"
-        />
+        <div class="curtain">
+      <div class="invert">
+        <h1>Personal Information</h1>
       </div>
-    </a>
-
-    <div class="grid-wrapper" id="grid">
-      <!-- SciTech Extracurriculars -->
-      <a
-        href="Scitech-Extracurriculars.html"
-        class="panel hidden right"
-        data-direction="right"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">
-                SciTech<br />
-                Extracurriculars
-              </div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/CarGame.mov" alt="" />
-        </div>
-      </a>
-
-      <a class="panel hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-           
-            </div>
-          </div>
-          <img class="panel-img" src="images/Kitchen.jpeg" alt="" />
-        </div>
-      </a>
-
-      <a class="panel hidden down" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-          </div>
-          <img class="panel-img" src="images/Umbrella.jpeg" alt="" />
-        </div>
-      </a>
-
-      <!-- About Me -->
-      <a href="About.html" class="panel tall hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">About Me</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/Church.jpeg" alt="" />
-        </div>
-      </a>
-
-      <!-- Careers -->
-      <a
-        href="Civics-Careers.html"
-        class="panel wide hidden left"
-        data-direction="left"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Careers</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/toa-heftiba-FV3GConVSss-unsplash.jpg"
-            alt=""
-          />
-        </div>
-      </a>
-
-      <!-- Technology -->
-      <a
-        href="Technology.html"
-        class="panel hidden right"
-        data-direction="right"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Technology</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/Water.jpeg" alt="" />
-        </div>
-      </a>
-
-      <!-- Contact -->
-      <a
-        href="Contact.html"
-        class="panel tall hidden down"
-        data-direction="down"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Contact</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/photo-1534703580202-6123d4189ef6.jpeg"
-            alt=""
-          />
-        </div>
-      </a>
-
-      <!-- Science -->
-      <a
-        href="Science.html"
-        class="panel big hidden left"
-        data-direction="left"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Science</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/IMG_2113.png" alt="" />
-        </div>
-      </a>
-
-      <a class="panel wide hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-          </div>
-          <img class="panel-img" src="images/CancunJetSki.JPG" alt="" />
-        </div>
-      </a>
-
-      <a
-        href="Extracurriculars.html"
-        class="panel hidden up"
-        data-direction="up"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-          </div>
-          <img class="panel-img" src="images/Mountain_1.mp4" alt="" />
-        </div>
-      </a>
-
-      <a
-        href="Project.html"
-        class="panel big hidden right"
-        data-direction="right"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Projects</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img class="panel-img" src="images/IMG_1659.jpeg" alt="" />
-        </div>
-      </a>
-
-      <a
-        href="Information.html"
-        class="panel tall hidden up"
-        data-direction="up"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Information</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/shunya-koide-1emWndlDHs0-unsplash.jpg"
-            alt=""
-          />
-        </div>
-      </a>
-
-      <a
-        href="reportCards.html"
-        class="panel hidden left"
-        data-direction="left"
-      >
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Report Cards</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/david-dvoracek-tQk3y00flv4-unsplash.jpg"
-            alt=""
-          />
-        </div>
-      </a>
-
-      <a class="panel hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-          </div>
-          <img class="panel-img" src="images/Chess.jpeg" alt="" />
-        </div>
-      </a>
-
-      <!-- Assessments -->
-      <a href="assessments.html" class="panel hidden up" data-direction="up">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title">Assessments</div>
-            </div>
-            <div class="panel-vingette" alt=""></div>
-          </div>
-          <img
-            class="panel-img"
-            src="images/joel-filipe-RFDP7_80v5A-unsplash.jpg"
-            alt=""
-          />
-        </div>
-      </a>
-
-      <a class="panel wide hidden right" data-direction="right">
-        <div class="panel-wrapper">
-          <div class="panel-overlay">
-            <div class="panel-text">
-              <div class="panel-title"></div>
-            </div>
-          </div>
-          <img class="panel-img" src="images/IMG_5687 2.MOV" alt="" />
-        </div>
-      </a>
-
-      <a
-      href="Extracurriculars.html"
-      class="panel hidden up"
-      data-direction="up"
-    >
-      <div class="panel-wrapper">
-        <div class="panel-overlay">
-          <div class="panel-text">
-            <div class="panel-title">Extracurriculars</div>
-          </div>
-          <div class="panel-vingette" alt=""></div>
-        </div>
-        <img class="panel-img" src="images/goalFast.mp4" alt="" />
-      </div>
-    </a>
-
-    <a
-  
-    class="panel hidden up"
-    data-direction="up"
-  >
-    <div class="panel-wrapper">
-      <div class="panel-overlay">
-        <div class="panel-text">
-         
-        </div>
-        <div class="panel-vingette" alt=""></div>
-      </div>
-      <img class="panel-img" src="images/shrimp.jpeg" alt="" />
     </div>
-  </a>
+
+    <section style="background: white; padding: 80px 20px; font-family: 'Satoshi', sans-serif;">
+  <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 80px;">
+
+    <!-- Grade 9 Section -->
+    <div class="hidden left section-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px;" data-direction="left">
+      <img src="images/IMG_1234.PNG" alt="Grade 9 Image" style="flex: 1 1 400px; border-radius: 16px; width: 100%; max-width: 500px;" />
+      <div style="flex: 1 1 400px; color: black;">
+        <h2>📘 Grade 9 — Why I Took SciTech</h2>
+        <p>I joined the SciTech program because I’ve always been fascinated by how things work—from the mechanics inside a car engine to the code that drives a robot. Even before high school, I knew I wanted to be in a learning environment that offered more than lectures and textbooks. I wanted to be challenged, and I wanted to build. SciTech stood out because it promised hands-on experiences with real tools, projects that mattered, and a community of like-minded peers equally passionate about science and technology.</p>
+        <p>In Grade 9, that promise came to life. I got to work on projects I never would’ve imagined doing in a regular tech class. The level of support, resources, and encouragement from my teachers pushed me to explore the boundaries of my creativity and logic. I didn’t just learn how to use tools—I learned how to problem-solve, how to iterate, and how to present my ideas confidently. These skills laid the groundwork for what I now know will be a lifelong journey in STEM.</p>
+        <h3>My Future Goals (Post-Secondary/Career)</h3>
+        <p>Right now, my dream is to become a mechanical engineer. I love building things, working with tools, and figuring out how machines work. My ideal future would be designing cars or helping to build big machines that do amazing things. I’ve been looking into programs like Mechanical Engineering at universities like Waterloo or University of Toronto because they seem to fit exactly what I enjoy doing—designing, testing, and solving problems using physical systems.</p>
+      </div>
     </div>
+
+    <!-- Grade 10 Section -->
+    <div class="hidden right section-box" style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 40px;" data-direction="right">
+      <div style="flex: 1 1 400px;color: black;">
+        <h2>📙 Grade 10 — Career Investigation Summary</h2>
+        <p>I was surprised by several of the results in my MyBlueprint career surveys. In the personality quiz, I was labeled as more extroverted, which surprised me because I usually prefer to work independently when trying to complete tasks efficiently. While I can be social, I value my focus and self-direction.</p>
+        <p>The knowledge quiz revealed that my top area was computers. Although I do enjoy working with computers, I consider myself more passionate about hands-on building and mechanical engineering. I like using tools, making designs, and building structures more than sitting behind a screen coding all day.</p>
+        <p>When exploring occupational matches, I noticed an unexpected number of careers in the business sector, such as insurance underwriter and business intelligence analyst. While my passion is engineering, I also have a growing interest in investing and finance, so seeing those matches reminded me that these fields can complement one another—especially if I want to launch a tech business one day.</p>
+        <p>For post-secondary options, the results were initially blank, but after selecting careers like electronics engineer and software developer, MyBlueprint provided a range of programs in engineering and technology that aligned with my goals. This was validating rather than surprising.</p>
+        <p>The course suggestions included phys-ed and business classes. Although I enjoy sports and staying active, I found it odd that phys-ed courses were prioritized since I likely wouldn’t take them unless mandatory. Overall, the surveys affirmed that engineering is still the best path for me. The results didn’t change my dream job—they simply helped me see how other careers and skills can be integrated into that journey.</p>
+        <h3>Updated Resume & Cover Letter</h3>
+        <p>My resume highlights my technical skills, leadership experience, and community involvement through a variety of extracurriculars, volunteer work, and school initiatives. It includes my roles as a Lifeguard-in-training at Huron Park Recreation Centre, Livestock Sales Associate at Big Al’s Aquarium, and coordinator of school-wide athletic events. It also showcases my involvement in clubs such as the Coding Club, STEM Club, and Athletic Council.</p>
+        <p>My cover letter, addressed to The Compass Food Bank, is tailored to emphasize my community-focused volunteering and my passion for supporting local families in need. It highlights specific experiences such as assisting at the Kenollie Fall Fair, helping my grandmother's temple, and supporting parent-teacher events. The tone is enthusiastic and sincere, and it reflects my commitment to making a tangible impact in the community through service.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+  <img src="images/careersprojectiongrade10.png" alt="Grade 10 Image" style="border-radius: 16px; width: 100%; max-width: 300px;" />
+  <img src="images/IMG_7285.jpeg" alt="Grade 10 Image" style="border-radius: 16px; width: 100%; max-width: 300px;" />
+  <img src="images/grade10resume.png" alt="Grade 10 Image" style="border-radius: 16px; width: 100%; max-width: 300px;" />
+
+</div>
+
+    </div>
+
+    <!-- Grade 11 Section -->
+    <div class="hidden up section-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px;" data-direction="up">
+      <img src="images/IMG_2792.jpg" alt="Grade 11 Image" style="flex: 1 1 400px; border-radius: 16px; width: 100%; max-width: 500px;" />
+      <div style="flex: 1 1 400px; color: black;">
+        <h2>📕 Grade 11 — Post-Secondary and Career Plans</h2>
+        <p>At this point in my high school journey, I’ve started to gain a much clearer understanding of what I want to pursue. After taking computer engineering and continuing with web development and hardware-based projects, I discovered that I want to study Mechatronics Engineering. It combines mechanical design, programming, and electronic systems—all areas I’m passionate about. My goal is to study at the University of Toronto or Waterloo, and eventually join a team like Waterloo's Formula Racing club to work on real-world automotive systems. I hope to work in automation, robotics, or even F1, and eventually launch my own tech startup.</p>
+        <h3>Academic Achievement Evidence</h3>
+        <p>Semester 1 midterm:</p>
+      </div>
+    </div>
+
+    <!-- Grade 12 Section -->
+    <div class="hidden right section-box" style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 40px;" data-direction="right">
+      <div style="flex: 1 1 400px; color: black;">
+        <h2>📗 Grade 12 — Updated Resume & Learning Skills</h2>
+        <p>My updated resume includes expanded technical skills, multiple leadership roles, and community involvement. It highlights my work as a Senior Aquatic Instructor, my contributions to school clubs like Athletic Council and participation in STEM competitions. My cover letter focuses on my desire to use engineering to solve problems, and my passion for helping others through technology, education, and mentorship.</p>
+        <h3>Academic Achievement Evidence</h3>
+        <p>Semester 1 midterm:</p>
+      </div>
+       <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+  <img src="images/finalcoverleter.png" alt="Grade 12 Image" style="border-radius: 16px; width: 100%; max-width: 500px;" />
+  <img src="images/grade12reportcard.png" alt="Grade 12 Report Card" style="border-radius: 16px; width: 100%; max-width: 500px;" />
+</div>
+
+    </div>
+
+  </div>
+</section>
 
     <script type="text/javascript">
       function onClickMenu() {

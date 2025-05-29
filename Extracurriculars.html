@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;700&display=swap" />
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Technology</title>
+    <link href="css/satoshi.css" rel="stylesheet" />
+
+    <style type="text/css">
+        html {
+            scroll-behavior: smooth;
+            scroll-behavior: 2000ms;
+        }
+
+        body {
+            background: white;
+
+            margin: 0;
+            /* Remove default margin */
+            overflow-x: hidden;
+            /* Prevent horizontal scroll */
+        }
+
+        .box {
+            background-color: #f7f7f7;
+            height: 1px;
+            opacity: 0%;
+            margin-right: 15px;
+            width: 0px;
+            transition: all 1s ease-in-out;
+        }
+
+        .transform {
+            transition: all 1s ease-in-out;
+        }
+
+        .transform-active {
+            background-color: #FFFFE3;
+            height: 1px;
+            float: right;
+            width: clamp(1em, 55vw, 34em);
+            opacity: 100%;
+            transition: width opacity 1s ease-in-out;
+        }
+
+        #menu {
+            cursor: pointer;
+            width: 35px;
+            height: 40px;
+            margin: 40px 0 10px 20px;
+            float: right;
+            position: fixed;
+            transition: 1s;
+            top: -10px;
+            right: 30px;
+            z-index: 5;
+            color: #FFFFE3;
+            mix-blend-mode: difference;
+        }
+
+        .bar {
+            height: 5px;
+            width: 100%;
+            background-color: #FFFFE3;
+            mix-blend-mode: difference;
+            display: block;
+            transition: 0.3s ease;
+        }
+
+        #bar1 {
+            transform: translateY(-4px);
+        }
+
+        #bar3 {
+            transform: translateY(4px);
+        }
+
+        .nav {
+            position: fixed;
+            transition: opacity 1s ease;
+            right: 0px;
+            top: 60px;
+            color: #FFFFE3;
+            text-align: right;
+            display: none;
+            margin: 0 20px;
+            transition: 0.3s ease;
+            z-index: 5;
+            opacity: 0%;
+            max-height: 90vh;
+            /* Set the maximum height for the navigation bar */
+            overflow-y: auto;
+            /* Enable vertical scrolling when it exceeds the maximum height */
+            width: auto;
+        }
+
+        .nav li {
+            list-style: none;
+            padding-top: 5px;
+            padding-right: 15px;
+            padding-bottom: 5px;
+            z-index: 5;
+        }
+
+        .nav-text {
+            text-decoration: none;
+            color: #FFFFE3;
+            letter-spacing: 3px;
+            font-family: "Satoshi-Bold";
+            text-transform: uppercase;
+            font-size: clamp(1em, 3vw, 2em);
+            z-index: 5;
+        }
+
+        .change .bar {
+            background-color: #FFFFE3;
+        }
+
+        .change #bar1 {
+            transform: translateY(10px) rotateZ(-45deg);
+        }
+
+        .change #bar3 {
+            transform: translateX(0px) rotate(45deg);
+        }
+
+        .change #bar2 {
+            opacity: 0;
+        }
+
+        .change {
+            opacity: 100%;
+            transition: opacity 1s;
+            display: block;
+        }
+
+        #menu-bar {
+            z-index: 2;
+            margin-right: 0px;
+        }
+
+        .menu-bg {
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            opacity: 0%;
+            position: fixed;
+            transition: opacity 0.5s ease-in-out;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .change-bg {
+            opacity: 90%;
+            transition: opacity 1s ease-in-out;
+            z-index: 4;
+        }
+
+        .nav:has(.fancy:hover) .word:not(.fancy:hover) {
+            opacity: 0.5;
+        }
+
+        .word {
+            color: #FFFFE3;
+            transition: opacity 0.7s ease;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: 600;
+            text-transform: uppercase;
+            mix-blend-mode: difference;
+            letter-spacing: 7px;
+            color: #FFFFE3;
+            font-family: "Satoshi-Black";
+            position: fixed;
+            top: -50px;
+            left: 0;
+            z-index: 3;
+            padding-top: 15px;
+            padding-left: 30px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .logo {
+                font-size: 1.5em;
+                padding-top: 35px;
+            }
+
+            #menu {
+                top: -22px;
+            }
+        }
+
+        .panel-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .panel-overlay {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+            transition: all 0.3s ease-out;
+
+            object-fit: cover;
+        }
+
+        .panel-overlay:hover {
+            opacity: 1;
+            transition: all 0.3s ease-out;
+        }
+
+        .panel-text {
+            position: absolute;
+            width: 100%;
+            top: 46%;
+            height: 60px;
+            margin: 0 auto;
+            text-align: center;
+            bottom: 0;
+            z-index: 3;
+        }
+
+        .panel-title {
+            font-size: clamp(15px, 2vw, 18px);
+            font-family: "Satoshi-Light";
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #FFFFE3;
+        }
+
+        .panel-vingette {
+            position: relative;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0.7;
+            background: black;
+        }
+
+        .panel-img {
+            position: absolute;
+            top: 0;
+            display: block;
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+        }
+
+        .grid-wrapper .wide {
+            grid-column: span 2;
+        }
+
+        .grid-wrapper .tall {
+            grid-row: span 2;
+        }
+
+        .grid-wrapper .big {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        /* Main CSS */
+        .grid-wrapper>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .grid-wrapper>div>img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            /* Add a border radius here, you can adjust the value (e.g., 10px) as needed */
+        }
+
+        .grid-wrapper {
+            display: grid;
+            z-index: 2;
+            position: relative;
+            top: 90vh;
+            grid-gap: 10px;
+            grid-template-columns: repeat(auto-fit,
+                    minmax(clamp(150px, 400px, 15vw), 1fr));
+            grid-auto-rows: clamp(200px, 400px, 10vw);
+            grid-auto-flow: dense;
+            max-width: 100vw;
+            /* Set the maximum width to 100vw */
+        }
+
+        .introduction-container {
+            height: 100vh;
+            /* Adjust based on content size */
+            display: flex;
+            position: relative;
+
+            flex-direction: column;
+            justify-content: center;
+            /* Centers vertically */
+            align-items: center;
+            /* Centers horizontally */
+            text-align: center;
+            /* Centers text inside */
+            background-color: black;
+        }
+
+        .typing-demo {
+            animation: typing 2.2s steps(30), blink 0.5s step-end infinite alternate;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #FFFFE3;
+            border-right: 3px solid;
+            font-family: "Satoshi-Medium";
+            font-size: clamp(20px, 5vw, 91px);
+            width: clamp(8em,
+                    51vw,
+                    40em);
+            /* Ensure consistent width with introduction-text */
+        }
+
+        .introduction-text {
+            color: #FFFFE3;
+            text-transform: uppercase;
+            text-align: left;
+            font-family: "Satoshi-Light";
+            font-size: clamp(1em, 2vw, 2em);
+            width: clamp(8em, 51vw, 40em);
+            /* Match the width of typing-demo */
+            margin-top: 1em;
+            /* Space between typing-demo and introduction-text */
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        .downArrowFilter {
+            filter: invert(100%) brightness(100%) contrast(100%);
+        }
+
+        .downArrow {
+            position: absolute;
+            align-items: center;
+            top: 85vh;
+            left: calc(50% - 25px);
+            /* Center the arrow based on its width */
+            z-index: 2;
+        }
+
+        .bounce {
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-30px);
+            }
+
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .curtain {
+            /*  2 Contrasting Colors  */
+            background-image: linear-gradient(to bottom, black 50%, white 50%);
+            position: relative;
+            top: 70vh;
+            width: 100vw;
+        }
+
+        /* To extend till the bottom of the screen */
+        .curtain::after {
+            content: "";
+            display: block;
+            height: 160vh;
+        }
+
+        .invert {
+            /* Stick the div to the top */
+            position: sticky;
+            top: 0vw;
+
+            /* blend the differences */
+            mix-blend-mode: difference;
+
+            /* Center the content */
+            display: grid;
+            place-items: center;
+
+            /* Set the height of the child div */
+            height: 100vh;
+        }
+
+        h1 {
+            /** set the color of the text **/
+            color: #FFFFE3;
+            font-size: 6.5vw;
+            letter-spacing: 4px;
+            font-family: "Satoshi-bold";
+
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .hidden {
+            opacity: 0;
+            filter: blur(2px);
+            filter: saturation(0);
+            transition: all 1s ease-in-out;
+        }
+
+        .up {
+            transform: translateY(40%);
+        }
+
+        .down {
+            transform: translateY(-40%);
+        }
+
+        .right {
+            transform: translateX(-40%);
+        }
+
+        .left {
+            transform: translateX(40%);
+        }
+
+        .panel-move-up {
+            filter: blur(0px);
+            filter: saturation(1);
+            transform: translateY(0%);
+            transition: all 1s ease-in-out;
+        }
+
+        .panel-move-down {
+            filter: blur(0px);
+            filter: saturation(1);
+            transform: translateY(0%);
+            transition: all 1s ease-in-out;
+        }
+
+        .panel-move-right {
+            filter: blur(0px);
+            filter: saturation(1);
+            transform: translateX(0%);
+            transition: all 1s ease-in-out;
+        }
+
+        .panel-move-left {
+            filter: blur(0px);
+            filter: saturation(1);
+            transform: translateX(0%);
+            transition: all 1s ease-in-out;
+        }
+
+
+        .curtain {
+            /*  2 Contrasting Colors  */
+            background-image: linear-gradient(to bottom, black 50%, white 50%);
+            position: relative;
+            top: -25vh;
+            width: 100vw;
+        }
+
+        /* To extend till the bottom of the screen */
+        .curtain::after {
+            content: "";
+            display: block;
+            height: 160vh;
+
+        }
+
+        .invert {
+            /* Stick the div to the top */
+            position: sticky;
+            top: 0vw;
+
+            /* blend the differences */
+            mix-blend-mode: difference;
+
+            /* Center the content */
+            display: grid;
+            place-items: center;
+
+            /* Set the height of the child div */
+            height: 100vh;
+        }
+
+        .section-box {
+            background-color: #f1f1f1;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="menu-bar">
+        <div id="menu" onclick="onClickMenu()">
+            <div class="bar" id="bar1" viewBox="0 0 100 5">
+                <rect x="0" y="0" width="100" height="5" fill="black" />
+            </div>
+            <div class="bar" id="bar2" viewBox="0 0 100 5">
+                <rect x="0" y="0" width="100" height="5" fill="black" />
+            </div>
+            <div class="bar" id="bar3" viewBox="0 0 100 5">
+                <rect x="0" y="0" width="100" height="5" fill="black" />
+            </div>
+        </div>
+
+        <ul class="nav" id="nav">
+            <div class="word fancy">
+                <li><a href="index.html" class="word fancy nav-text">Home</a></li>
+                <div class="box transform"></div>
+            </div>
+
+            <div class="word fancy">
+                <li><a href="About.html" class="word fancy nav-text">About</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="#" class="word fancy nav-text">Contact</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li>
+                    <a href="Project.html" class="word fancy nav-text">Projects</a>
+                </li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="Technology.html" class="word fancy nav-text">Technology</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="Science.html" class="word fancy nav-text">Science</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li>
+                    <a href="Scitech-Extracurriculars.html" class="word fancy nav-text">SciTech Extracurriculars</a>
+                </li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="Extracurriculars.html" class="word fancy nav-text">Extracurriculars</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="Civics-Careers.html" class="word fancy nav-text">Careers</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="#" class="word fancy nav-text">Report Cards</a></li>
+                <div class="box transform"></div>
+            </div>
+            <div class="word fancy">
+                <li><a href="Information.html" class="word fancy nav-text">Information</a></li>
+                <div class="box transform"></div>
+            </div>
+        </ul>
+    </div>
+
+    <div class="menu-bg" id="menu-bg"></div>
+
+    <a href="index.html">
+        <p class="logo">Thanh Diep</p>
+    </a>
+
+    <div class="introduction-container">
+        <div class="typing-demo">Hi, my name is Thanh.</div>
+        <p class="introduction-text hidden up" data-direction="up">
+            I believe taht technology projects turn abstract concepts into tangible experiences. Students don’t just read about
+            circuits or coding—they build, test, fail, and improve. This active learning deepens understanding far more
+            effectively than passive study.
+        </p>
+    </div>
+
+    <div class="curtain">
+        <div class="invert">
+            <h1>Technology</h1>
+        </div>
+    </div>
+
+    <section style="background: white; padding: 80px 20px; font-family: 'Satoshi', sans-serif;">
+        <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 80px;">
+
+            <!-- Grade 9 Section -->
+            <div class="hidden left section-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px;"
+                data-direction="left">
+
+                <div style="flex: 1 1 400px; color: black;">
+                    <h2>📘 Grade 9 — Sustainable Water Wheel Energy Project</h2>
+                    <p>Our challenge was to build a sustainable energy power generation plant and deliver the produced
+                        electricity to a consumer. I used wood, plastic, gears, and a motor generator to construct a
+                        water wheel system that successfully converted water flow into electricity.
+                        I faced several challenges: when the wood got wet, it warped, changing the precision of my
+                        build. To fix this, I covered the wood in plastic tape to make it waterproof. I also mistakenly
+                        nailed pieces in the wrong orientation, which misaligned the axle hole. I drilled new holes to
+                        adapt. The water pressure from the faucet kept popping off my homemade nozzle, so I upgraded to
+                        a hose adapter, which solved the issue.
+                        My design had many strengths. The gear system allowed the water wheel to spin the generator at a
+                        16:1 ratio. The entire setup was light and waterproof, generating over 35 volts—enough to power
+                        eight LED lights and a motor-driven windmill. My DIY nozzle design with a 0.75 cm output
+                        dramatically increased water pressure and performance.
+                        There were weaknesses too: the wheel wobbled due to misaligned assembly, and the caps couldn't
+                        capture all the water effectively. High pressure also caused some leaking and the axle to
+                        occasionally disconnect.
+                        If I could redo it, I'd drill the axle holes more precisely, laminate the wood, use a breadboard
+                        for a cleaner circuit, and install a brighter white LED. On test day, my power plant
+                        outperformed all others—only my system could power both the lights and the windmill. This
+                        project taught me how critical design, problem-solving, and iteration are to engineering
+                        success.
+                    </p>
+
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <img src="images/Water.jpeg" alt="Grade 12 Image"
+                        style="border-radius: 16px; width: 80%; max-width: 500px; transform: rotate(0);" />
+
+                </div>
+            </div>
+
+            <!-- Grade 10 Section -->
+            <div class="hidden right section-box"
+                style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 40px;" data-direction="right">
+                <div style="flex: 1 1 400px;color: black;">
+                    <h2>📙 Grade 10 — Wooden Bridge Engineering Challenge (Under-Arch Bridge with Steam-Bent Wood)
+                    </h2>
+                    <p>For this project, I was tasked with designing and building a model wooden bridge that could span
+                        one metre and hold as much weight as possible. This challenge required me to apply everything I
+                        had learned about forces, geometry, and materials throughout the semester. After researching
+                        different bridge types—including arch, suspension, beam, and truss designs—I chose to construct
+                        a Pratt truss bridge because of its strong load distribution and minimal deflection under
+                        stress.
+                        I planned my design to scale, imagining the model as if it were to span a 100-metre gorge. I
+                        considered key engineering concepts like tension, compression, shear, and torsion, and how they
+                        act on bridge structures. I also learned about how materials like wood respond to these forces
+                        and how joints and glue placement affect performance.
+                        One of the most difficult parts of the project was achieving symmetrical trusses on both sides
+                        and aligning the joints cleanly so the bridge wouldn’t twist or sag. I used diagonal bracing and
+                        reinforced the base to improve torsional resistance. The finished product held a respectable
+                        amount of weight, though I knew that with tighter construction and improved truss intersections,
+                        it could have been even stronger.
+                        Graham Monks and I wanted to push the limits of what we could do with our bridge design, so
+                        instead of sticking with traditional truss geometry, we tried to think outside the box and build
+                        a curved under-arch bridge. We engineered and built a wood steamer to bend wooden components,
+                        allowing us to form gentle arches that would help distribute loads in a more fluid and natural
+                        way.
+                        Bending the wood was one of the most exciting parts of the project. It took a lot of trial and
+                        error—figuring out how much steam was enough, how long to treat the wood, and how to clamp it
+                        into the right shape without breaking it. The curved under-arch looked amazing and actually
+                        supported a decent amount of weight, even though we didn’t follow the same straight truss
+                        patterns as most groups.
+                        This project deepened my understanding of structural engineering and made me more aware of the
+                        balance between efficiency, strength, and design in real-world construction. I also gained
+                        confidence in woodworking, planning, and applying science to practical builds.
+                        Our task was to build a wooden bridge capable of holding the most weight. I learned about
+                        tension, compression, and truss design. My bridge wasn’t the strongest, but the process taught
+                        me how small design changes drastically affect structural performance. I also learned to use
+                        basic wood tools and plan a build from sketch to execution.</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <img src="images/IMG_7312.jpeg" alt="Grade 10 Image"
+                        style="border-radius: 16px; width: 100%; max-width: 300px;" />
+
+
+                </div>
+
+            </div>
+
+            <!-- Grade 11 Section -->
+            <div class="hidden up section-box" style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px;"
+                data-direction="up">
+
+                <div style="flex: 1 1 300px; color: black;">
+                    <h2>📕 Grade 11 — 3x3x3 LED Cube</h2>
+                    <p>What I loved most was seeing the LED cube light up with patterns I had coded—it felt like I had
+                        brought something to life. The toughest part was the soldering and debugging process, which
+                        required extreme care and problem-solving. I chose these projects to combine creativity with
+                        engineering. I realized how powerful it is to build tangible things from scratch and how coding,
+                        electronics, and design can all intersect in meaningful ways. These projects helped me
+                        understand the importance of iteration and user-friendly design. I thought outside the box and
+                        used copper rods as the structure of the cube instead of using the diodes of the led.
+                    </p>
+                    <h2>📕 Grade 11 — Chess Board</h2>
+                    <p>
+                        What I enjoyed most was bringing something I’m passionate about—chess—to life with my own hands.
+                        I’ve always liked the game, but never owned a real set. So making one from scratch, especially
+                        using rich woods like mahogany and pine, made the experience personal and satisfying. Seeing the
+                        final 8x8 board with each handcrafted 2x2 inch square gave me a sense of pride I don’t usually
+                        get from store-bought items.
+
+
+                        The hardest part by far was building the base of the board. I wanted it to not just look clean
+                        and professional, but also function as storage for all 34 pieces (32 standard + 2 extra queens).
+                        Designing a base that could house the pieces neatly and securely took precision, patience, and a
+                        few adjustments. Getting the alignment just right—especially when working with multiple
+                        compartments—pushed my problem-solving skills.
+
+
+                        I chose this project because it reflects who I am. I love chess, and this was a way to merge my
+                        interest in design, engineering, and strategy. I didn’t want to just make something for the sake
+                        of it—I wanted it to mean something. I also didn’t have my own chess set at home, so this was a
+                        chance to fill that gap in a meaningful, creative way.
+
+
+                        I learned how important planning and time management are for a successful project. Allocating
+                        days for each part—designing, cutting, sanding, and assembling—helped keep me on track, even
+                        with things like lacrosse games cutting into my time. I also gained a better understanding of
+                        woodworking tools like the table saw, band saw, and planer, and how to use them safely and
+                        effectively. Beyond the technical side, the project reminded me that precision, patience, and
+                        passion are at the core of any great creation.
+
+                        Most importantly, it showed me that hands-on craftsmanship can be just as rewarding as
+                        intellectual work, especially when you’re building something that combines both.</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 100px;">
+                    <img src="images/IMG_5CC074D85614-1.jpeg" alt="Grade 10 Image"
+                        style="border-radius: 16px; width: 100%; max-width: 300px;" />
+                    <img src="images/IMG_3993.jpeg" alt="Grade 10 Image"
+                        style="border-radius: 16px; width: 100%; max-width: 300px;" />
+
+
+                </div>
+            </div>
+
+            <!-- Grade 12 Section -->
+            <div class="hidden right section-box"
+                style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 40px;" data-direction="right">
+                <div style="flex: 1 1 400px; color: black;">
+                    <h2>📗 Grade 12 — BB8 DROID</h2>
+                    <p>What I enjoyed most was watching our BB8 droid come to life—that unforgettable moment when the
+                        head bobbed in sync and the body rolled just like in the movies. It felt like engineering magic.
+                        I especially loved the problem-solving journey: transforming a cardboard prototype into a
+                        3D-printed, omnidirectional robot with LED lights, sound effects, and magnetic coupling. It
+                        wasn’t just a build—it was an invention. Each challenge made success even more rewarding.
+
+
+                        The biggest challenge was perfecting the mechanics inside a sphere. Unlike typical robots on
+                        flat platforms, BB8 required maintaining balance and smooth movement within a hollow ornament
+                        ball while supporting a separate magnetically-attached head. Controlling weight distribution,
+                        traction, and motor alignment in a limited space pushed my design and mechanical skills to their
+                        limits. Another major hurdle was dealing with judgment and criticism from others who
+                        underestimated the difficulty of using tools like 3D printing—despite the effort behind it.
+
+
+                        I chose BB8 because it combined engineering, creativity, and personal interest in robotics and
+                        Star Wars. I didn’t want to make a basic robot—I wanted to challenge myself with something
+                        ambitious, with moving parts, personality, and innovation. I also wanted to break the mold of
+                        what a typical school project looks like and show that engineering can be fun, artistic, and
+                        technically advanced.
+
+
+                        This project taught me that true engineering is about iteration, patience, and resourcefulness.
+                        I built and tested multiple prototypes using cardboard before committing to a 3D-printed
+                        chassis. I learned how to balance mechanical components, route wiring efficiently, and create a
+                        functional device within complex limitations. I also realized that tools don’t define the value
+                        of a project—the thought process, problem-solving, and effort do. It’s not about making
+                        everything from scratch, but making smart choices to solve hard problems.</p>
+
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                    <img src="images/IMG_6273 7.mp4" alt="Grade 12 Image"
+                        style="border-radius: 16px; width: 100%; max-width: 500px;" />
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <script type="text/javascript">
+        function onClickMenu() {
+            document.getElementById("menu").classList.toggle("change");
+            document.getElementById("nav").classList.toggle("change");
+            document.getElementById("menu-bg").classList.toggle("change-bg");
+        }
+
+        $("#menu").click(function () {
+            $(".transform").toggleClass("transform-active");
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const panel = entry.target;
+                    const direction = panel.getAttribute("data-direction");
+                    panel.classList.remove("hidden"); // Remove the hidden class
+                    panel.classList.add(`panel-move-${direction}`); // Add the animation class
+                    observer.unobserve(panel); // Remove observer for this panel
+                }
+            });
+        });
+
+        const hiddenElements = document.querySelectorAll(".hidden");
+        hiddenElements.forEach((el) => {
+            observer.observe(el); // Start observing hidden panels
+        });
+
+        smoothScroll.init();
+    </script>
+</body>
+
+</html>
