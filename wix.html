@@ -1,160 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animated Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlyHyer Inspired Homepage</title>
   <style>
-    html, body {
+    * {
       margin: 0;
       padding: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #0f0f0f;
-      color: #d6cbb9;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .scroll-container {
+      display: flex;
+      flex-direction: row;
+      width: 300vw;
+      height: 100vh;
+      scroll-snap-type: x mandatory;
+      overflow-x: scroll;
       scroll-behavior: smooth;
     }
 
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(15, 15, 15, 0.95);
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      padding: 1rem 0;
-      z-index: 1000;
-    }
-
-    nav a {
-      color: #f25e37;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: #ffcc70;
-    }
-
-    .section {
+    .panel {
+      flex: 0 0 100vw;
       height: 100vh;
+      scroll-snap-align: start;
+      position: relative;
+      padding: 3rem;
+    }
+
+    .hero {
+      background: #0c0c18;
+      color: white;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      font-size: 4vw;
-      font-weight: bold;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.5s ease;
-      padding-top: 4rem;
+      align-items: flex-start;
     }
 
-    .section:nth-child(even) {
-      background: radial-gradient(circle at center, #1a1a1a 0%, #0f0f0f 100%);
-    }
-
-    .scroll-title {
-      transform: translateY(100px) scale(0.9);
-      opacity: 0;
-      transition: all 1s ease-out;
-      background: linear-gradient(90deg, #f25e37, #ffcc70);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 2s infinite linear;
+    .hero h1 {
+      font-size: 3rem;
       margin-bottom: 1rem;
     }
 
-    .scroll-title.show {
-      transform: translateY(0) scale(1);
-      opacity: 1;
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
     }
 
-    .scroll-desc {
-      max-width: 600px;
+    .hero button {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 0.7rem 1.5rem;
       font-size: 1rem;
-      color: #999;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 1.5s ease-out;
+      cursor: pointer;
+      border-radius: 25px;
     }
 
-    .scroll-desc.show {
-      opacity: 1;
-      transform: translateY(0);
+    .on-demand {
+      position: relative;
+      overflow: hidden;
+      color: white;
     }
 
-    @keyframes shimmer {
-      0% { background-position: -100% 0; }
-      100% { background-position: 100% 0; }
-    }
-
-    .cursor {
-      position: fixed;
+    .on-demand .bg-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       top: 0;
       left: 0;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, rgba(242,94,55,0.7) 0%, rgba(242,94,55,0) 80%);
+      z-index: -1;
+    }
+
+    .info {
+      position: absolute;
+      bottom: 3rem;
+      left: 3rem;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 1.5rem;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+
+    .hover-title {
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .arrow {
+      opacity: 0;
+      margin-left: 0.5rem;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateX(-10px);
+    }
+
+    .hover-description {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.4s ease, max-height 0.4s ease;
+      font-size: 1rem;
+      margin-top: 0.8rem;
+    }
+
+    .info:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .info:hover .hover-description {
+      opacity: 1;
+      max-height: 100px;
+    }
+
+    .shared {
+      background: #b4684a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .shared h2 {
+      position: absolute;
+      bottom: 3rem;
+      left: 3rem;
+      font-size: 2rem;
+    }
+
+    .flight-path {
+      position: absolute;
+      top: 20%;
+      right: 10%;
+      width: 200px;
+      height: 300px;
+    }
+
+    .plane {
+      font-size: 2rem;
+      position: absolute;
+      animation: fly 4s infinite ease-in-out;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: black;
       border-radius: 50%;
-      pointer-events: none;
-      mix-blend-mode: overlay;
-      transform: translate(-50%, -50%) scale(1);
-      transition: transform 0.1s ease-out;
-      z-index: 999;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    @keyframes fly {
+      0% { transform: translate(0, 250px) rotate(0deg); }
+      50% { transform: translate(100px, 150px) rotate(45deg); }
+      100% { transform: translate(200px, 0) rotate(90deg); }
     }
   </style>
 </head>
 <body>
-  <div class="cursor" id="cursor"></div>
+  <main class="scroll-container">
+    <!-- Section 1: Hero -->
+    <section class="panel hero">
+      <div class="hero-content">
+        <h1>Flexible Services</h1>
+        <p>Smart solutions for all your charter requirements</p>
+        <button>All Solutions</button>
+      </div>
+    </section>
 
-  <nav>
-    <a href="#hero">Home</a>
-    <a href="#about">About</a>
-    <a href="#work">Work</a>
-    <a href="#contact">Contact</a>
-  </nav>
+    <!-- Section 2: On-Demand -->
+    <section class="panel on-demand">
+      <img src="https://i.imgur.com/ENjyzdJ.jpg" alt="Jet" class="bg-image">
+      <div class="info">
+        <h2 class="hover-title">On-Demand <span class="arrow">&rarr;</span></h2>
+        <p class="hover-description">Book your aircraft. Customize all aspects of your journey.</p>
+      </div>
+    </section>
 
-  <div class="section" id="hero" style="background:url('https://minhpham.design/assets/bg.jpg') center/cover no-repeat">
-    <div class="scroll-title">MAKING<br>GOOD<br>SH*T<br>SINCE<br>2009</div>
-    <div class="scroll-desc">Creative, bold, and passionate about impactful digital experiences.</div>
-  </div>
-
-  <div class="section" id="about">
-    <div class="scroll-title">About Me</div>
-    <div class="scroll-desc">I blend design, code, and animation to build interactive experiences that inspire.</div>
-  </div>
-
-  <div class="section" id="work">
-    <div class="scroll-title">Work & Projects</div>
-    <div class="scroll-desc">Explore my latest case studies, design systems, and UI experiments.</div>
-  </div>
-
-  <div class="section" id="contact">
-    <div class="scroll-title">Contact</div>
-    <div class="scroll-desc">Let's create something together. Get in touch with me via email or socials.</div>
-  </div>
+    <!-- Section 3: Shared Flights -->
+    <section class="panel shared">
+      <div class="flight-path">
+        <div class="plane">&#9992;</div>
+        <div class="dot"></div>
+      </div>
+      <h2>Shared Flights</h2>
+    </section>
+  </main>
 
   <script>
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    });
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-        }
-      });
-    }, { threshold: 0.3 });
-
-    document.querySelectorAll('.scroll-title, .scroll-desc').forEach(el => {
-      observer.observe(el);
-    });
+    // Optional smooth scroll on vertical wheel input
+    const scrollContainer = document.querySelector('.scroll-container');
+    scrollContainer.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      scrollContainer.scrollLeft += e.deltaY;
+    }, { passive: false });
   </script>
 </body>
 </html>
