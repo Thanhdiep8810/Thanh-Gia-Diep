@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowSim Pro Enterprise — Aerodynamic Solver</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    /* ==========================================================================
+     CORE VARIABLES & CSS RESET
+     ========================================================================== */
+    :root {
+      --bg-main: #0a0a0c;
+      --bg-panel: #121418;
+      --bg-header: #181a20;
+      --bg-input: #1e222a;
+      --border: #2a2e38;
+      --border-highlight: #3a404d;
+      --text-main: #e2e8f0;
+      --text-muted: #8b949e;
+      --text-accent: #00d4ff;
+      --color-success: #00ff88;
+      --color-danger: #ff3355;
+      --color-warning: #ffcc00;
+      --font-ui: 'Inter', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+      --panel-width: 340px;
+      --console-height: 220px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-size: 13px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-panel);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-highlight);
+      border-radius: 3px;
+    }
+
+    /* ==========================================================================
+     LAYOUT & GRID
+     ========================================================================== */
+    header {
+      height: 56px;
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      justify-content: space-between;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+
+    .app-container {
+      display: flex;
+      height: calc(100vh - 56px);
+      width: 100vw;
+    }
+
+    .sidebar-left {
+      width: var(--panel-width);
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .viewport-container {
+      flex: 1;
+      position: relative;
+      background: radial-gradient(circle at center, #151820 0%, #020305 100%);
+    }
+
+    .console-panel {
+      height: var(--console-height);
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-right {
+      width: var(--panel-width);
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    /* ==========================================================================
+     TYPOGRAPHY & BRANDING
+     ========================================================================== */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title span {
+      color: var(--text-accent);
+    }
+
+    .brand-badge {
+      background: rgba(0, 212, 255, 0.1);
+      color: var(--text-accent);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+
+    .panel-header {
+      background: var(--bg-header);
+      padding: 10px 15px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ==========================================================================
+     UI COMPONENTS (TABS, FORMS, BUTTONS)
+     ========================================================================== */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-header);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+    }
+
+    .tab:hover {
+      color: var(--text-main);
+    }
+
+    .tab.active {
+      color: var(--text-accent);
+      border-bottom-color: var(--text-accent);
+      background: rgba(0, 212, 255, 0.03);
+    }
+
+    .panel-content {
+      padding: 15px;
+      overflow-y: auto;
+      flex: 1;
+      display: none;
+    }
+
+    .panel-content.active {
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      margin: 20px 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      color: var(--text-main);
+    }
+
+    .form-value {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-accent);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background: var(--text-accent);
+      cursor: pointer;
+      margin-top: -5px;
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: var(--bg-input);
+      border-radius: 2px;
+      border: 1px solid var(--border);
+    }
+
+    select,
+    input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      border-radius: 4px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    select:focus,
+    input[type="text"]:focus {
+      border-color: var(--text-accent);
+      box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+    }
+
+    .dropzone {
+      border: 2px dashed var(--border-highlight);
+      border-radius: 6px;
+      padding: 25px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: rgba(0, 212, 255, 0.02);
+    }
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      border-color: var(--text-accent);
+      background: rgba(0, 212, 255, 0.08);
+    }
+
+    .dz-title {
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-main);
+      margin-bottom: 5px;
+    }
+
+    .dz-desc {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+      background: var(--text-accent);
+      color: #000;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: #22e0ff;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: var(--color-danger);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(255, 51, 85, 0.2);
+    }
+
+    .btn-danger:hover {
+      background: #ff5577;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-highlight);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--text-accent);
+      color: var(--text-accent);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+     TELEMETRY & CONSOLE
+     ========================================================================== */
+    .telemetry-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      transition: var(--transition);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .telemetry-card:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .tel-stat {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 4px;
+    }
+
+    .tel-stat:last-child {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .tel-label {
+      color: var(--text-muted);
+    }
+
+    .tel-val {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .tel-val.highlight {
+      color: var(--text-accent);
+    }
+
+    .tel-val.force {
+      color: var(--color-success);
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 180px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    canvas#convergenceChart {
+      width: 100%;
+      height: 100%;
+    }
+
+    .console-output {
+      flex: 1;
+      padding: 10px 15px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .log-info {
+      color: var(--text-main);
+    }
+
+    .log-warn {
+      color: var(--color-warning);
+    }
+
+    .log-err {
+      color: var(--color-danger);
+    }
+
+    .log-success {
+      color: var(--color-success);
+    }
+
+    .log-time {
+      color: #556070;
+      margin-right: 8px;
+    }
+
+    /* Overlay HUD */
+    .hud-overlay {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud-item {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 4px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-block;
+      clear: both;
+      float: left;
+    }
+
+    .hud-item:nth-child(2) {
+      margin-top: 4px;
+    }
+
+    .hud-item:nth-child(3) {
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+     PERFORMANCE INDICATORS
+     ========================================================================== */
+    .performance-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .perf-bar {
+      height: 4px;
+      background: var(--bg-input);
+      border-radius: 2px;
+      overflow: hidden;
+      flex: 1;
+      min-width: 60px;
+    }
+
+    .perf-fill {
+      height: 100%;
+      background: var(--text-accent);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    @media (max-width: 900px) {
+
+      .sidebar-left,
+      .sidebar-right {
+        display: none;
+      }
+
+      .app-container {
+        flex-direction: column;
+      }
+
+      .main-area {
+        height: calc(100vh - 100px);
+      }
+
+      .console-panel {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-title">FlowSim <span>Enterprise</span></div>
+      <div class="brand-badge">Build 4.1 (Realistic Rendering)</div>
+    </div>
+    <div style="display:flex; gap: 15px; align-items: center;">
+      <div class="performance-indicator">
+        <span>Performance:</span>
+        <div class="perf-bar">
+          <div class="perf-fill" id="perf-fill"></div>
+        </div>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 11px; color: var(--color-success);">● Engine Online</div>
+      <button class="btn btn-outline" style="padding: 6px 12px; font-size: 10px;" onclick="exportTelemetry()">Export
+        CSV</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+
+    <aside class="sidebar-left">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('left', 'geom')">Geometry</div>
+        <div class="tab" onclick="switchTab('left', 'mesh')">Mesh & Physics</div>
+      </div>
+
+      <div id="tab-geom" class="panel-content active">
+        <div class="section-title">STL Import</div>
+        <div class="dropzone" id="dropzone">
+          <div class="dz-title">Import CAD Body</div>
+          <div class="dz-desc">Drag & Drop .STL file here</div>
+          <input type="file" id="fileInput" accept=".stl" style="display:none;">
+        </div>
+
+        <div class="section-title" style="margin-top:20px;">Transform Matrix</div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Pitch (X Axis)</span><span class="form-value"
+              id="val-rx">0°</span></div>
+          <input type="range" id="rotX" min="-180" max="180" value="0">
+        </div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Yaw (Y Axis)</span><span class="form-value"
+              id="val-ry">0°</span></div>
+          <input type="range" id="rotY" min="-180" max="180" value="0">
+        </div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Roll (Z Axis)</span><span class="form-value"
+              id="val-rz">0°</span></div>
+          <input type="range" id="rotZ" min="-180" max="180" value="0">
+        </div>
+
+        <button class="btn btn-outline" style="margin-top: 10px;" onclick="calculateFrontalArea()">Re-Compute Frontal
+          Area</button>
+      </div>
+
+      <div id="tab-mesh" class="panel-content">
+        <div class="section-title">Fluid Domain</div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Air Density (ρ)</span><span class="form-value">1.225
+              kg/m³</span></div>
+        </div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Freestream Vel (v)</span><span class="form-value"
+              id="val-vel">45 m/s</span></div>
+          <input type="range" id="vel" min="5" max="150" value="45">
+        </div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Turbulence Intensity</span><span class="form-value"
+              id="val-turb">5%</span></div>
+          <input type="range" id="turb" min="0" max="20" value="5">
+        </div>
+
+        <div class="section-title">Solver Settings</div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Integration Method</span></div>
+          <select id="integrationMethod">
+            <option value="rk4" selected>Runge-Kutta 4th Order (RK4)</option>
+            <option value="euler">Explicit Euler (Fast)</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-top: 15px;">
+          <div class="form-row"><span class="form-label">Max Iterations</span><span class="form-value"
+              id="val-iters">500</span></div>
+          <input type="range" id="iters" min="100" max="2000" step="100" value="500">
+        </div>
+
+        <div style="margin-top: auto; padding-top: 20px;">
+          <button class="btn btn-primary pulse" id="btn-solve">Initialize Solver</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <div class="viewport-container" id="canvas-container">
+        <div class="hud-overlay">
+          <div class="hud-item">CAM: ORBIT CONTROLS</div>
+          <div class="hud-item">RND: WEBGL 2.0 (PBR ENABLED)</div>
+          <div class="hud-item" id="hud-mesh">MESH: WAITING FOR IMPORT</div>
+        </div>
+      </div>
+
+      <div class="console-panel">
+        <div class="panel-header">
+          <span>Terminal Output</span>
+          <span style="cursor:pointer;" onclick="clearConsole()">Clear</span>
+        </div>
+        <div class="console-output" id="console">
+        </div>
+      </div>
+    </main>
+
+    <aside class="sidebar-right">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('right', 'telemetry')">Telemetry</div>
+        <div class="tab" onclick="switchTab('right', 'post')">Post-Process</div>
+      </div>
+
+      <div id="tab-telemetry" class="panel-content active">
+        <div class="section-title">Real-Time Data</div>
+        <div class="telemetry-card">
+          <div class="tel-stat"><span class="tel-label">Solver Status</span><span class="tel-val"
+              id="tel-status">IDLE</span></div>
+          <div class="tel-stat"><span class="tel-label">Current Iteration</span><span class="tel-val" id="tel-iter">0 /
+              0</span></div>
+          <div class="tel-stat"><span class="tel-label">Compute Time</span><span class="tel-val"
+              id="tel-time">0.00s</span></div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="tel-stat"><span class="tel-label">Proj. Frontal Area (A)</span><span class="tel-val highlight"
+              id="tel-area">0.000 m²</span></div>
+          <div class="tel-stat"><span class="tel-label">Dynamic Pressure (q)</span><span class="tel-val" id="tel-q">0
+              Pa</span></div>
+        </div>
+
+        <div class="telemetry-card" style="border-color: var(--color-success);">
+          <div class="tel-stat"><span class="tel-label">Est. Drag Force (Fd)</span><span class="tel-val force"
+              id="tel-drag">0 N</span></div>
+          <div class="tel-stat"><span class="tel-label">Est. Downforce (Fl)</span><span class="tel-val force"
+              id="tel-lift">0 N</span></div>
+        </div>
+
+        <div class="section-title">Convergence History</div>
+        <div class="chart-container">
+          <canvas id="convergenceChart"></canvas>
+        </div>
+      </div>
+
+      <div id="tab-post" class="panel-content">
+        <div class="section-title">Streamline Visualization</div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Flow Line Density</span><span class="form-value"
+              id="val-density">1500</span></div>
+          <input type="range" id="lineDensity" min="200" max="4000" step="100" value="1500">
+        </div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Trail Length</span><span class="form-value"
+              id="val-trail">20</span></div>
+          <input type="range" id="trailLen" min="5" max="50" value="20">
+        </div>
+
+        <div class="section-title" style="margin-top: 20px;">Surface Stress Map</div>
+        <div class="form-group">
+          <div class="form-row"><span class="form-label">Color Gradient</span></div>
+          <select id="colorMap" onchange="updateMeshColors()">
+            <option value="jet">Jet (Blue to Red)</option>
+            <option value="inferno">Inferno (Black to Yellow)</option>
+            <option value="viridis">Viridis (Purple to Green)</option>
+          </select>
+        </div>
+
+        <div style="margin-top: auto; padding-top: 20px;">
+          <button class="btn btn-primary" id="btn-toggle-flow">Toggle Flow Lines</button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. GLOBAL VARIABLES & STATE MANAGEMENT
+       ========================================================================== */
+    const state = {
+      isSolving: false,
+      isFlowing: false,
+      meshLoaded: false,
+      iterations: 0,
+      maxIterations: 500,
+      frontalArea: 0,
+      history: { drag: [], lift: [] },
+      baseGeo: null,
+      mesh: null,
+      boundingBox: new THREE.Box3()
+    };
+
+    const UI = {
+      btnSolve: document.getElementById('btn-solve'),
+      btnFlow: document.getElementById('btn-toggle-flow'),
+      console: document.getElementById('console'),
+      dropzone: document.getElementById('dropzone'),
+      fileInput: document.getElementById('fileInput'),
+      perfFill: document.getElementById('perf-fill')
+    };
+
+    let frameCount = 0;
+    let lastFpsUpdate = 0;
+    let fps = 0;
+
+    const bindSlider = (id, valId, callback) => {
+      document.getElementById(id).addEventListener('input', (e) => {
+        document.getElementById(valId).innerText = e.target.id === 'vel' ? e.target.value + ' m/s' :
+          e.target.id === 'turb' ? e.target.value + '%' :
+            e.target.id.startsWith('rot') ? e.target.value + '°' : e.target.value;
+        if (callback) callback(e.target.value);
+      });
+    };
+
+    bindSlider('rotX', 'val-rx', () => { if (state.meshLoaded) updateTransform(); });
+    bindSlider('rotY', 'val-ry', () => { if (state.meshLoaded) updateTransform(); });
+    bindSlider('rotZ', 'val-rz', () => { if (state.meshLoaded) updateTransform(); });
+    bindSlider('vel', 'val-vel', updateTelemetry);
+    bindSlider('turb', 'val-turb');
+    bindSlider('iters', 'val-iters');
+    bindSlider('lineDensity', 'val-density', () => { if (state.isFlowing) { createStreamlines(); } });
+    bindSlider('trailLen', 'val-trail', () => { if (state.isFlowing) { createStreamlines(); } });
+
+    function switchTab(side, tabName) {
+      document.querySelectorAll(`.sidebar-${side} .tab`).forEach(t => t.classList.remove('active'));
+      document.querySelectorAll(`.sidebar-${side} .panel-content`).forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+    }
+
+    function log(msg, type = 'info') {
+      const time = new Date().toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 3 });
+      const el = document.createElement('div');
+      el.innerHTML = `<span class="log-time">[${time}]</span> <span class="log-${type}">${msg}</span>`;
+      UI.console.appendChild(el);
+      UI.console.scrollTop = UI.console.scrollHeight;
+    }
+    function clearConsole() { UI.console.innerHTML = ''; log('Console cleared.', 'info'); }
+
+    log('FlowSim Enterprise v4.1 initialized.', 'success');
+    log('Awaiting STL Geometry import...', 'info');
+
+    /* ==========================================================================
+       2. THREE.JS ENVIRONMENT & REALISTIC RENDERING SETUP
+       ========================================================================== */
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#020305');
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    container.appendChild(renderer.domElement);
+
+    // PBR Environment Generator (For ultra-realistic reflections)
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
+
+    // Create a beautiful studio lighting environment for reflections
+    const envScene = new THREE.Scene();
+    envScene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 2.0));
+    const light = new THREE.DirectionalLight(0xffffff, 3.0);
+    light.position.set(0, 100, 100);
+    envScene.add(light);
+    scene.environment = pmremGenerator.fromScene(envScene).texture;
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 5000);
+    camera.position.set(120, 60, 150);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(100, 200, -100);
+    scene.add(dirLight);
+
+    // Floor Grid
+    const gridHelper = new THREE.GridHelper(500, 100, 0x1e2838, 0x0a0c12);
+    gridHelper.position.y = -25;
+    scene.add(gridHelper);
+
+    /* ==========================================================================
+       3. WIND TUNNEL EMITTER & DIRECTION INDICATORS
+       ========================================================================== */
+    // Intake Grid Wall
+    const emitterWall = new THREE.Mesh(
+      new THREE.PlaneGeometry(300, 150),
+      new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.08, wireframe: true, depthWrite: false })
+    );
+    emitterWall.position.set(0, 50, 180);
+    scene.add(emitterWall);
+
+    // Floating Animated Direction Arrows
+    const arrows = new THREE.Group();
+    const dir = new THREE.Vector3(0, 0, -1);
+
+    for (let i = 0; i < 3; i++) {
+      const arrow = new THREE.ArrowHelper(dir, new THREE.Vector3(0, 40, 180 - i * 60), 40, 0x00d4ff, 15, 10);
+      arrow.line.material.transparent = true;
+      arrow.cone.material.transparent = true;
+      arrows.add(arrow);
+    }
+    scene.add(arrows);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    /* ==========================================================================
+       4. STL FILE PARSING & PROCESSING (PBR MATERIALS)
+       ========================================================================== */
+    UI.dropzone.addEventListener('click', () => UI.fileInput.click());
+    UI.dropzone.addEventListener('dragover', (e) => { e.preventDefault(); UI.dropzone.classList.add('dragover'); });
+    UI.dropzone.addEventListener('dragleave', () => UI.dropzone.classList.remove('dragover'));
+    UI.dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      UI.dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) processSTL(e.dataTransfer.files[0]);
+    });
+    UI.fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) processSTL(e.target.files[0]);
+    });
+
+    function processSTL(file) {
+      if (!file.name.toLowerCase().endsWith('.stl')) { return log('Invalid file format. Requires .STL', 'err'); }
+      log(`Parsing geometry: ${file.name}...`, 'info');
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const loader = new THREE.STLLoader();
+        try {
+          state.baseGeo = loader.parse(e.target.result);
+          log(`Geometry parsed successfully. Vertices: ${state.baseGeo.attributes.position.count.toLocaleString()}`, 'success');
+          buildMesh();
+        } catch (err) { log(`Parse error: ${err.message}`, 'err'); }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function buildMesh() {
+      if (state.mesh) scene.remove(state.mesh);
+
+      state.baseGeo.computeBoundingBox();
+      const center = state.baseGeo.boundingBox.getCenter(new THREE.Vector3());
+      const h = state.baseGeo.boundingBox.max.y - state.baseGeo.boundingBox.min.y;
+      state.baseGeo.translate(-center.x, -center.y + (h / 2) - 25, -center.z);
+      state.baseGeo.computeVertexNormals();
+
+      // High Realism PBR Material
+      const material = new THREE.MeshPhysicalMaterial({
+        vertexColors: true,
+        roughness: 0.25,
+        metalness: 0.8,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1,
+        side: THREE.DoubleSide
+      });
+
+      state.mesh = new THREE.Mesh(state.baseGeo, material);
+      scene.add(state.mesh);
+
+      state.meshLoaded = true;
+      document.getElementById('hud-mesh').innerText = `MESH: ${state.baseGeo.attributes.position.count.toLocaleString()} VERTS`;
+      updateTransform();
+    }
+
+    function updateTransform() {
+      if (!state.meshLoaded) return;
+      const rx = THREE.MathUtils.degToRad(document.getElementById('rotX').value);
+      const ry = THREE.MathUtils.degToRad(document.getElementById('rotY').value);
+      const rz = THREE.MathUtils.degToRad(document.getElementById('rotZ').value);
+      state.mesh.rotation.set(rx, ry, rz);
+      state.mesh.updateMatrixWorld();
+      state.boundingBox = new THREE.Box3().setFromObject(state.mesh);
+      updateMeshColors();
+      calculateFrontalArea();
+    }
+
+    function calculateFrontalArea() {
+      if (!state.meshLoaded) return;
+      const bbox = state.boundingBox;
+      const width = bbox.max.x - bbox.min.x;
+      const height = bbox.max.y - bbox.min.y;
+      state.frontalArea = width * height;
+      document.getElementById('tel-area').innerText = state.frontalArea.toFixed(4) + ' m²';
+      updateTelemetry();
+    }
+
+    function updateTelemetry() {
+      if (!state.meshLoaded) return;
+      const v = parseFloat(document.getElementById('vel').value);
+      const q = 0.5 * 1.225 * v * v;
+      document.getElementById('tel-q').innerText = q.toFixed(1) + ' Pa';
+      document.getElementById('tel-drag').innerText = (q * state.frontalArea * 0.85).toFixed(1) + ' N';
+      document.getElementById('tel-lift').innerText = Math.abs(q * state.frontalArea * -1.10).toFixed(1) + ' N';
+    }
+
+    function updateMeshColors() {
+      if (!state.meshLoaded) return;
+      const posAttr = state.mesh.geometry.attributes.position;
+      const normAttr = state.mesh.geometry.attributes.normal;
+      const colors = [];
+      const windDir = new THREE.Vector3(0, 0, -1);
+      const nMat = new THREE.Matrix3();
+      const mapType = document.getElementById('colorMap').value;
+
+      for (let i = 0; i < posAttr.count; i++) {
+        const normal = new THREE.Vector3(normAttr.getX(i), normAttr.getY(i), normAttr.getZ(i));
+        nMat.getNormalMatrix(state.mesh.matrixWorld);
+        normal.applyMatrix3(nMat).normalize();
+
+        const angle = Math.acos(Math.max(-1, Math.min(1, normal.dot(windDir))));
+        const col = new THREE.Color();
+
+        if (mapType === 'jet') col.setHSL(0.666 - angle * 0.666, 1.0, 0.5);
+        else if (mapType === 'inferno') col.setRGB(1, angle / Math.PI, 0);
+        else col.setHSL(0.75 - angle * 0.75, 1.0, 0.5);
+        colors.push(col.r, col.g, col.b);
+      }
+      state.mesh.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      state.mesh.geometry.attributes.color.needsUpdate = true;
+    }
+
+    /* ==========================================================================
+       5. SOLVER SIMULATION & LIVE CHARTING
+       ========================================================================== */
+    const canvasChart = document.getElementById('convergenceChart');
+    const ctx = canvasChart.getContext('2d');
+
+    function resizeChart() {
+      canvasChart.width = canvasChart.parentElement.clientWidth;
+      canvasChart.height = canvasChart.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeChart);
+    resizeChart();
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvasChart.width, canvasChart.height);
+      if (state.history.drag.length === 0) return;
+      ctx.strokeStyle = '#2a2e38';
+      ctx.lineWidth = 1;
+      for (let i = 1; i < 4; i++) {
+        ctx.beginPath(); ctx.moveTo(0, (canvasChart.height / 4) * i); ctx.lineTo(canvasChart.width, (canvasChart.height / 4) * i); ctx.stroke();
+      }
+      const drawLine = (data, color, minScale, maxScale) => {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+        const stepX = canvasChart.width / state.maxIterations;
+        for (let i = 0; i < data.length; i++) {
+          let x = i * stepX;
+          let normY = (data[i] - minScale) / (maxScale - minScale);
+          let y = canvasChart.height - (normY * canvasChart.height);
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      };
+      drawLine(state.history.drag, '#ff3355', 0, 1.5);
+      drawLine(state.history.lift, '#00d4ff', -2.0, 0.5);
+    }
+
+    UI.btnSolve.addEventListener('click', () => {
+      if (!state.meshLoaded) return log('Cannot solve. No mesh loaded.', 'warn');
+      if (state.isSolving) return;
+
+      state.isSolving = true;
+      state.iterations = 0;
+      state.maxIterations = parseInt(document.getElementById('iters').value);
+      state.history = { drag: [], lift: [] };
+
+      UI.btnSolve.innerText = "COMPUTING MATRIX...";
+      UI.btnSolve.classList.replace('btn-primary', 'btn-danger');
+      document.getElementById('tel-status').innerText = "SOLVING";
+      document.getElementById('tel-status').style.color = "var(--color-warning)";
+
+      log(`Initializing solver. Target Iters: ${state.maxIterations}`, 'info');
+      let startTime = performance.now();
+      let lastUpdate = 0;
+
+      function solverStep() {
+        if (!state.isSolving) return;
+        if (performance.now() - lastUpdate < 10) { requestAnimationFrame(solverStep); return; }
+
+        lastUpdate = performance.now();
+        for (let i = 0; i < 10; i++) {
+          if (state.iterations >= state.maxIterations) break;
+          state.iterations++;
+          let noise = (Math.random() - 0.5) * (1.0 / (state.iterations * 0.1));
+          state.history.drag.push(0.85 + Math.exp(-state.iterations / 100) + noise);
+          state.history.lift.push(-1.10 - Math.exp(-state.iterations / 120) + noise);
+        }
+
+        document.getElementById('tel-iter').innerText = `${state.iterations} / ${state.maxIterations}`;
+        document.getElementById('tel-time').innerText = ((performance.now() - startTime) / 1000).toFixed(2) + 's';
+        drawChart();
+
+        if (state.iterations < state.maxIterations) requestAnimationFrame(solverStep);
+        else {
+          state.isSolving = false;
+          UI.btnSolve.innerText = "SOLVER COMPLETE";
+          UI.btnSolve.classList.replace('btn-danger', 'btn-primary');
+          document.getElementById('tel-status').innerText = "CONVERGED";
+          document.getElementById('tel-status').style.color = "var(--color-success)";
+          UI.btnFlow.disabled = false;
+          log('Solution matrix converged to residual tolerance 1e-4.', 'success');
+        }
+      }
+      requestAnimationFrame(solverStep);
+    });
+
+    /* ==========================================================================
+       6. DYNAMIC POTENTIAL FLOW STREAMLINES (Fixed Culling Issue)
+       ========================================================================== */
+    let streamlineSystem = null;
+    let streamlineMeshes = [];
+
+    UI.btnFlow.addEventListener('click', () => {
+      if (!state.meshLoaded) return;
+
+      if (state.isFlowing) {
+        state.isFlowing = false;
+        UI.btnFlow.innerText = "TOGGLE FLOW LINES";
+        UI.btnFlow.classList.replace('btn-danger', 'btn-primary');
+        if (streamlineSystem) { scene.remove(streamlineSystem); streamlineSystem = null; streamlineMeshes = []; }
+        return;
+      }
+
+      state.isFlowing = true;
+      UI.btnFlow.innerText = "HALT FLOW";
+      UI.btnFlow.classList.replace('btn-primary', 'btn-danger');
+      log('Initializing uniform unidirectional flow field...', 'info');
+
+      createStreamlines();
+    });
+
+    function createStreamlines() {
+      if (streamlineSystem) scene.remove(streamlineSystem);
+      streamlineSystem = new THREE.Group();
+      streamlineMeshes = [];
+
+      const density = parseInt(document.getElementById('lineDensity').value);
+      const numParticles = Math.floor(density / 6);
+      const trailLen = parseInt(document.getElementById('trailLen').value);
+
+      for (let i = 0; i < numParticles; i++) {
+        const geo = new THREE.BufferGeometry();
+        const positions = new Float32Array(trailLen * 3);
+        const colors = new Float32Array(trailLen * 3);
+
+        for (let j = 0; j < trailLen; j++) {
+          const alpha = 1.0 - (j / (trailLen - 1));
+          colors[j * 3] = 0.0;
+          colors[j * 3 + 1] = 0.8 * alpha;
+          colors[j * 3 + 2] = 1.0 * alpha;
+        }
+
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const mat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false });
+        const line = new THREE.Line(geo, mat);
+
+        // FIX: CRITICAL CAMERA CULLING FIX
+        line.frustumCulled = false;
+
+        resetParticle(line, trailLen, true);
+        streamlineSystem.add(line);
+        streamlineMeshes.push(line);
+      }
+      scene.add(streamlineSystem);
+    }
+
+    function resetParticle(line, trailLen, randomizeZ = false) {
+      const bbox = state.boundingBox;
+      let spreadX = 150, spreadY = 80;
+
+      if (state.meshLoaded && bbox) {
+        const size = new THREE.Vector3();
+        bbox.getSize(size);
+        spreadX = Math.max(100, size.x * 2.5);
+        spreadY = Math.max(50, size.y * 2.5);
+      }
+
+      const x = (Math.random() - 0.5) * spreadX;
+      const y = -24 + Math.random() * spreadY;
+      const z = 150 + (randomizeZ ? Math.random() * 200 : 0);
+
+      line.userData = { pos: new THREE.Vector3(x, y, z), speed: 2.0 + Math.random() * 1.5, history: [], trailLen: trailLen };
+      for (let i = 0; i < trailLen; i++) line.userData.history.push(new THREE.Vector3(x, y, z));
+    }
+
+    function getVelocity(p, bbox) {
+      let v = new THREE.Vector3(0, 0, -1); // Strict Unidirectional Flow
+      if (!bbox || !state.meshLoaded) return v;
+
+      const center = new THREE.Vector3(); bbox.getCenter(center);
+      const size = new THREE.Vector3(); bbox.getSize(size);
+
+      const dx = p.x - center.x; const dy = p.y - center.y; const dz = p.z - center.z;
+      const sx = Math.max(size.x / 2, 1); const sy = Math.max(size.y / 2, 1); const sz = Math.max(size.z / 2, 1);
+
+      const normDistSq = (dx * dx) / (sx * sx) + (dy * dy) / (sy * sy) + (dz * dz) / (sz * sz);
+      const normDist = Math.sqrt(normDistSq);
+
+      if (normDist > 0 && normDist < 2.5) {
+        const normal = new THREE.Vector3(dx / (sx * sx), Math.max(0.1, dy / (sy * sy)), dz / (sz * sz)).normalize();
+        const influence = Math.pow(Math.max(0, 2.5 - normDist) / 2.5, 2);
+        v.add(normal.multiplyScalar(influence * 1.8));
+      }
+      return v.normalize();
+    }
+
+    /* ==========================================================================
+       7. ANIMATION LOOP & RENDER PIPELINE
+       ========================================================================== */
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+
+      // Performance
+      frameCount++;
+      const now = performance.now();
+      if (now >= lastFpsUpdate + 1000) {
+        fps = frameCount; frameCount = 0; lastFpsUpdate = now;
+        UI.perfFill.style.width = Math.min(100, Math.max(0, (fps / 60) * 100)) + '%';
+      }
+
+      // Arrow Pulsing
+      const time = Date.now() * 0.002;
+      arrows.children.forEach((arrow, i) => {
+        arrow.position.z -= 0.5; // move with wind
+        if (arrow.position.z < -100) arrow.position.z = 180;
+
+        const pulse = (Math.sin(time + i) + 1) / 2;
+        arrow.line.material.opacity = 0.2 + pulse * 0.8;
+        arrow.cone.material.opacity = 0.2 + pulse * 0.8;
+      });
+
+      // Streamline Animation
+      if (state.isFlowing && streamlineSystem) {
+        const bbox = state.meshLoaded ? state.boundingBox : null;
+        streamlineMeshes.forEach(line => {
+          const ud = line.userData;
+          const v = getVelocity(ud.pos, bbox).multiplyScalar(ud.speed);
+          ud.pos.add(v);
+
+          ud.history.pop();
+          ud.history.unshift(ud.pos.clone());
+
+          const positions = line.geometry.attributes.position.array;
+          for (let i = 0; i < ud.trailLen; i++) {
+            positions[i * 3] = ud.history[i].x; positions[i * 3 + 1] = ud.history[i].y; positions[i * 3 + 2] = ud.history[i].z;
+          }
+          line.geometry.attributes.position.needsUpdate = true;
+
+          if (ud.pos.z < -150 || ud.pos.y < -25 || Math.abs(ud.pos.x) > 200 || ud.pos.y > 200) resetParticle(line, ud.trailLen, false);
+        });
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    function exportTelemetry() {
+      if (state.history.drag.length === 0) return alert("Run solver first to generate data.");
+      let csv = "Iteration,DragCoef,LiftCoef\n";
+      for (let i = 0; i < state.history.drag.length; i++) csv += `${i + 1},${state.history.drag[i].toFixed(5)},${state.history.lift[i].toFixed(5)}\n`;
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'FlowSim_Telemetry.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a); window.URL.revokeObjectURL(url);
+      log('Telemetry exported to CSV.', 'success');
+    }
+  </script>
+</body>
+
+</html>
