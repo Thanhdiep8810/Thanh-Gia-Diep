@@ -1,0 +1,442 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:transparent}
+.app-shell{max-width:420px;margin:0 auto;background:var(--color-background-secondary);border-radius:var(--border-radius-xl);border:0.5px solid var(--color-border-tertiary);overflow:hidden;min-height:720px;display:flex;flex-direction:column}
+.status-bar{background:#1F4E79;color:#fff;padding:10px 16px 8px;font-size:11px;display:flex;justify-content:space-between;align-items:center;letter-spacing:0.3px}
+.status-bar .app-name{font-weight:500;font-size:13px}
+.nav-tabs{display:flex;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.tab{flex:1;padding:10px 4px 8px;font-size:10px;text-align:center;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;transition:all 0.15s;display:flex;flex-direction:column;align-items:center;gap:3px}
+.tab.active{color:#1F4E79;border-bottom-color:#1F4E79}
+.tab svg{width:16px;height:16px}
+.screen{display:none;flex:1;overflow-y:auto;padding:16px}
+.screen.active{display:block}
+.card{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);padding:14px;margin-bottom:12px}
+.card-title{font-size:11px;color:var(--color-text-secondary);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.metric-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px}
+.metric-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.metric-val.green{color:#0F6E56}
+.metric-val.amber{color:#BA7517}
+.metric-val.red{color:#A32D2D}
+.metric-val.blue{color:#185FA5}
+.temp-gauge{position:relative;height:80px;display:flex;align-items:center;justify-content:center}
+.gauge-track{width:160px;height:12px;background:var(--color-background-secondary);border-radius:6px;overflow:hidden;border:0.5px solid var(--color-border-tertiary)}
+.gauge-fill{height:100%;border-radius:6px;transition:width 0.5s;background:#0F6E56}
+.gauge-label{position:absolute;bottom:4px;font-size:11px;color:var(--color-text-secondary)}
+.lock-toggle{width:100%;padding:14px;border-radius:var(--border-radius-md);font-size:15px;font-weight:500;cursor:pointer;border:none;transition:all 0.15s;margin-top:4px}
+.lock-toggle.locked{background:#1F4E79;color:#fff}
+.lock-toggle.unlocked{background:#0F6E56;color:#fff}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge.green{background:#EAF3DE;color:#3B6D11}
+.badge.blue{background:#E6F1FB;color:#185FA5}
+.badge.amber{background:#FAEEDA;color:#854F0B}
+.badge.red{background:#FCEBEB;color:#A32D2D}
+.badge.gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.row:last-child{border-bottom:none}
+.row-label{color:var(--color-text-secondary);font-size:12px}
+.map-placeholder{height:140px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--color-text-secondary);font-size:12px;margin-bottom:12px;position:relative;overflow:hidden}
+.map-dot{width:10px;height:10px;border-radius:50%;position:absolute;cursor:pointer}
+.map-route{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.dest-btn{width:100%;padding:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;cursor:pointer;color:var(--color-text-primary);display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;transition:background 0.1s}
+.dest-btn:hover{background:var(--color-background-tertiary)}
+.dest-btn.selected{border-color:#1F4E79;background:#E6F1FB;color:#185FA5}
+.progress-bar{height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;background:#1F4E79;border-radius:3px;transition:width 0.3s}
+.rfid-list{display:flex;flex-direction:column;gap:8px}
+.rfid-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.rfid-avatar{width:34px;height:34px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#185FA5;flex-shrink:0}
+.rfid-info{flex:1}
+.rfid-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.rfid-id{font-size:11px;color:var(--color-text-secondary)}
+.revoke-btn{font-size:11px;color:#A32D2D;cursor:pointer;padding:4px 8px;background:#FCEBEB;border-radius:var(--border-radius-md);border:none}
+.add-rfid{width:100%;padding:10px;background:transparent;border:1px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;color:var(--color-text-secondary);cursor:pointer;margin-top:10px}
+.log-item{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);align-items:flex-start}
+.log-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.log-text{flex:1}
+.log-title{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.log-time{font-size:11px;color:var(--color-text-secondary)}
+.sensor-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sensor-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;text-align:center}
+.sensor-icon{font-size:20px;margin-bottom:4px}
+.sensor-name{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.sensor-status{font-size:11px;font-weight:500}
+.calibrate-btn{width:100%;padding:10px;background:#1F4E79;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:13px;font-weight:500;cursor:pointer;margin-top:12px}
+.mission-btn{width:100%;padding:12px;background:#0F6E56;color:#fff;border:none;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer;margin-top:4px;transition:opacity 0.15s}
+.mission-btn:disabled{opacity:0.4;cursor:default}
+.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.notif-dot{width:7px;height:7px;border-radius:50%;background:#E24B4A;position:absolute;top:5px;right:5px}
+.tab-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px}
+</style>
+
+<h2 class="sr-only">Robot delivery control app showing dashboard, delivery config, RFID management, calibration, and alerts screens</h2>
+
+<div class="app-shell">
+  <div class="status-bar">
+    <span class="app-name">RoboDeliver</span>
+    <span id="time-display">9:04 AM</span>
+    <span style="display:flex;gap:6px;align-items:center">
+      <span style="font-size:10px">Wi-Fi</span>
+      <span style="font-size:10px">88%</span>
+    </span>
+  </div>
+
+  <div class="nav-tabs">
+    <div class="tab active" onclick="switchTab('dash')">
+      <div class="tab-wrap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+        Dashboard
+      </div>
+    </div>
+    <div class="tab" onclick="switchTab('delivery')">
+      <div class="tab-wrap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="6" r="3"/><path d="M3 14c0-3 2.2-5 5-5s5 2 5 5"/></svg>
+        Delivery
+      </div>
+    </div>
+    <div class="tab" onclick="switchTab('rfid')">
+      <div class="tab-wrap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 8h6M5 11h4"/></svg>
+        Access
+      </div>
+    </div>
+    <div class="tab" onclick="switchTab('calib')">
+      <div class="tab-wrap">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg>
+        Sensors
+      </div>
+    </div>
+    <div class="tab" onclick="switchTab('log')" id="log-tab">
+      <div class="tab-wrap" style="position:relative">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 7h8M2 11h10"/></svg>
+        <div class="notif-dot" id="notif-dot"></div>
+        Alerts
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen active" id="screen-dash">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div>
+        <div style="font-size:15px;font-weight:500;color:var(--color-text-primary)">Compartment A</div>
+        <div style="font-size:12px;color:var(--color-text-secondary)">Robot B — Lab 24</div>
+      </div>
+      <span class="badge green pulse" id="online-badge">● Online</span>
+    </div>
+
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-label">Internal temp</div>
+        <div class="metric-val" id="temp-val">21.4°C</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Battery</div>
+        <div class="metric-val blue" id="batt-val">84%</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Temperature gauge</div>
+      <div class="temp-gauge">
+        <div>
+          <div class="gauge-track"><div class="gauge-fill" id="gauge-fill" style="width:43%"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--color-text-secondary);margin-top:4px"><span>0°C</span><span style="color:#0F6E56;font-weight:500">Target ≤25°C</span><span>50°C</span></div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="row-label">Peltier cooling</div>
+          <span class="badge green" id="peltier-badge">Active</span>
+        </div>
+        <div>
+          <div class="row-label">Lock status</div>
+          <span class="badge blue" id="lock-badge">Locked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Quick actions</div>
+      <button class="lock-toggle locked" id="lock-btn" onclick="toggleLock()">Unlock compartment</button>
+      <div style="font-size:11px;color:var(--color-text-secondary);text-align:center;margin-top:8px" id="lock-hint">RFID authentication required</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Robot status</div>
+      <div class="row"><span class="row-label">Location</span><span style="font-size:13px">MC 106 – Lab Wing</span></div>
+      <div class="row"><span class="row-label">Speed</span><span style="font-size:13px">Standby</span></div>
+      <div class="row"><span class="row-label">Peltier battery</span><span style="font-size:13px">76%</span></div>
+      <div class="row"><span class="row-label">Next mission</span><span class="badge gray">None scheduled</span></div>
+    </div>
+  </div>
+
+  <!-- DELIVERY CONFIG -->
+  <div class="screen" id="screen-delivery">
+    <div style="font-size:15px;font-weight:500;margin-bottom:14px;color:var(--color-text-primary)">Configure delivery</div>
+
+    <div class="card">
+      <div class="card-title">Campus map</div>
+      <div class="map-placeholder" id="campus-map">
+        <svg class="map-route" id="route-svg"></svg>
+        <div class="map-dot" style="background:#185FA5;top:60%;left:20%" title="Current"></div>
+        <div class="map-dot" style="background:#3B6D11;top:35%;left:55%;width:12px;height:12px" id="dest-dot-chem" onclick="selectDest('chem')" title="Chemistry"></div>
+        <div class="map-dot" style="background:#BA7517;top:25%;left:75%" id="dest-dot-bio" onclick="selectDest('bio')" title="Biology"></div>
+        <div class="map-dot" style="background:#534AB7;top:70%;left:68%" id="dest-dot-eng" onclick="selectDest('eng')" title="Engineering"></div>
+        <div style="position:absolute;top:6px;left:8px;font-size:10px;color:var(--color-text-secondary)">Tap a building to select</div>
+        <div style="position:absolute;bottom:6px;left:8px;font-size:10px;color:#185FA5">● Current position</div>
+      </div>
+
+      <div class="card-title" style="margin-top:4px">Select destination</div>
+      <button class="dest-btn" id="dest-chem" onclick="selectDest('chem')">
+        <span>Chemistry Lab (Rm 201)</span>
+        <span style="font-size:11px;color:var(--color-text-secondary)">~4 min</span>
+      </button>
+      <button class="dest-btn" id="dest-bio" onclick="selectDest('bio')">
+        <span>Biology Research Lab</span>
+        <span style="font-size:11px;color:var(--color-text-secondary)">~7 min</span>
+      </button>
+      <button class="dest-btn" id="dest-eng" onclick="selectDest('eng')">
+        <span>Engineering Storage (B1)</span>
+        <span style="font-size:11px;color:var(--color-text-secondary)">~5 min</span>
+      </button>
+    </div>
+
+    <div class="card" id="route-card" style="display:none">
+      <div class="card-title">Route preview</div>
+      <div id="route-info" style="font-size:13px;color:var(--color-text-primary);margin-bottom:8px"></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:0%" id="mission-progress"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-bottom:12px">
+        <span>Origin: MC 106</span><span id="route-dest-label">→ Chem 201</span>
+      </div>
+      <button class="mission-btn" id="start-btn" onclick="startMission()">Start mission</button>
+    </div>
+
+    <div class="card" id="mission-active-card" style="display:none">
+      <div class="card-title">Mission in progress</div>
+      <div style="font-size:13px;color:var(--color-text-primary);margin-bottom:8px" id="mission-status-text">Navigating to destination...</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:15%" id="active-progress"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-top:4px">
+        <span id="eta-label">ETA ~4 min</span>
+        <span class="badge green pulse">En route</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RFID / ACCESS -->
+  <div class="screen" id="screen-rfid">
+    <div style="font-size:15px;font-weight:500;margin-bottom:14px;color:var(--color-text-primary)">Access management</div>
+    <div class="card">
+      <div class="card-title">Compartment A — authorized users</div>
+      <div class="rfid-list" id="rfid-list">
+        <div class="rfid-item"><div class="rfid-avatar">CW</div><div class="rfid-info"><div class="rfid-name">Cole Washchuk</div><div class="rfid-id">Card ID: 94:3F:A2:B1</div></div><span class="badge green">Primary</span></div>
+        <div class="rfid-item"><div class="rfid-avatar">TD</div><div class="rfid-info"><div class="rfid-name">Thanh Diep</div><div class="rfid-id">Card ID: 7C:12:E9:04</div></div><button class="revoke-btn" onclick="revokeUser(this)">Revoke</button></div>
+        <div class="rfid-item"><div class="rfid-avatar">WS</div><div class="rfid-info"><div class="rfid-name">William Santos</div><div class="rfid-id">Card ID: B3:8A:D5:61</div></div><button class="revoke-btn" onclick="revokeUser(this)">Revoke</button></div>
+      </div>
+      <button class="add-rfid" onclick="addRFID()">+ Register new One Card</button>
+    </div>
+    <div class="card">
+      <div class="card-title">Access log</div>
+      <div class="row"><span class="row-label">Last unlock</span><span style="font-size:13px">Cole W. — 9:01 AM</span></div>
+      <div class="row"><span class="row-label">Last lock</span><span style="font-size:13px">Auto — 9:02 AM</span></div>
+      <div class="row"><span class="row-label">Failed attempts</span><span class="badge red">0</span></div>
+    </div>
+  </div>
+
+  <!-- SENSOR CALIBRATION -->
+  <div class="screen" id="screen-calib">
+    <div style="font-size:15px;font-weight:500;margin-bottom:14px;color:var(--color-text-primary)">Sensor calibration</div>
+    <div class="card">
+      <div class="card-title">Sensor status</div>
+      <div class="sensor-grid">
+        <div class="sensor-card">
+          <div class="sensor-icon">📡</div>
+          <div class="sensor-name">Ultrasonic (front)</div>
+          <div class="sensor-status" style="color:#0F6E56">Calibrated</div>
+        </div>
+        <div class="sensor-card">
+          <div class="sensor-icon">🔄</div>
+          <div class="sensor-name">LiDAR 360°</div>
+          <div class="sensor-status" style="color:#0F6E56">Calibrated</div>
+        </div>
+        <div class="sensor-card">
+          <div class="sensor-icon">🎯</div>
+          <div class="sensor-name">Gyroscope</div>
+          <div class="sensor-status" id="gyro-status" style="color:#BA7517">Drift detected</div>
+        </div>
+        <div class="sensor-card">
+          <div class="sensor-icon">🌡</div>
+          <div class="sensor-name">DHT11 temp</div>
+          <div class="sensor-status" style="color:#0F6E56">OK (±0.3°C)</div>
+        </div>
+      </div>
+      <button class="calibrate-btn" onclick="runCalibration()">Run full calibration</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Calibration progress</div>
+      <div id="calib-steps">
+        <div class="row"><span style="font-size:12px">Ultrasonic range test</span><span class="badge green">Pass</span></div>
+        <div class="row"><span style="font-size:12px">LiDAR 360° sweep</span><span class="badge green">Pass</span></div>
+        <div class="row"><span style="font-size:12px">Gyroscope zero-point</span><span class="badge amber" id="gyro-badge">Needs reset</span></div>
+        <div class="row"><span style="font-size:12px">Temperature baseline</span><span class="badge green">Pass</span></div>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:8px">Last calibration: Today 8:45 AM</div>
+    </div>
+  </div>
+
+  <!-- ALERTS LOG -->
+  <div class="screen" id="screen-log">
+    <div style="font-size:15px;font-weight:500;margin-bottom:14px;color:var(--color-text-primary)">Alerts & maintenance log</div>
+    <div id="log-list">
+      <div class="log-item"><div class="log-icon" style="background:#FAEEDA">⚠</div><div class="log-text"><div class="log-title">Gyroscope drift detected — recalibration recommended</div><div class="log-time">9:03 AM · Unacknowledged</div></div></div>
+      <div class="log-item"><div class="log-icon" style="background:#EAF3DE">✓</div><div class="log-text"><div class="log-title">Compartment unlocked — Cole Washchuk (RFID)</div><div class="log-time">9:01 AM · Acknowledged</div></div></div>
+      <div class="log-item"><div class="log-icon" style="background:#EAF3DE">✓</div><div class="log-text"><div class="log-title">Temperature stable at 21.4°C for 12 min 32 sec</div><div class="log-time">8:58 AM · Acknowledged</div></div></div>
+      <div class="log-item"><div class="log-icon" style="background:#E6F1FB">i</div><div class="log-text"><div class="log-title">Peltier cooling activated</div><div class="log-time">8:45 AM · Info</div></div></div>
+      <div class="log-item"><div class="log-icon" style="background:#E6F1FB">i</div><div class="log-text"><div class="log-title">System startup — Robot B online</div><div class="log-time">8:44 AM · Info</div></div></div>
+    </div>
+    <button style="width:100%;padding:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);font-size:13px;cursor:pointer;color:var(--color-text-secondary);margin-top:12px" onclick="acknowledgeAll()">Acknowledge all alerts</button>
+  </div>
+</div>
+
+<script>
+let locked = true;
+let missionActive = false;
+let selectedDest = null;
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const tabs = ['dash','delivery','rfid','calib','log'];
+  document.querySelectorAll('.tab')[tabs.indexOf(id)].classList.add('active');
+  document.getElementById('screen-'+id).classList.add('active');
+  if(id==='log') document.getElementById('notif-dot').style.display='none';
+}
+
+function toggleLock() {
+  locked = !locked;
+  const btn = document.getElementById('lock-btn');
+  const badge = document.getElementById('lock-badge');
+  const hint = document.getElementById('lock-hint');
+  if(locked) {
+    btn.textContent = 'Unlock compartment';
+    btn.className = 'lock-toggle locked';
+    badge.textContent = 'Locked';
+    badge.className = 'badge blue';
+    hint.textContent = 'RFID authentication required';
+    addLog('Compartment locked', 'green');
+  } else {
+    btn.textContent = 'Lock compartment';
+    btn.className = 'lock-toggle unlocked';
+    badge.textContent = 'Unlocked';
+    badge.className = 'badge amber';
+    hint.textContent = 'Close and re-lock after retrieval';
+    addLog('Compartment unlocked via app', 'amber');
+  }
+}
+
+function selectDest(key) {
+  selectedDest = key;
+  document.querySelectorAll('.dest-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('dest-'+key).classList.add('selected');
+  const names = {chem:'Chemistry Lab (Rm 201)', bio:'Biology Research Lab', eng:'Engineering Storage (B1)'};
+  const times = {chem:'~4 min', bio:'~7 min', eng:'~5 min'};
+  document.getElementById('route-card').style.display='block';
+  document.getElementById('route-info').textContent = 'Route to: ' + names[key] + ' — est. ' + times[key];
+  document.getElementById('route-dest-label').textContent = '→ ' + names[key];
+}
+
+function startMission() {
+  if(!selectedDest) return;
+  document.getElementById('route-card').style.display='none';
+  document.getElementById('mission-active-card').style.display='block';
+  missionActive = true;
+  let prog = 15;
+  const times = {chem:4, bio:7, eng:5};
+  const names = {chem:'Chem 201', bio:'Bio Lab', eng:'Eng B1'};
+  let eta = times[selectedDest];
+  const iv = setInterval(() => {
+    prog = Math.min(100, prog + 5);
+    eta = Math.max(0, eta - 0.35);
+    document.getElementById('active-progress').style.width = prog + '%';
+    document.getElementById('eta-label').textContent = eta > 0 ? 'ETA ~' + Math.round(eta) + ' min' : 'Arrived!';
+    document.getElementById('mission-status-text').textContent = prog < 100 ? 'Navigating to ' + names[selectedDest] + '...' : 'Arrived at destination. Awaiting RFID.';
+    if(prog >= 100) clearInterval(iv);
+  }, 400);
+  addLog('Mission started → ' + names[selectedDest], 'blue');
+}
+
+function revokeUser(btn) {
+  const item = btn.closest('.rfid-item');
+  const name = item.querySelector('.rfid-name').textContent;
+  item.style.opacity = '0.4';
+  btn.textContent = 'Revoked';
+  btn.disabled = true;
+  addLog('Access revoked: ' + name, 'amber');
+}
+
+function addRFID() {
+  const list = document.getElementById('rfid-list');
+  const initials = ['BY','SM','TK'][Math.floor(Math.random()*3)];
+  const names = {BY:'Brian Yang',SM:'Sehan Mohanarangan',TK:'Timur Khilyamov'};
+  const ids = ['A1:4C:92:F3','CC:7D:01:E8','5E:3B:FF:20'];
+  const idx = Math.floor(Math.random()*3);
+  const div = document.createElement('div');
+  div.className = 'rfid-item';
+  div.innerHTML = '<div class="rfid-avatar">'+initials+'</div><div class="rfid-info"><div class="rfid-name">'+names[initials]+'</div><div class="rfid-id">Card ID: '+ids[idx]+'</div></div><button class="revoke-btn" onclick="revokeUser(this)">Revoke</button>';
+  list.appendChild(div);
+  addLog('New RFID registered: ' + names[initials], 'green');
+}
+
+function runCalibration() {
+  const badge = document.getElementById('gyro-badge');
+  const status = document.getElementById('gyro-status');
+  badge.textContent = 'Calibrating...';
+  badge.className = 'badge blue pulse';
+  status.textContent = 'Calibrating...';
+  status.style.color = '#185FA5';
+  setTimeout(() => {
+    badge.textContent = 'Pass';
+    badge.className = 'badge green';
+    status.textContent = 'Calibrated';
+    status.style.color = '#0F6E56';
+    addLog('Full calibration complete — all sensors pass', 'green');
+  }, 2200);
+}
+
+function acknowledgeAll() {
+  document.querySelectorAll('.log-time').forEach(t => {
+    if(t.textContent.includes('Unacknowledged')) t.textContent = t.textContent.replace('Unacknowledged', 'Acknowledged');
+  });
+  document.getElementById('notif-dot').style.display = 'none';
+}
+
+function addLog(msg, type) {
+  const colors = {green:'#EAF3DE', amber:'#FAEEDA', blue:'#E6F1FB', red:'#FCEBEB'};
+  const icons = {green:'✓', amber:'⚠', blue:'i', red:'!'};
+  const list = document.getElementById('log-list');
+  const now = new Date();
+  const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0') + ' AM';
+  const div = document.createElement('div');
+  div.className = 'log-item';
+  div.innerHTML = '<div class="log-icon" style="background:'+colors[type]+'">'+icons[type]+'</div><div class="log-text"><div class="log-title">'+msg+'</div><div class="log-time">'+time+' · Unacknowledged</div></div>';
+  list.insertBefore(div, list.firstChild);
+  document.getElementById('notif-dot').style.display = 'block';
+}
+
+setInterval(() => {
+  const base = 21.4;
+  const jitter = (Math.random()-0.5)*0.4;
+  const t = (base + jitter).toFixed(1);
+  document.getElementById('temp-val').textContent = t + '°C';
+  const pct = Math.round((parseFloat(t)/50)*100);
+  document.getElementById('gauge-fill').style.width = pct + '%';
+  document.getElementById('gauge-fill').style.background = parseFloat(t)>25?'#E24B4A':parseFloat(t)>22?'#BA7517':'#0F6E56';
+}, 3000);
+
+const now = new Date();
+document.getElementById('time-display').textContent = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0') + ' AM';
+</script>
