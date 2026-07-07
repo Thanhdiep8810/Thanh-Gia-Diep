@@ -48,6 +48,11 @@ a{color:inherit;text-decoration:none;}
   display:flex;align-items:flex-end;
 }
 .intro canvas{position:absolute;inset:0;width:100%;height:100%;}
+#introVideo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .6s ease;z-index:1;
+}
+#introVideo.is-ready{opacity:1;}
 .intro__caption{
   position:relative;z-index:2;color:var(--ink);padding:0 48px 56px;
   display:flex;justify-content:space-between;align-items:flex-end;width:100%;
@@ -181,16 +186,15 @@ a{color:inherit;text-decoration:none;}
 
 <div id="cursor"></div>
 
-<!-- ================= INTRO ================= -->
 <section class="intro">
   <canvas id="introCanvas"></canvas>
+  <video id="introVideo" muted playsinline preload="auto" data-src="Timelapse-video.mov"></video>
   <div class="intro__caption">
     <span class="tag mono">THANH DIEP — LONDON, ON</span>
     <span class="cue mono">scroll<span>↓</span></span>
   </div>
 </section>
 
-<!-- ================= ABOUT ================= -->
 <section class="about">
   <h1 class="about__title">
     <span class="greet">hi</span>.
@@ -207,7 +211,6 @@ a{color:inherit;text-decoration:none;}
   </div>
 </section>
 
-<!-- ================= WORK GRID ================= -->
 <section class="work" id="work">
   <div class="work__label mono"><span>WORK</span><span>SELECTED, 2025—2026</span></div>
   <div class="workgrid">
@@ -287,7 +290,6 @@ a{color:inherit;text-decoration:none;}
   </div>
 </section>
 
-<!-- ================= BUILD LOG ================= -->
 <section class="log" id="log">
   <h2>Log</h2>
   <p class="log__intro">Short notes from things I've built — mostly what broke, and what I changed because of it.</p>
@@ -316,7 +318,6 @@ a{color:inherit;text-decoration:none;}
   </ul>
 </section>
 
-<!-- ================= NOW ================= -->
 <section class="now">
   <div class="now__box">
     <div class="now__visual">
@@ -331,7 +332,6 @@ a{color:inherit;text-decoration:none;}
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
 <section class="footer">
   <div>
     <span class="footer__links">
@@ -358,7 +358,34 @@ a{color:inherit;text-decoration:none;}
   });
 })();
 
-/* intro canvas — abstract monochrome circuit-trace loop */
+/* landing/hero video — scrub and pin on scroll */
+(function(){
+  const vid = document.getElementById('introVideo');
+  const src = vid.dataset.src;
+  vid.src = src;
+
+  vid.addEventListener('loadeddata', ()=>{
+    vid.classList.add('is-ready');
+  });
+
+  vid.addEventListener('loadedmetadata', ()=>{
+    gsap.to(vid, {
+      scrollTrigger: {
+        trigger: ".intro",
+        start: "top top",
+        end: "+=2000",   // Stays pinned for 2000px of scrolling distance
+        scrub: 0.5,      // Smooth scrubbing lag
+        pin: true        // This locks the screen until video finishes playhead
+      },
+      currentTime: vid.duration || 1, 
+      ease: "none"
+    });
+  });
+
+  vid.addEventListener('error', ()=>{ vid.style.display = 'none'; });
+})();
+
+/* intro canvas — abstract monochrome circuit-trace loop (fallback background) */
 (function(){
   const canvas = document.getElementById('introCanvas');
   const ctx = canvas.getContext('2d');
@@ -409,8 +436,8 @@ a{color:inherit;text-decoration:none;}
   draw();
 })();
 
-/* media drop-in */
-document.querySelectorAll('[data-src]').forEach(el=>{
+/* media drop-in — EXCLUDES #introVideo to prevent unwanted auto-play */
+document.querySelectorAll('[data-src]:not(#introVideo)').forEach(el=>{
   const src = el.dataset.src;
   if(el.tagName === 'VIDEO'){
     el.src = src;
@@ -449,20 +476,20 @@ document.querySelectorAll('.reveal').forEach(el=>{
     scrollTrigger:{trigger:el,start:'top 90%',toggleActions:'play none none reverse'}});
 });
 gsap.utils.toArray('.wg-item').forEach((el,i)=>{
-  // random entry direction (8-way compass) so tiles don't all move the same way
   const dirs = [
     {x:-120,y:0}, {x:120,y:0}, {x:0,y:-100}, {x:0,y:100},
     {x:-90,y:-70}, {x:90,y:-70}, {x:-90,y:70}, {x:90,y:70}
   ];
   const d = dirs[Math.floor(Math.random()*dirs.length)];
-  const dur = 0.7 + Math.random()*0.9;      // random speed, .7s–1.6s
-  const rot = (Math.random()-0.5)*6;         // slight random tilt on the way in
+  const dur = 0.7 + Math.random()*0.9;      
+  const rot = (Math.random()-0.5)*6;         
 
   gsap.fromTo(el,
     {opacity:0, x:d.x, y:d.y, rotation:rot, scale:0.92},
     {
       opacity:1, x:0, y:0, rotation:0, scale:1,
       duration:dur, delay:(i%6)*0.06, ease:'power3.out',
+      // Trigger set to start when the top of the gallery hits 85% of the viewport height
       scrollTrigger:{trigger:'.workgrid', start:'top 85%', toggleActions:'play none none reverse'}
     }
   );
