@@ -677,7 +677,7 @@ function initScrollGradient() {
 
   ScrollEngine.add((y) => {
     const center = y + innerHeight / 2;
-    const feather = innerHeight * 0.65; // blend distance around the band
+    const feather = innerHeight * 1.7; // wide feather = slow, long color travel
     let fm = 0;
     for (const b of bands) {
       // distance from viewport center to the band (0 inside it)
