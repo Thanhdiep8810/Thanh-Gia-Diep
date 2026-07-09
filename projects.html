@@ -7,7 +7,7 @@
   <meta name="description" content="Engineering projects by Thanh Diep: Formula SAE aero and electrical systems, delivery robot, spherical droid, line follower, and sensor research." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@1,9..144,500..700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script>
     document.documentElement.classList.replace('no-js', 'js');
@@ -24,13 +24,13 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="loader" id="loader" aria-hidden="true">
-    <p class="loader__word">Torque<span class="hl">.</span> Loading<span class="hl">…</span></p>
+    <p class="loader__word">Torque<span class="hl fx">.</span> Loading<span class="hl fx">…</span></p>
     <div class="loader__bar"></div>
   </div>
 
   <header class="site-header" id="header">
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl">/</span>28</a>
+      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl fx">/</span>28</a>
       <div class="site-header__actions">
         <button class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Switch color mode"></button>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
@@ -60,7 +60,7 @@
 
     <section class="page-hero container">
       <p class="eyebrow reveal">Build log — 2025 to present</p>
-      <h1><span class="reveal" style="--i:1">Pro</span><span class="hl reveal" style="--i:2">jects</span></h1>
+      <h1><span class="reveal" style="--i:1">Pro</span><span class="hl fx reveal" style="--i:2">jects</span></h1>
       <p class="reveal" style="--i:3">
         Every project below shipped with numbers attached — safety factors,
         speeds, budgets, accuracies. If it can't be measured, it isn't done.
@@ -71,10 +71,10 @@
 
       <!-- Each project: media + meta. Alternating sides via CSS nth-child. -->
       <article class="project" id="wing">
-        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+        <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
           <img src="assets/project-wing.svg" alt="Abstract blueprint graphic of a rear wing aero package" />
         </div>
-        <div>
+        <div data-slide="right">
           <p class="meta"><span>2025</span><span>Formula SAE</span><span>SOLIDWORKS · FEA · CFRP</span></p>
           <h2 class="reveal" data-split>Rear Wing Swan Mounts</h2>
           <p class="reveal" style="--i:1">
@@ -89,10 +89,10 @@
       </article>
 
       <article class="project" id="tssi">
-        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+        <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
           <img src="assets/project-tssi.svg" alt="Abstract circuit graphic representing the tractive system status indicator" />
         </div>
-        <div>
+        <div data-slide="right">
           <p class="meta"><span>2025</span><span>Formula SAE</span><span>Electrical · Safety systems</span></p>
           <h2 class="reveal" data-split>TSSI — Tractive System Status Indicator</h2>
           <p class="reveal" style="--i:1">
@@ -106,10 +106,10 @@
       </article>
 
       <article class="project" id="robot">
-        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+        <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
           <img src="assets/project-robot.svg" alt="Abstract graphic of a campus delivery robot" />
         </div>
-        <div>
+        <div data-slide="right">
           <p class="meta"><span>2026</span><span>Prototype</span><span>Peltier · UV-C · RFID · Arduino</span></p>
           <h2 class="reveal" data-split>Campus Delivery Robot</h2>
           <p class="reveal" style="--i:1">
@@ -124,10 +124,10 @@
       </article>
 
       <article class="project" id="droid">
-        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+        <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
           <img src="assets/project-bb8.svg" alt="Abstract graphic of a spherical droid" />
         </div>
-        <div>
+        <div data-slide="right">
           <p class="meta"><span>2025</span><span>Personal build</span><span>C++ · Arduino · 3D printing</span></p>
           <h2 class="reveal" data-split>Sphere Droid</h2>
           <p class="reveal" style="--i:1">
@@ -142,10 +142,10 @@
       </article>
 
       <article class="project" id="line">
-        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+        <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
           <img src="assets/project-line.svg" alt="Abstract graphic of a line-following robot circuit" />
         </div>
-        <div>
+        <div data-slide="right">
           <p class="meta"><span>2025</span><span>Autonomous</span><span>Arduino · IR sensors</span></p>
           <h2 class="reveal" data-split>Line Following Robot</h2>
           <ul class="reveal" style="--i:1">
@@ -156,10 +156,10 @@
       </article>
 
       <article class="project" id="breathalyzer">
-        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+        <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
           <img src="assets/project-breath.svg" alt="Abstract calibration gauge graphic for a breathalyzer sensor" />
         </div>
-        <div>
+        <div data-slide="right">
           <p class="meta"><span>2025</span><span>Research</span><span>MQ-3 · Fuel cell · C++</span></p>
           <h2 class="reveal" data-split>Breathalyzer Research Project</h2>
           <ul class="reveal" style="--i:1">
@@ -169,7 +169,7 @@
         </div>
       </article>
       <!-- Video placement: full-width banner, plays in view -->
-      <figure class="video-banner img-reveal reveal" aria-label="Test footage placeholder">
+      <figure class="video-banner img-reveal reveal" data-slide="up" aria-label="Test footage placeholder">
         <video data-video-inview src="assets/loop-coral.mp4"
                muted loop playsinline preload="metadata"
                aria-label="Abstract gradient loop placeholder"></video>
@@ -183,7 +183,7 @@
   <div class="page-end">
     <section class="cta" aria-labelledby="cta-title">
       <div class="container">
-        <h2 id="cta-title" class="reveal" data-split>Next build<br /><span class="hl">loading&hellip;</span></h2>
+        <h2 id="cta-title" class="reveal" data-split>Next build<br /><span class="hl fx">loading&hellip;</span></h2>
         <a class="btn reveal" style="--i:1" href="about.html">About me <span class="arrow" aria-hidden="true">&rarr;</span></a>
       </div>
     </section>

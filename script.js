@@ -649,28 +649,96 @@ function initMarqueeDrive() {
 }
 
 /* ------------------------------------------------------------
-   12. SECTION THEME FLIP
-   Sections marked data-theme-section="light" flip the whole
-   page to a light palette while they dominate the viewport
-   (body.theme-light swaps the custom properties; CSS
-   transitions the background/color crossfade).
+   12. SCROLL-GRADIENT BACKGROUND
+   The page's palette BLENDS with scroll position instead of
+   snapping: each frame we measure how close the viewport center
+   is to the [data-theme-section] band and write --fm (0 → 1).
+   CSS color-mix() does the actual blending of every token (see
+   style.css "SCROLL-GRADIENT THEME BLEND"), so the background
+   travels through the gradient as you scroll — both directions.
    ------------------------------------------------------------ */
-function initSectionThemes() {
-  const sections = document.querySelectorAll('[data-theme-section="light"]');
-  if (!sections.length || !('IntersectionObserver' in window)) return;
-  const active = new Set();
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) active.add(e.target);
-        else active.delete(e.target);
-      }
-      document.body.classList.toggle('theme-light', active.size > 0);
-    },
-    // flip when the section crosses the middle band of the screen
-    { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
-  );
-  sections.forEach((s) => io.observe(s));
+function initScrollGradient() {
+  const sections = document.querySelectorAll('[data-theme-section]');
+  if (!sections.length || REDUCED_MOTION) return;
+
+  const bands = [];
+  const measure = () => {
+    bands.length = 0;
+    sections.forEach((s) => {
+      const r = s.getBoundingClientRect();
+      const top = r.top + window.scrollY;
+      bands.push({ top, bottom: top + r.height });
+    });
+  };
+  measure();
+  onResize(measure);
+
+  const smooth = (t) => t * t * (3 - 2 * t); // smoothstep easing
+
+  ScrollEngine.add((y) => {
+    const center = y + innerHeight / 2;
+    const feather = innerHeight * 0.65; // blend distance around the band
+    let fm = 0;
+    for (const b of bands) {
+      // distance from viewport center to the band (0 inside it)
+      const d = center < b.top ? b.top - center
+              : center > b.bottom ? center - b.bottom : 0;
+      fm = Math.max(fm, 1 - Math.min(d / feather, 1));
+    }
+    document.body.style.setProperty('--fm', smooth(fm).toFixed(4));
+  });
+}
+
+/* ------------------------------------------------------------
+   12b. SCROLL-POSITION SLIDE-INS
+   [data-slide="left|right|up"] elements glide into place in
+   lockstep with the scrollbar: progress through the lower 55%
+   of the viewport maps (eased) onto offset + opacity. Scrolling
+   back up slides them out again — position-driven, not
+   trigger-driven. Uses the `translate` property so it coexists
+   with every transform-based effect.
+   ------------------------------------------------------------ */
+function initSlideIn() {
+  const els = document.querySelectorAll('[data-slide]');
+  if (!els.length) return;
+  if (REDUCED_MOTION) {
+    els.forEach((el) => (el.style.opacity = 1));
+    return;
+  }
+
+  const OFFSET = 90; // px of travel
+  const items = [];
+  const collect = () => {
+    items.length = 0;
+    els.forEach((el) => {
+      // slide replaces the trigger-based reveal on these elements
+      el.classList.remove('reveal', 'is-visible');
+      el.style.translate = '0px 0px';
+      const r = el.getBoundingClientRect();
+      items.push({
+        el,
+        top: r.top + window.scrollY,
+        dir: el.dataset.slide || 'up',
+      });
+    });
+  };
+  collect();
+  onResize(collect);
+
+  ScrollEngine.add((y) => {
+    const vh = innerHeight;
+    for (const it of items) {
+      const e = clamp((y + vh - it.top) / (vh * 0.55), 0, 1);
+      const ease = 1 - Math.pow(1 - e, 3);
+      const d = (1 - ease) * OFFSET;
+      let x = 0, ty = 0;
+      if (it.dir === 'left') x = -d;
+      else if (it.dir === 'right') x = d;
+      else ty = d;
+      it.el.style.translate = `${x.toFixed(1)}px ${ty.toFixed(1)}px`;
+      it.el.style.opacity = ease.toFixed(3);
+    }
+  });
 }
 
 /* ------------------------------------------------------------
@@ -785,7 +853,7 @@ initLoader();
 initStickyNav();
 initOverlayMenu();
 initCounters();
-initSectionThemes();
+initScrollGradient();
 initVideoInView();
 initBlobReveal();
 initModeToggle();
@@ -795,6 +863,7 @@ const startScrollFX = () => {
   if (_fxStarted) return; // run exactly once
   _fxStarted = true;
   initSplitText();
+  initSlideIn();
   initReveals();
   initParallax();
   initHeroShrink();

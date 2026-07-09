@@ -7,7 +7,7 @@
   <meta name="description" content="About Thanh Diep — mechatronics & AI systems engineering double degree at Western University, Formula SAE team member." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@1,9..144,500..700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script>
     document.documentElement.classList.replace('no-js', 'js');
@@ -24,13 +24,13 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <div class="loader" id="loader" aria-hidden="true">
-    <p class="loader__word">Torque<span class="hl">.</span> Loading<span class="hl">…</span></p>
+    <p class="loader__word">Torque<span class="hl fx">.</span> Loading<span class="hl fx">…</span></p>
     <div class="loader__bar"></div>
   </div>
 
   <header class="site-header" id="header">
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl">/</span>28</a>
+      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl fx">/</span>28</a>
       <div class="site-header__actions">
         <button class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Switch color mode"></button>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
@@ -60,7 +60,7 @@
 
     <section class="page-hero container">
       <p class="eyebrow reveal">The person behind the parts</p>
-      <h1><span class="reveal" style="--i:1">Ab</span><span class="hl reveal" style="--i:2">out</span></h1>
+      <h1><span class="reveal" style="--i:1">Ab</span><span class="hl fx reveal" style="--i:2">out</span></h1>
       <p class="reveal" style="--i:3">
         I'm Thanh — a mechatronics and AI systems engineering student who learns
         by building. Cardboard prototype first, CAD second, carbon fibre third.
@@ -73,7 +73,7 @@
       <section class="section two-col" aria-labelledby="edu-title">
         <div>
           <p class="eyebrow reveal">Education</p>
-          <h2 class="display reveal" data-split id="edu-title" style="--i:1">Double<br /><span class="hl">degree</span></h2>
+          <h2 class="display reveal" data-split id="edu-title" style="--i:1">Double<br /><span class="hl fx">degree</span></h2>
           <p class="reveal" style="--i:2" >
             <b>University of Western Ontario</b> — Concurrent BESc Mechatronics
             Engineering &amp; BSc Artificial Intelligence Systems Engineering,
@@ -85,7 +85,7 @@
             <li>Engineering Design</li><li>Statics</li><li>Business for Engineers</li>
           </ul>
         </div>
-        <div class="img-reveal reveal" data-parallax-img data-blob>
+        <div class="img-reveal reveal" data-parallax-img data-slide="right">
           <img src="assets/hero-portrait.svg" alt="Abstract placeholder portrait graphic" />
         </div>
       </section>
@@ -93,9 +93,9 @@
       <!-- Experience timeline -->
       <section class="section" aria-labelledby="xp-title">
         <p class="eyebrow reveal">Experience</p>
-        <h2 class="display reveal" data-split id="xp-title" style="--i:1">Track <span class="hl-2">record</span></h2>
+        <h2 class="display reveal" data-split id="xp-title" style="--i:1">Track <span class="hl-2 fx">record</span></h2>
         <ol class="timeline">
-          <li class="reveal" style="--i:0">
+          <li class="reveal" data-slide="left" style="--i:0">
             <span class="when">Sep 2025 — Present</span>
             <h3>Formula SAE — Mechanical, Electrical &amp; Business</h3>
             <p>
@@ -104,7 +104,7 @@
               and mapped 40+ sponsors to secure $2,500+ within a $17,870 project budget.
             </p>
           </li>
-          <li class="reveal" style="--i:1">
+          <li class="reveal" data-slide="left" style="--i:1">
             <span class="when">Feb 2026 — Apr 2026</span>
             <h3>Campus Delivery Robot Prototype</h3>
             <p>
@@ -112,7 +112,7 @@
               isolated 12 V power distribution.
             </p>
           </li>
-          <li class="reveal" style="--i:2">
+          <li class="reveal" data-slide="left" style="--i:2">
             <span class="when">2025</span>
             <h3>Robotics &amp; Research Builds</h3>
             <p>
@@ -124,13 +124,13 @@
       </section>
 
       <!-- Full-width interstitial image -->
-      <figure class="img-reveal reveal gallery-card" data-parallax-img data-blob style="flex-basis:auto">
+      <figure class="img-reveal reveal gallery-card" data-parallax-img data-slide="up" style="flex-basis:auto">
         <img src="assets/about-2.svg" alt="Abstract wind-tunnel gauge graphic" />
         <figcaption>Wind Tunnel Data Correlation — 2025</figcaption>
       </figure>
 
       <!-- Video placement: full-width banner, plays in view -->
-      <figure class="video-banner img-reveal reveal" aria-label="Workshop footage placeholder">
+      <figure class="video-banner img-reveal reveal" data-slide="up" aria-label="Workshop footage placeholder">
         <video data-video-inview src="assets/loop-sky.mp4"
                muted loop playsinline preload="metadata"
                aria-label="Abstract gradient loop placeholder"></video>
@@ -140,31 +140,31 @@
       <!-- Skills -->
       <section class="section" aria-labelledby="skills-title">
         <p class="eyebrow reveal">Toolbox</p>
-        <h2 class="display reveal" data-split id="skills-title" style="--i:1">Skills<span class="hl">.</span></h2>
+        <h2 class="display reveal" data-split id="skills-title" style="--i:1">Skills<span class="hl fx">.</span></h2>
 
         <div class="two-col" style="margin-top: var(--space-4)">
-          <div class="reveal" style="--i:0">
+          <div class="reveal" data-slide="up" style="--i:0">
             <h3 class="eyebrow">Simulation &amp; CAD</h3>
             <ul class="tags">
               <li>ANSYS Fluent (CFD)</li><li>SOLIDWORKS (FEA)</li><li>MATLAB</li>
               <li>AutoCAD</li><li>Onshape</li><li>Mold &amp; Jig Design</li>
             </ul>
           </div>
-          <div class="reveal" style="--i:1">
+          <div class="reveal" data-slide="up" style="--i:1">
             <h3 class="eyebrow">Manufacturing</h3>
             <ul class="tags">
               <li>Resin Infusion</li><li>CFRP Sandwich Fabrication</li>
               <li>Surface Finishing</li><li>Soldering</li><li>Wiring Harnesses</li>
             </ul>
           </div>
-          <div class="reveal" style="--i:2">
+          <div class="reveal" data-slide="up" style="--i:2">
             <h3 class="eyebrow">Embedded &amp; Electrical</h3>
             <ul class="tags">
               <li>Arduino</li><li>Circuit Design</li><li>Motor Control</li>
               <li>Sensor Integration</li><li>BMS/IMD Fault Logic</li>
             </ul>
           </div>
-          <div class="reveal" style="--i:3">
+          <div class="reveal" data-slide="up" style="--i:3">
             <h3 class="eyebrow">Programming</h3>
             <ul class="tags">
               <li>C++</li><li>Java</li><li>HTML</li><li>CSS</li>
@@ -181,7 +181,7 @@
   <div class="page-end">
     <section class="cta" aria-labelledby="cta-title">
       <div class="container">
-        <h2 id="cta-title" class="reveal" data-split>Let's build<br /><span class="hl">something.</span></h2>
+        <h2 id="cta-title" class="reveal" data-split>Let's build<br /><span class="hl fx">something.</span></h2>
         <a class="btn btn--solid reveal" style="--i:1" href="mailto:thanhgdiep@gmail.com">
           Get in touch <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>

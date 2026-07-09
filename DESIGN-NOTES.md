@@ -284,6 +284,33 @@ stay pixel-aligned. Every placeholder slot is badged "PLACEHOLDER" via a
 single deletable CSS block, and PLACEHOLDERS.md maps each slot to its file
 with recommended crops/encodings.
 
+## 18. Neon reveals · scroll slides · gradient background · two voices (v9)
+
+**Neon box line reveals.** Every `[data-split]` line now gets the
+reference's block-reveal: an accent panel wipes across the masked line
+(grows from the left, exits right) while the text slides up beneath,
+staggered per line.
+
+**Scroll-position slide-ins.** `[data-slide="left|right|up"]` elements are
+position-driven: their viewport progress maps (eased) onto offset +
+opacity, so images and text glide into place exactly with the scrollbar
+and glide back out when scrolling up. Applied to teasers, stats, cards,
+project rows, timeline items and more.
+
+**Scroll-gradient background.** The palette no longer snaps at the flip
+section — JS writes a per-frame blend factor `--fm` from viewport
+proximity to the `[data-theme-section]` band, and `color-mix(in oklab …)`
+blends every token continuously. Works with all four themes and inverts
+correctly in light mode.
+
+**Two typographic voices.** `.fx` swaps highlighted words into an italic
+Fraunces serif mid-sentence (the serif-inside-sans editorial mix from the
+reference) — every accent word site-wide now speaks serif.
+
+Also: the fluid blob reveal is scoped to the landing page only, and grids
+were hardened for small screens (`minmax(min(…,100%),1fr)`, tighter teaser
+and signature sizing under 600px).
+
 ## Performance notes
 
 - One scroll listener (passive) + one rAF loop guard; no per-frame layout reads

@@ -9,7 +9,7 @@
   <!-- Fonts: heavy display face + technical grotesque (with system fallbacks in CSS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@1,9..144,500..700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
   <!-- Swap the no-js class ASAP so CSS knows JS is available -->
@@ -31,14 +31,14 @@
 
   <!-- ===== LOADER (removed by JS on window load) ===== -->
   <div class="loader" id="loader" aria-hidden="true">
-    <p class="loader__word">Torque<span class="hl">.</span> Loading<span class="hl">…</span></p>
+    <p class="loader__word">Torque<span class="hl fx">.</span> Loading<span class="hl fx">…</span></p>
     <div class="loader__bar"></div>
   </div>
 
   <!-- ===== STICKY HEADER ===== -->
   <header class="site-header" id="header">
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl">/</span>28</a>
+      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl fx">/</span>28</a>
       <div class="site-header__actions">
         <button class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Switch color mode"></button>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
@@ -84,7 +84,7 @@
         <p class="eyebrow reveal" style="--i:0">Mechatronics &times; AI Systems</p>
         <h1 class="hero__name">
           <span class="reveal" style="--i:1">Thanh</span>
-          <span class="reveal hl" style="--i:2">Diep</span>
+          <span class="reveal hl fx" style="--i:2">Diep</span>
         </h1>
         <p class="hero__sub reveal" style="--i:3">
           Engineering student at Western University building race-car aero,
@@ -136,8 +136,8 @@
       <div class="container">
         <!-- data-split: JS masks each visual line and slides it up -->
         <p class="reveal" data-split>
-          <span class="hl">Iterate</span> fast, validate hard,
-          and never ship a part you wouldn't <span class="hl-2">race</span> on.
+          <span class="hl fx">Iterate</span> fast, validate hard,
+          and never ship a part you wouldn't <span class="hl-2 fx">race</span> on.
         </p>
         <p class="sig reveal" style="--i:1">— Thanh Diep, London ON</p>
       </div>
@@ -167,7 +167,7 @@
       <div class="hscroll__stage">
         <div class="container hscroll__head">
           <p class="eyebrow reveal">Build log</p>
-          <h2 class="display reveal" data-split style="--i:1">From bench<br />to <span class="hl">track</span></h2>
+          <h2 class="display reveal" data-split style="--i:1">From bench<br />to <span class="hl fx">track</span></h2>
         </div>
         <div class="hscroll__track" id="hscrollTrack">
           <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:0">
@@ -202,10 +202,10 @@
     <section class="section" aria-label="Highlights">
       <div class="container">
         <div class="stats">
-          <div class="stat reveal" style="--i:0"><b data-count="600">0</b><span>N of downforce supported</span></div>
-          <div class="stat reveal" style="--i:1"><b data-count="2500">0</b><span>$ sponsorship secured</span></div>
-          <div class="stat reveal" style="--i:2"><b data-count="5">0</b><span>CFRP layups executed</span></div>
-          <div class="stat reveal" style="--i:3"><b data-count="99">0</b><span>% RFID access accuracy</span></div>
+          <div class="stat reveal" data-slide="up" style="--i:0"><b data-count="600">0</b><span>N of downforce supported</span></div>
+          <div class="stat reveal" data-slide="up" style="--i:1"><b data-count="2500">0</b><span>$ sponsorship secured</span></div>
+          <div class="stat reveal" data-slide="up" style="--i:2"><b data-count="5">0</b><span>CFRP layups executed</span></div>
+          <div class="stat reveal" data-slide="up" style="--i:3"><b data-count="99">0</b><span>% RFID access accuracy</span></div>
         </div>
       </div>
     </section>
@@ -213,13 +213,13 @@
     <!-- ===== TEASERS: big wayfinding panels ===== -->
     <section class="section" aria-label="Explore">
       <div class="container teasers">
-        <article class="teaser reveal" data-parallax-img data-blob style="--i:0">
+        <article class="teaser reveal" data-parallax-img data-blob data-slide="left" style="--i:0">
           <img src="assets/project-wing.svg" alt="" aria-hidden="true" />
           <h2>Pro<br />jects</h2>
           <p>Race-car aero, delivery robots, droids and sensors — the full build log with numbers.</p>
           <a href="projects.html"><span class="teaser__cta">/projects &rarr;</span></a>
         </article>
-        <article class="teaser reveal" data-parallax-img data-blob style="--i:1">
+        <article class="teaser reveal" data-parallax-img data-blob data-slide="right" style="--i:1">
           <img src="assets/about-1.svg" alt="" aria-hidden="true" />
           <h2>Ab<br />out</h2>
           <p>Education, Formula SAE experience, and the toolbox behind the work.</p>
@@ -234,9 +234,9 @@
     <section class="section" data-theme-section="light" aria-labelledby="hof-title">
       <div class="container">
         <p class="eyebrow reveal">Build hall of fame</p>
-        <h2 class="display reveal" data-split id="hof-title" style="--i:1">Greatest <span class="hl">hits</span></h2>
+        <h2 class="display reveal" data-split id="hof-title" style="--i:1">Greatest <span class="hl fx">hits</span></h2>
         <div class="hof-grid">
-          <article class="hof-card reveal" style="--i:0">
+          <article class="hof-card reveal" data-slide="up" style="--i:0">
             <div class="hof-card__media">
               <img src="assets/project-wing.svg" alt="Rear wing aero package graphic" />
               <img class="swap" src="assets/gallery-4.svg" alt="" aria-hidden="true" />
@@ -244,7 +244,7 @@
             <h3><a href="projects.html#wing">Rear Wing Mounts</a></h3>
             <p class="year">2025 — Formula SAE</p>
           </article>
-          <article class="hof-card reveal" style="--i:1">
+          <article class="hof-card reveal" data-slide="up" style="--i:1">
             <div class="hof-card__media">
               <img src="assets/project-robot.svg" alt="Campus delivery robot graphic" />
               <img class="swap" src="assets/gallery-5.svg" alt="" aria-hidden="true" />
@@ -252,7 +252,7 @@
             <h3><a href="projects.html#robot">Delivery Robot</a></h3>
             <p class="year">2026 — Prototype</p>
           </article>
-          <article class="hof-card reveal" style="--i:2">
+          <article class="hof-card reveal" data-slide="up" style="--i:2">
             <div class="hof-card__media">
               <img src="assets/project-bb8.svg" alt="Spherical droid graphic" />
               <img class="swap" src="assets/gallery-3.svg" alt="" aria-hidden="true" />
@@ -260,7 +260,7 @@
             <h3><a href="projects.html#droid">Sphere Droid</a></h3>
             <p class="year">2025 — Personal build</p>
           </article>
-          <article class="hof-card reveal" style="--i:3">
+          <article class="hof-card reveal" data-slide="up" style="--i:3">
             <div class="hof-card__media">
               <img src="assets/project-tssi.svg" alt="Tractive system status indicator graphic" />
               <img class="swap" src="assets/gallery-2.svg" alt="" aria-hidden="true" />
@@ -279,21 +279,21 @@
     <section class="section" aria-labelledby="reels-title">
       <div class="container">
         <p class="eyebrow reveal">In motion</p>
-        <h2 class="display reveal" data-split id="reels-title" style="--i:1">Shop <span class="hl">reels</span></h2>
+        <h2 class="display reveal" data-split id="reels-title" style="--i:1">Shop <span class="hl fx">reels</span></h2>
         <div class="reel-grid">
-          <figure class="reel-card reveal" style="--i:0">
+          <figure class="reel-card reveal" data-slide="up" style="--i:0">
             <video data-video-inview src="assets/loop-coral.mp4"
                    muted loop playsinline preload="metadata"
                    aria-label="Abstract coral gradient loop placeholder"></video>
             <figcaption>Layup Timelapse — placeholder</figcaption>
           </figure>
-          <figure class="reel-card reveal" style="--i:1">
+          <figure class="reel-card reveal" data-slide="up" style="--i:1">
             <video data-video-inview src="assets/loop-sky.mp4"
                    muted loop playsinline preload="metadata"
                    aria-label="Abstract blue gradient loop placeholder"></video>
             <figcaption>Wind Tunnel Session — placeholder</figcaption>
           </figure>
-          <figure class="reel-card reveal" style="--i:2">
+          <figure class="reel-card reveal" data-slide="up" style="--i:2">
             <video data-video-inview src="assets/loop-gold.mp4"
                    muted loop playsinline preload="metadata"
                    aria-label="Abstract gold gradient loop placeholder"></video>
@@ -307,7 +307,7 @@
     <section class="section" aria-labelledby="tools-title">
       <div class="container">
         <p class="eyebrow reveal">Toolbox</p>
-        <h2 class="display reveal" data-split id="tools-title" style="--i:1">Trusted <span class="hl-2">tools</span></h2>
+        <h2 class="display reveal" data-split id="tools-title" style="--i:1">Trusted <span class="hl-2 fx">tools</span></h2>
         <ul class="tags">
           <li>SOLIDWORKS</li><li>ANSYS Fluent</li><li>MATLAB</li><li>C++</li>
           <li>Java</li><li>Arduino</li><li>JavaScript</li><li>FEA</li>
@@ -324,7 +324,7 @@
     <section class="cta" id="contact" aria-labelledby="cta-title">
       <span class="bg-word" data-parallax="0.05" aria-hidden="true">Build</span>
       <div class="container">
-        <h2 id="cta-title" class="reveal" data-split>Always<br /><span class="hl">iterating.</span></h2>
+        <h2 id="cta-title" class="reveal" data-split>Always<br /><span class="hl fx">iterating.</span></h2>
         <a class="btn btn--solid reveal" style="--i:1" href="mailto:thanhgdiep@gmail.com">
           Get in touch <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>

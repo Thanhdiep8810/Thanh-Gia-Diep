@@ -48,16 +48,24 @@
   /* ── APEX (default) — motorsport-poster scheme:
         near-black with a green cast · silver · racing teal.
         The mid-scroll flip lands on the poster's silver half. ── */
-  --bg:        #0b0f0e;   /* page background                 */
-  --bg-alt:    #131917;   /* raised surfaces (cards, loader) */
-  --line:      #263230;   /* hairline borders                */
-  --ink:       #f4f6f5;   /* main text — silver white        */
-  --ink-dim:   #9fb0ac;   /* secondary text — muted silver   */
+  --base-bg:        #0b0f0e;   /* page background                 */
+  --base-bg-alt:    #131917;   /* raised surfaces (cards, loader) */
+  --base-line:      #263230;   /* hairline borders                */
+  --base-ink:       #f4f6f5;   /* main text — silver white        */
+  --base-ink-dim:   #9fb0ac;   /* secondary text — muted silver   */
   --accent:    #00d2be;   /* primary accent — racing teal    */
   --accent-2:  #cfd8d6;   /* supporting accent — silver      */
   --on-accent: #04110f;   /* text placed ON the accent color */
 
-  /* Palette shown while the scroll theme-flip section is centered */
+  /* Live tokens resolve from the base set; the scroll-gradient
+     system (below) blends them toward --flip-* via --fm */
+  --bg:      var(--base-bg);
+  --bg-alt:  var(--base-bg-alt);
+  --line:    var(--base-line);
+  --ink:     var(--base-ink);
+  --ink-dim: var(--base-ink-dim);
+
+  /* Palette the page blends toward around the flip section */
   --flip-bg:      #e9ecec;
   --flip-bg-alt:  #dde2e2;
   --flip-line:    #c3cbca;
@@ -94,11 +102,11 @@
 
 /* ROYAL — deep navy + coral + pale gold + light blue */
 html[data-theme="royal"] {
-  --bg:        #24305E;
-  --bg-alt:    #2b3866;
-  --line:      #3d4a86;
-  --ink:       #f7f5ea;
-  --ink-dim:   #A8D0E6;
+  --base-bg:        #24305E;
+  --base-bg-alt:    #2b3866;
+  --base-line:      #3d4a86;
+  --base-ink:       #f7f5ea;
+  --base-ink-dim:   #A8D0E6;
   --accent:    #F76C6C;
   --accent-2:  #F8E9A1;
   --on-accent: #24305E;
@@ -111,11 +119,11 @@ html[data-theme="royal"] {
 
 /* NOIR — charcoal + champagne gold + sage (moody luxury) */
 html[data-theme="noir"] {
-  --bg:        #0d0b09;
-  --bg-alt:    #161310;
-  --line:      #332b21;
-  --ink:       #f0e9db;
-  --ink-dim:   #a89e8c;
+  --base-bg:        #0d0b09;
+  --base-bg-alt:    #161310;
+  --base-line:      #332b21;
+  --base-ink:       #f0e9db;
+  --base-ink-dim:   #a89e8c;
   --accent:    #d7b46a;
   --accent-2:  #93b39f;
   --on-accent: #141005;
@@ -128,11 +136,11 @@ html[data-theme="noir"] {
 
 /* MINT — slate + electric mint + violet (technical, energetic) */
 html[data-theme="mint"] {
-  --bg:        #0e1116;
-  --bg-alt:    #151a22;
-  --line:      #2a3140;
-  --ink:       #f2efe8;
-  --ink-dim:   #9aa3b2;
+  --base-bg:        #0e1116;
+  --base-bg-alt:    #151a22;
+  --base-line:      #2a3140;
+  --base-ink:       #f2efe8;
+  --base-ink-dim:   #9aa3b2;
   --accent:    #3ee6c4;
   --accent-2:  #8b7bff;
   --on-accent: #0b0e13;
@@ -160,20 +168,26 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip; /* full-bleed sections can't cause sideways scroll */
-  /* Crossfade when the scroll-driven theme flip swaps the palette */
-  transition: background-color 0.8s var(--ease), color 0.8s var(--ease);
 }
 
-/* Flip theme — toggled by JS while a data-theme-section="light"
-   section crosses the middle of the viewport. It simply adopts
-   the --flip-* tokens from the active theme (see THEME CONFIG),
-   so custom themes automatically get a matching flip palette. */
-body.theme-light {
-  --bg:      var(--flip-bg);
-  --bg-alt:  var(--flip-bg-alt);
-  --line:    var(--flip-line);
-  --ink:     var(--flip-ink);
-  --ink-dim: var(--flip-ink-dim);
+/* SCROLL-GRADIENT THEME BLEND ---------------------------------
+   JS writes --fm (0 → 1) each frame based on scroll proximity to
+   the [data-theme-section] band, and color-mix blends every token
+   continuously — the background *travels* between palettes as you
+   scroll instead of snapping. In light mode the blend inverts. */
+body {
+  --bg:      color-mix(in oklab, var(--flip-bg)      calc(var(--fm, 0) * 100%), var(--base-bg));
+  --bg-alt:  color-mix(in oklab, var(--flip-bg-alt)  calc(var(--fm, 0) * 100%), var(--base-bg-alt));
+  --line:    color-mix(in oklab, var(--flip-line)    calc(var(--fm, 0) * 100%), var(--base-line));
+  --ink:     color-mix(in oklab, var(--flip-ink)     calc(var(--fm, 0) * 100%), var(--base-ink));
+  --ink-dim: color-mix(in oklab, var(--flip-ink-dim) calc(var(--fm, 0) * 100%), var(--base-ink-dim));
+}
+html.mode-light body {
+  --bg:      color-mix(in oklab, var(--base-bg)      calc(var(--fm, 0) * 100%), var(--flip-bg));
+  --bg-alt:  color-mix(in oklab, var(--base-bg-alt)  calc(var(--fm, 0) * 100%), var(--flip-bg-alt));
+  --line:    color-mix(in oklab, var(--base-line)    calc(var(--fm, 0) * 100%), var(--flip-line));
+  --ink:     color-mix(in oklab, var(--base-ink)     calc(var(--fm, 0) * 100%), var(--flip-ink));
+  --ink-dim: color-mix(in oklab, var(--base-ink-dim) calc(var(--fm, 0) * 100%), var(--flip-ink-dim));
 }
 
 /* Lock scroll while the overlay menu or loader is open */
@@ -283,6 +297,10 @@ a { color: inherit; text-decoration: none; }
 
 .btn--solid { background: var(--accent); color: var(--on-accent); }
 .btn--solid::before { background: var(--ink); }
+/* hover fill is --ink, so hover text must be --bg (always the
+   opposite pole of --ink) — fixes invisible text in light mode */
+.btn--solid:hover,
+.btn--solid:focus-visible { color: var(--bg); }
 
 /* --- Scroll-reveal system ----------------------------------
    Elements start shifted/transparent; JS adds .is-visible via
@@ -919,7 +937,7 @@ a { color: inherit; text-decoration: none; }
 }
 .cta h2 {
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 8vw, 6.5rem);
+  font-size: clamp(2.2rem, 7.2vw, 6.5rem);
   line-height: 0.95;
   text-transform: uppercase;
 }
@@ -1206,13 +1224,7 @@ video {
    active theme's --flip-* palette site-wide, so every theme
    (apex/royal/noir/mint) gets a matching light mode for free.
    The choice persists in localStorage. */
-html.mode-light body {
-  --bg:      var(--flip-bg);
-  --bg-alt:  var(--flip-bg-alt);
-  --line:    var(--flip-line);
-  --ink:     var(--flip-ink);
-  --ink-dim: var(--flip-ink-dim);
-}
+/* (mode-light token swap now lives in the scroll-gradient blend above) */
 
 /* Header action cluster (mode toggle + hamburger) */
 .site-header__actions {
@@ -1250,9 +1262,18 @@ html.mode-light .mode-toggle::before { content: "\2600"; } /* ☀ sun */
 .page-end .cta {
   flex: 1;
   display: grid;
-  place-content: center;
+  /* minmax(0,1fr) bounds the track to the section width —
+     place-content alone sizes it to max-content, which clipped
+     long display words like "ITERATING." */
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  justify-items: center;
   padding-block: var(--space-3);
 }
+.page-end .cta .container { max-width: 100%; }
+/* let huge display words shrink instead of clipping */
+.cta h2 { max-width: 100%; }
+.cta h2 .split-line { max-width: 100%; }
 .page-end .site-footer {
   padding-block: var(--space-3);
   font-size: 0.85rem;
@@ -1415,3 +1436,72 @@ html.is-loaded .hero__name span.hl { color: var(--accent); }
   backdrop-filter: blur(4px);
   pointer-events: none;
 }
+
+/* ============================================================
+   23. SERIF VOICE · NEON LINE REVEALS · SCROLL SLIDE-INS ·
+       RESPONSIVE HARDENING (v9)
+   ============================================================ */
+
+/* --- Two-voice typography ------------------------------------
+   .fx swaps a word into the italic serif voice mid-sentence
+   (the editorial serif-inside-sans mix from the reference).
+   Applied to every highlighted word — add/remove freely. */
+:root { --font-serif: "Fraunces", "Playfair Display", Georgia, serif; }
+.fx {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 550;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* --- Neon box line reveal ------------------------------------
+   Each masked line gets an accent panel that wipes across it:
+   grows from the left covering the line, then exits right as the
+   text slides up beneath — the reference's block-reveal. */
+[data-split] .split-line { position: relative; }
+[data-split] .split-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+[data-split].is-visible .split-line::after {
+  animation: line-wipe 1s var(--ease) both;
+  animation-delay: calc(var(--li, 0) * 110ms);
+}
+@keyframes line-wipe {
+  0%   { transform: scaleX(0); transform-origin: left; }
+  45%  { transform: scaleX(1); transform-origin: left; }
+  55%  { transform: scaleX(1); transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+
+/* --- Scroll-position slide-ins -------------------------------
+   [data-slide="left|right|up"] elements are POSITION-driven, not
+   trigger-driven: JS maps each element's viewport progress onto
+   its offset/opacity, so they glide into place exactly with the
+   scrollbar (and glide back out when you scroll up). */
+html.js [data-slide] { opacity: 0; will-change: translate, opacity; }
+
+/* --- Responsive hardening ------------------------------------ */
+.reel-grid { grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); }
+.hof-grid  { grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); }
+.stats     { grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr)); }
+@media (max-width: 600px) {
+  .teaser { min-height: 19rem; padding: var(--space-3); }
+  .signature { width: min(84vw, 22rem); }
+  .menu__meta { gap: var(--space-2); }
+  .vscrub__media { width: 94vw; }
+}
+
+/* --- Reduced motion / no-JS guards --------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-slide] { opacity: 1; translate: none; }
+  [data-split] .split-line::after { display: none; }
+}
+.no-js [data-split] .split-line::after { display: none; }
