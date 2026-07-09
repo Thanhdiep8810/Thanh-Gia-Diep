@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects — Thanh Diep</title>
+  <meta name="description" content="Engineering projects by Thanh Diep: Formula SAE aero and electrical systems, delivery robot, spherical droid, line follower, and sensor research." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    // Apply saved (or OS-preferred) color mode before first paint
+    try {
+      var m = localStorage.getItem('color-mode') ||
+        (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      if (m === 'light') document.documentElement.classList.add('mode-light');
+    } catch (e) {}
+  </script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="loader" id="loader" aria-hidden="true">
+    <p class="loader__word">Torque<span class="hl">.</span> Loading<span class="hl">…</span></p>
+    <div class="loader__bar"></div>
+  </div>
+
+  <header class="site-header" id="header">
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl">/</span>28</a>
+      <div class="site-header__actions">
+        <button class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Switch color mode"></button>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" id="menu" aria-label="Main navigation">
+    <div class="container">
+      <ul class="menu__list">
+        <li><a href="index.html" style="--i:0">Home</a></li>
+        <li><a href="projects.html" aria-current="page" style="--i:1">Projects</a></li>
+        <li><a href="about.html" style="--i:2">About</a></li>
+        <li><a href="index.html#contact" style="--i:3">Contact</a></li>
+      </ul>
+      <div class="menu__meta">
+        <span>Western Formula Racing — since 2025</span>
+        <a href="mailto:thanhgdiep@gmail.com">thanhgdiep@gmail.com</a>
+        <a href="https://linkedin.com/in/thanhgdiep" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <section class="page-hero container">
+      <p class="eyebrow reveal">Build log — 2025 to present</p>
+      <h1><span class="reveal" style="--i:1">Pro</span><span class="hl reveal" style="--i:2">jects</span></h1>
+      <p class="reveal" style="--i:3">
+        Every project below shipped with numbers attached — safety factors,
+        speeds, budgets, accuracies. If it can't be measured, it isn't done.
+      </p>
+    </section>
+
+    <div class="container">
+
+      <!-- Each project: media + meta. Alternating sides via CSS nth-child. -->
+      <article class="project" id="wing">
+        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+          <img src="assets/project-wing.svg" alt="Abstract blueprint graphic of a rear wing aero package" />
+        </div>
+        <div>
+          <p class="meta"><span>2025</span><span>Formula SAE</span><span>SOLIDWORKS · FEA · CFRP</span></p>
+          <h2 class="reveal" data-split>Rear Wing Swan Mounts</h2>
+          <p class="reveal" style="--i:1">
+            Aero structures for Western Formula Racing's rear wing package.
+          </p>
+          <ul class="reveal" style="--i:2">
+            <li>Validated via FEA with a <b>2.0 safety factor</b> under a 10g load case (5g bump at 120 km/h).</li>
+            <li>Corrected a prior-year CFRP failure mode — now supports <b>600 N of downforce</b>, a 50% increase with only a 5% drag penalty.</li>
+            <li>Vacuum-assisted resin infusion across <b>5+ CFRP layups</b>; in-house endplate machining saved ~$800.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="tssi">
+        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+          <img src="assets/project-tssi.svg" alt="Abstract circuit graphic representing the tractive system status indicator" />
+        </div>
+        <div>
+          <p class="meta"><span>2025</span><span>Formula SAE</span><span>Electrical · Safety systems</span></p>
+          <h2 class="reveal" data-split>TSSI — Tractive System Status Indicator</h2>
+          <p class="reveal" style="--i:1">
+            Rules-critical EV safety indicator built to FSAE EV.5.11 compliance.
+          </p>
+          <ul class="reveal" style="--i:2">
+            <li>Manages <b>15+ LED connections</b> with persistent BMS/IMD fault latching.</li>
+            <li>Provides <b>360&deg; visibility</b> at 1.3 m height per FSAE safety rules.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="robot">
+        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+          <img src="assets/project-robot.svg" alt="Abstract graphic of a campus delivery robot" />
+        </div>
+        <div>
+          <p class="meta"><span>2026</span><span>Prototype</span><span>Peltier · UV-C · RFID · Arduino</span></p>
+          <h2 class="reveal" data-split>Campus Delivery Robot</h2>
+          <p class="reveal" style="--i:1">
+            Temperature-controlled, sterilized, access-controlled delivery payload.
+          </p>
+          <ul class="reveal" style="--i:2">
+            <li>5 L compartment held below <b>5&nbsp;&deg;C</b> with a 12 V Peltier module, plus UV-C sterilization.</li>
+            <li>13.56 MHz RFID scanner achieving <b>99% access-control accuracy</b>.</li>
+            <li>Shared 12 V electromechanical power distribution with thermal subsystem isolation.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="droid">
+        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+          <img src="assets/project-bb8.svg" alt="Abstract graphic of a spherical droid" />
+        </div>
+        <div>
+          <p class="meta"><span>2025</span><span>Personal build</span><span>C++ · Arduino · 3D printing</span></p>
+          <h2 class="reveal" data-split>Sphere Droid</h2>
+          <p class="reveal" style="--i:1">
+            A functional ball-drive droid with a magnetically coupled head.
+          </p>
+          <ul class="reveal" style="--i:2">
+            <li>Stable spherical motion at <b>0.5 m/s</b> inside a 20 cm acrylic shell; 5 lb neodymium head coupling.</li>
+            <li>Iterated 4 cardboard prototypes before a PLA chassis cut weight <b>15%</b>.</li>
+            <li>C++ motor control with synchronized light and sound; <b>20+ hours</b> of soldering and testing.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="line">
+        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+          <img src="assets/project-line.svg" alt="Abstract graphic of a line-following robot circuit" />
+        </div>
+        <div>
+          <p class="meta"><span>2025</span><span>Autonomous</span><span>Arduino · IR sensors</span></p>
+          <h2 class="reveal" data-split>Line Following Robot</h2>
+          <ul class="reveal" style="--i:1">
+            <li>Compact 15&times;15 cm robot (3 IR sensors, L293D driver) completing a 5 m track in <b>&lt;12 s</b>.</li>
+            <li>Regulated 6 V power with organized wiring — <b>100% uptime</b> across all test phases.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="project" id="breathalyzer">
+        <div class="project__media img-reveal reveal" data-parallax-img data-blob>
+          <img src="assets/project-breath.svg" alt="Abstract calibration gauge graphic for a breathalyzer sensor" />
+        </div>
+        <div>
+          <p class="meta"><span>2025</span><span>Research</span><span>MQ-3 · Fuel cell · C++</span></p>
+          <h2 class="reveal" data-split>Breathalyzer Research Project</h2>
+          <ul class="reveal" style="--i:1">
+            <li>Portable Arduino + MQ-3 breathalyzer calibrated to within <b>&plusmn;0.02 BAC</b>.</li>
+            <li>10-page technical report; presented fuel-cell redox data and calibration curves to <b>30+ peers</b>.</li>
+          </ul>
+        </div>
+      </article>
+      <!-- Video placement: full-width banner, plays in view -->
+      <figure class="video-banner img-reveal reveal" aria-label="Test footage placeholder">
+        <video data-video-inview src="assets/loop-coral.mp4"
+               muted loop playsinline preload="metadata"
+               aria-label="Abstract gradient loop placeholder"></video>
+        <figcaption class="eyebrow">Track Test — placeholder reel</figcaption>
+      </figure>
+    </div>
+
+  </main>
+
+  <!-- ===== PAGE END: CTA centered + compact footer, one viewport ===== -->
+  <div class="page-end">
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <h2 id="cta-title" class="reveal" data-split>Next build<br /><span class="hl">loading&hellip;</span></h2>
+        <a class="btn reveal" style="--i:1" href="about.html">About me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h3>Thanh Diep</h3>
+          <p>Mechatronics &amp; AI Systems Engineering student at Western University.
+             Formula SAE. Robotics. Composites.</p>
+        </div>
+        <div>
+          <h3>Pages</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Connect</h3>
+          <ul>
+            <li><a href="mailto:thanhgdiep@gmail.com">Email</a></li>
+            <li><a href="https://linkedin.com/in/thanhgdiep" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://thanhdiep.co" rel="noopener">thanhdiep.co</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__legal">
+        <span>&copy; 2026 Thanh Diep. Educational design study — all content and artwork original.</span>
+        <span>Built with HTML, CSS &amp; vanilla JS</span>
+      </div>
+    </div>
+  </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1417 @@
+/* ============================================================
+   THANH DIEP — PORTFOLIO
+   Design study inspired by cinematic athlete-site patterns.
+   Vanilla CSS3 only. Original palette, type scale and artwork.
+
+   TABLE OF CONTENTS
+   1.  Design tokens (custom properties)
+   2.  Reset & base
+   3.  Utilities (container, eyebrow, buttons, reveal system)
+   4.  Loader
+   5.  Header / sticky nav / overlay menu
+   6.  Hero
+   7.  Marquee strips
+   8.  Statement section
+   9.  Horizontal scroll gallery
+   10. Teaser panels
+   11. Hall of Fame grid (hover-swap cards)
+   12. Stats band
+   13. Skills / toolbox
+   14. Page hero (inner pages) + project grid + about page
+   15. Contact CTA + footer
+   16. Responsive breakpoints
+   17. Reduced motion
+   ============================================================ */
+
+/* ---------- 1. DESIGN TOKENS -------------------------------
+
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  ★ THEME CONFIG — CHANGE THE WHOLE SITE'S LOOK HERE ★     ║
+   ║                                                           ║
+   ║  Every color on the site flows from the tokens below.     ║
+   ║  Two ways to re-theme:                                    ║
+   ║                                                           ║
+   ║  A) Edit the 8 color tokens + 5 --flip-* tokens in :root. ║
+   ║     (--flip-* is the palette the page crossfades to       ║
+   ║     during the mid-scroll theme flip.)                    ║
+   ║                                                           ║
+   ║  B) Use a prebuilt theme: add data-theme to the <html>    ║
+   ║     tag of each page, e.g.                                ║
+   ║        <html lang="en" class="no-js" data-theme="royal">  ║
+   ║     Available: "apex" (default) · "royal" · "noir" ·      ║
+   ║     "mint" — defined right after :root.                   ║
+   ║                                                           ║
+   ║  Fonts: swap --font-display / --font-body below AND the   ║
+   ║  Google Fonts <link> in each HTML <head>.                 ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+:root {
+  /* ── APEX (default) — motorsport-poster scheme:
+        near-black with a green cast · silver · racing teal.
+        The mid-scroll flip lands on the poster's silver half. ── */
+  --bg:        #0b0f0e;   /* page background                 */
+  --bg-alt:    #131917;   /* raised surfaces (cards, loader) */
+  --line:      #263230;   /* hairline borders                */
+  --ink:       #f4f6f5;   /* main text — silver white        */
+  --ink-dim:   #9fb0ac;   /* secondary text — muted silver   */
+  --accent:    #00d2be;   /* primary accent — racing teal    */
+  --accent-2:  #cfd8d6;   /* supporting accent — silver      */
+  --on-accent: #04110f;   /* text placed ON the accent color */
+
+  /* Palette shown while the scroll theme-flip section is centered */
+  --flip-bg:      #e9ecec;
+  --flip-bg-alt:  #dde2e2;
+  --flip-line:    #c3cbca;
+  --flip-ink:     #0c1110;
+  --flip-ink-dim: #4d5a57;
+
+  /* Type: heavy poster-grade display + refined grotesque body */
+  --font-display: "Archivo Black", "Arial Black", system-ui, sans-serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+
+  /* Fluid spacing scale — clamp() means spacing scales with
+     the viewport, so sections breathe on desktop and tighten
+     on mobile without extra media queries. */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: clamp(1.5rem, 3vw, 2.5rem);
+  --space-4: clamp(2.5rem, 5vw, 4.5rem);
+  --space-5: clamp(4rem, 8vw, 7rem);
+  --space-6: clamp(6rem, 12vw, 11rem);
+
+  --container: 74rem;
+  --radius: 12px;
+
+  /* One easing curve used everywhere = cohesive motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.8s;
+
+  --nav-h: 4.5rem;
+}
+
+/* ── PREBUILT ALTERNATE THEMES ─────────────────────────────────
+   Activate by setting data-theme on <html> in each page.
+   Copy one of these blocks to invent your own theme. */
+
+/* ROYAL — deep navy + coral + pale gold + light blue */
+html[data-theme="royal"] {
+  --bg:        #24305E;
+  --bg-alt:    #2b3866;
+  --line:      #3d4a86;
+  --ink:       #f7f5ea;
+  --ink-dim:   #A8D0E6;
+  --accent:    #F76C6C;
+  --accent-2:  #F8E9A1;
+  --on-accent: #24305E;
+  --flip-bg:      #A8D0E6;
+  --flip-bg-alt:  #99c5de;
+  --flip-line:    #7fa9c6;
+  --flip-ink:     #24305E;
+  --flip-ink-dim: #374785;
+}
+
+/* NOIR — charcoal + champagne gold + sage (moody luxury) */
+html[data-theme="noir"] {
+  --bg:        #0d0b09;
+  --bg-alt:    #161310;
+  --line:      #332b21;
+  --ink:       #f0e9db;
+  --ink-dim:   #a89e8c;
+  --accent:    #d7b46a;
+  --accent-2:  #93b39f;
+  --on-accent: #141005;
+  --flip-bg:      #efe9dc;
+  --flip-bg-alt:  #e5ddcb;
+  --flip-line:    #d2c6ad;
+  --flip-ink:     #171310;
+  --flip-ink-dim: #5b5344;
+}
+
+/* MINT — slate + electric mint + violet (technical, energetic) */
+html[data-theme="mint"] {
+  --bg:        #0e1116;
+  --bg-alt:    #151a22;
+  --line:      #2a3140;
+  --ink:       #f2efe8;
+  --ink-dim:   #9aa3b2;
+  --accent:    #3ee6c4;
+  --accent-2:  #8b7bff;
+  --on-accent: #0b0e13;
+  --flip-bg:      #eceae2;
+  --flip-bg-alt:  #e0ddd2;
+  --flip-line:    #cbc6b8;
+  --flip-ink:     #13171e;
+  --flip-ink-dim: #4c5462;
+}
+
+/* ---------- 2. RESET & BASE -------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  /* Smooth scrolling for same-page anchors (CSS-native) */
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* full-bleed sections can't cause sideways scroll */
+  /* Crossfade when the scroll-driven theme flip swaps the palette */
+  transition: background-color 0.8s var(--ease), color 0.8s var(--ease);
+}
+
+/* Flip theme — toggled by JS while a data-theme-section="light"
+   section crosses the middle of the viewport. It simply adopts
+   the --flip-* tokens from the active theme (see THEME CONFIG),
+   so custom themes automatically get a matching flip palette. */
+body.theme-light {
+  --bg:      var(--flip-bg);
+  --bg-alt:  var(--flip-bg-alt);
+  --line:    var(--flip-line);
+  --ink:     var(--flip-ink);
+  --ink-dim: var(--flip-ink-dim);
+}
+
+/* Lock scroll while the overlay menu or loader is open */
+body.no-scroll { overflow: hidden; }
+
+img, svg { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; text-decoration: none; }
+
+/* Accessibility: always-visible focus for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection { background: var(--accent); color: var(--on-accent); }
+
+/* Skip link — hidden until focused (a11y best practice) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 300;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  border-radius: 0 0 var(--radius) var(--radius);
+  transition: top 0.2s var(--ease);
+}
+.skip-link:focus { top: 0; }
+
+/* ---------- 3. UTILITIES ------------------------------------ */
+.container {
+  width: min(100% - 2 * var(--space-3), var(--container));
+  margin-inline: auto;
+}
+
+.section { padding-block: var(--space-6); }
+
+/* Small uppercase label above headings — big tracking, tiny size */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.eyebrow::before {
+  content: "";
+  width: 2rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Display headings — scale contrast does the visual work */
+.display {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+/* Accent highlight inside sentences (concept: single energetic
+   color woven through copy) */
+.hl { color: var(--accent); }
+.hl-2 { color: var(--accent-2); }
+
+/* --- Animated button ---------------------------------------
+   A sliding "fill" pseudo-element sweeps in on hover.
+   transform-only => runs on the compositor (cheap). */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.9em 1.8em;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  overflow: hidden;
+  isolation: isolate;          /* keeps the ::before z-index local */
+  transition: color 0.35s var(--ease);
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform 0.45s var(--ease);
+}
+.btn:hover, .btn:focus-visible { color: var(--on-accent); }
+.btn:hover::before, .btn:focus-visible::before { transform: translateX(0); }
+.btn .arrow { transition: transform 0.35s var(--ease); }
+.btn:hover .arrow { transform: translateX(4px); }
+
+.btn--solid { background: var(--accent); color: var(--on-accent); }
+.btn--solid::before { background: var(--ink); }
+
+/* --- Scroll-reveal system ----------------------------------
+   Elements start shifted/transparent; JS adds .is-visible via
+   IntersectionObserver. --i staggers siblings. */
+.reveal {
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Image "curtain" reveal: a panel un-scales to unveil the image */
+.img-reveal { position: relative; overflow: hidden; }
+.img-reveal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--bg-alt);
+  transform-origin: right;
+  transition: transform 0.9s var(--ease);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+.img-reveal img {
+  transform: scale(1.15);
+  transition: transform 1.2s var(--ease);
+}
+.img-reveal.is-visible::after { transform: scaleX(0); }
+.img-reveal.is-visible img { transform: scale(1); }
+
+/* ---------- 4. LOADER --------------------------------------- */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-content: center;
+  gap: var(--space-2);
+  background: var(--bg);
+  transition: opacity 0.6s var(--ease), visibility 0.6s;
+}
+.loader__word {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 3rem);
+  text-transform: uppercase;
+  animation: loader-pulse 1.2s ease-in-out infinite alternate;
+}
+.loader__bar {
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.loader__bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  animation: loader-fill 1.4s var(--ease) infinite;
+}
+@keyframes loader-pulse { from { opacity: 0.5; } to { opacity: 1; } }
+@keyframes loader-fill {
+  0%   { transform: scaleX(0); }
+  60%  { transform: scaleX(1); transform-origin: left; }
+  61%  { transform-origin: right; }
+  100% { transform: scaleX(0); transform-origin: right; }
+}
+/* JS adds this once window "load" fires — scales out like a lens */
+.loader { transition: opacity 0.6s var(--ease), visibility 0.6s, scale 0.6s var(--ease); }
+.loader.is-done { opacity: 0; visibility: hidden; scale: 1.08; }
+
+/* ---------- 5. HEADER / NAV --------------------------------- */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+/* JS toggles this class after a small scroll distance */
+.site-header.nav--scrolled {
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--line);
+}
+.site-header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+.logo .hl { transition: color 0.3s; }
+.logo:hover .hl { color: var(--accent-2); }
+
+/* Hamburger — a real <button>, three bars animated to an X */
+.nav-toggle {
+  display: inline-grid;
+  gap: 6px;
+  padding: 0.9rem 0.7rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.nav-toggle span {
+  width: 28px;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.35s var(--ease), opacity 0.25s;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Full-screen overlay menu (desktop AND mobile navigation) */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  align-content: center;
+  background: color-mix(in srgb, var(--bg) 94%, var(--accent));
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease), visibility 0.45s;
+}
+.menu.is-open { visibility: visible; opacity: 1; }
+
+.menu__list { list-style: none; }
+.menu__list a {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 8vw, 5rem);
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--ink);
+  /* links slide up as the menu opens; stagger via --i */
+  transform: translateY(1.2em);
+  opacity: 0;
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease), color 0.3s;
+  transition-delay: calc(0.1s + var(--i, 0) * 70ms);
+}
+.menu.is-open .menu__list a { transform: none; opacity: 1; }
+.menu__list a:hover,
+.menu__list a[aria-current="page"] { color: var(--accent); }
+.menu__list a[aria-current="page"]::after { content: " •"; }
+
+.menu__meta {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.menu__meta a:hover { color: var(--accent); }
+
+/* ---------- 6. HERO ------------------------------------------
+   Full-screen identity scene: viewport-filling name, role line,
+   "next build" chip, scroll cue. */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  align-content: end;
+  padding-block: calc(var(--nav-h) + var(--space-3)) var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+/* Ambient background glows — pure CSS, no image needed.
+   --drift-1 / --drift-2 are set by JS on scroll so each glow
+   moves at its own speed (layered parallax depth). */
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 60vmax; height: 60vmax;
+  top: -20vmax; right: -20vmax;
+  background: radial-gradient(closest-side,
+      color-mix(in srgb, var(--accent) 14%, transparent), transparent);
+  pointer-events: none;
+  translate: 0 calc(var(--drift-1, 0) * 1px);
+  opacity: var(--glow, 1);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 50vmax; height: 50vmax;
+  bottom: -25vmax; left: -15vmax;
+  background: radial-gradient(closest-side,
+      color-mix(in srgb, var(--accent-2) 12%, transparent), transparent);
+  pointer-events: none;
+  translate: 0 calc(var(--drift-2, 0) * 1px);
+  opacity: var(--glow, 1);
+}
+
+.hero__name {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 14vw, 12rem);   /* fluid, viewport-filling */
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+.hero__name span { display: block; }
+.hero__name .hl { -webkit-text-stroke: 0; }
+
+.hero__sub {
+  margin-top: var(--space-3);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  color: var(--ink-dim);
+  max-width: 34em;
+}
+
+.hero__row {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* "Next build" chip — UX pattern: persistent what's-next cue */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: 0.7em 1.3em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: border-color 0.3s;
+}
+.chip:hover { border-color: var(--accent); }
+.chip .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 1.6s ease-in-out infinite;
+}
+@keyframes blink { 50% { opacity: 0.2; } }
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  writing-mode: vertical-rl;
+}
+.scroll-cue::after {
+  content: "";
+  width: 1px; height: 3rem;
+  background: linear-gradient(var(--accent), transparent);
+  animation: cue 1.8s var(--ease) infinite;
+}
+@keyframes cue {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ---------- 7. MARQUEE --------------------------------------
+   Infinite ribbon: content duplicated in HTML, track slides
+   -50% and loops seamlessly. */
+.marquee {
+  border-block: 1px solid var(--line);
+  padding-block: var(--space-2);
+  overflow: hidden;
+}
+.marquee__track {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__track span {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2.4vw, 1.6rem);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-dim);
+}
+.marquee__track span:nth-child(odd) { color: var(--ink); }
+.marquee__track .sep { color: var(--accent); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- 8. STATEMENT ------------------------------------ */
+.statement { text-align: center; }
+.statement p {
+  margin-inline: auto;
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4.6vw, 3.6rem);
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.statement .sig {
+  margin-top: var(--space-3);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* ---------- 9. HORIZONTAL SCROLL GALLERY ---------------------
+   Concept: vertical scroll drives a horizontal strip.
+   .hscroll is tall (300vh); .hscroll__stage sticks to the top
+   while JS translates the track. Falls back to a native
+   swipeable strip on mobile / reduced-motion / no-JS. */
+.hscroll { height: 300vh; }
+.hscroll__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  align-content: center;
+  gap: var(--space-3);
+  overflow: hidden;
+}
+.hscroll__head { display: flex; flex-direction: column; gap: var(--space-2); }
+.hscroll__track {
+  display: flex;
+  gap: var(--space-3);
+  padding-inline: var(--space-3);
+  will-change: transform;   /* hint: compositor layer */
+}
+.gallery-card {
+  flex: 0 0 clamp(16rem, 34vw, 26rem);
+}
+.gallery-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.gallery-card figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* ---------- 10. TEASER PANELS --------------------------------
+   Big split wayfinding links to inner pages. Whole panel is
+   clickable via the stretched-link pattern. */
+.teasers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.teaser {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: var(--space-2);
+  min-height: 26rem;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  isolation: isolate;
+}
+.teaser img {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  transition: transform 0.9s var(--ease), opacity 0.5s;
+}
+.teaser:hover img { transform: scale(1.06); opacity: 0.75; }
+.teaser h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.teaser p { color: var(--ink-dim); max-width: 28em; }
+.teaser .teaser__cta {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+/* stretched link: one anchor covers the whole card */
+.teaser > a::after { content: ""; position: absolute; inset: 0; }
+
+/* ---------- 11. HALL OF FAME GRID ----------------------------
+   Concept: collection grid where hovering swaps the image.
+   Two stacked images; the top fades in on hover/focus. */
+.hof-grid {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--space-3);
+}
+.hof-card { position: relative; }
+.hof-card__media {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: border-color 0.3s;
+}
+.hof-card__media img { aspect-ratio: 1; object-fit: cover; width: 100%; }
+
+/* --- ORGANIC BLOB REVEAL -------------------------------------
+   The hidden image sits on top, masked by an organic blob shape
+   (assets/blob-mask.svg — edit that file to change the shape).
+   At rest the mask is 0% so nothing shows; on hover/focus it
+   grows from the center, "melting" the hidden image through the
+   front one. A slight counter-scale + rotation on the image
+   makes the growth feel liquid rather than mechanical.
+   Because mask-* are their own properties, this coexists with
+   all the transform/translate effects elsewhere. */
+.hof-card__media img.swap {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: url("assets/blob-mask.svg");
+  mask-image: url("assets/blob-mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 0% 0%;
+  mask-size: 0% 0%;
+  scale: 1.15;
+  rotate: -6deg;
+  transition:
+    -webkit-mask-size 0.9s var(--ease),
+    mask-size 0.9s var(--ease),
+    scale 0.9s var(--ease),
+    rotate 0.9s var(--ease);
+}
+.hof-card:hover .swap,
+.hof-card:focus-within .swap {
+  /* > 300% so the blob's lobes swallow the whole square card */
+  -webkit-mask-size: 340% 340%;
+  mask-size: 340% 340%;
+  scale: 1;
+  rotate: 0deg;
+}
+
+/* --- FLUID BLOB (JS upgrade) ---------------------------------
+   When script.js takes over (adds .blob-js) the static mask is
+   disabled and the reveal becomes a living clip-path blob that:
+   - follows the cursor around the card,
+   - wobbles continuously (time-based noise on its radii),
+   - grows/shrinks with mouse speed.
+   The CSS mask above remains as the no-JS / reduced-motion
+   fallback. Keyboard focus reveals the full image. */
+.hof-card__media.blob-js img.swap {
+  -webkit-mask-image: none;
+  mask-image: none;
+  transition: none;
+  scale: 1.05;
+  rotate: 0deg;
+  will-change: clip-path;
+  /* zero-area path until JS draws the first blob */
+  clip-path: path("M0 0 Z");
+}
+.hof-card:focus-within .hof-card__media.blob-js img.swap {
+  clip-path: none !important;
+}
+.hof-card:hover .hof-card__media { border-color: var(--accent); }
+.hof-card h3 {
+  margin-top: 0.8rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+.hof-card .year { color: var(--ink-dim); font-size: 0.85rem; }
+.hof-card > h3 a::after { content: ""; position: absolute; inset: 0; }
+
+/* ---------- 12. STATS BAND ---------------------------------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-3);
+  border-block: 1px solid var(--line);
+  padding-block: var(--space-4);
+}
+.stat b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  color: var(--accent);
+}
+.stat span { color: var(--ink-dim); font-size: 0.9rem; }
+
+/* ---------- 13. SKILLS / TOOLBOX ----------------------------- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  list-style: none;
+}
+.tags li {
+  padding: 0.5em 1.1em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--ink-dim);
+  transition: border-color 0.3s, color 0.3s, transform 0.3s var(--ease);
+}
+.tags li:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  transform: translateY(-3px);
+}
+
+/* ---------- 14. INNER PAGES ---------------------------------- */
+.page-hero {
+  padding-top: calc(var(--nav-h) + var(--space-5));
+  padding-bottom: var(--space-4);
+}
+.page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+.page-hero p { margin-top: var(--space-3); color: var(--ink-dim); max-width: 40em; }
+
+/* Project cards: media + meta, alternating layout on desktop */
+.project {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding-block: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+.project:nth-child(even) .project__media { order: 2; }
+.project__media img {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  width: 100%;
+}
+.project h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+.project .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin-block: var(--space-2);
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.project p { color: var(--ink-dim); }
+.project ul {
+  margin-top: var(--space-2);
+  padding-left: 1.2em;
+  color: var(--ink-dim);
+}
+.project ul li { margin-bottom: 0.5em; }
+.project ul b { color: var(--ink); font-weight: 600; }
+
+/* About page: timeline */
+.timeline { list-style: none; position: relative; margin-top: var(--space-4); }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.4rem; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+.timeline li {
+  position: relative;
+  padding: 0 0 var(--space-4) var(--space-4);
+}
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.4rem;
+  width: 0.85rem; height: 0.85rem;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+.timeline .when {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.timeline h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  margin-block: 0.4rem;
+}
+.timeline p { color: var(--ink-dim); max-width: 48em; }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* ---------- 15. CTA + FOOTER --------------------------------- */
+.cta {
+  text-align: center;
+  padding-block: var(--space-6);
+}
+.cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.cta .btn { margin-top: var(--space-4); }
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding-block: var(--space-4);
+  color: var(--ink-dim);
+  font-size: 0.9rem;
+}
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-3);
+}
+.site-footer h3 {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+  color: var(--ink);
+}
+.site-footer ul { list-style: none; }
+.site-footer li { margin-bottom: 0.5em; }
+.site-footer a:hover { color: var(--accent); }
+.site-footer__legal {
+  margin-top: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: 0.8rem;
+}
+
+/* ---------- 16. RESPONSIVE ----------------------------------- */
+@media (max-width: 900px) {
+  .teasers, .two-col, .project { grid-template-columns: 1fr; }
+  .project:nth-child(even) .project__media { order: 0; }
+  .site-footer__grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  /* Horizontal gallery: JS-driven strip becomes a natively
+     swipeable, scroll-snapped row (no JS required) */
+  .hscroll { height: auto; }
+  .hscroll__stage { position: static; height: auto; overflow: visible; }
+  .hscroll__track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-2);
+  }
+  .gallery-card { scroll-snap-align: start; }
+  .site-footer__grid { grid-template-columns: 1fr; }
+  .scroll-cue { display: none; }
+}
+
+/* ---------- 17. REDUCED MOTION --------------------------------
+   Respect user preference: kill transitions/animations and show
+   everything immediately. JS also checks this before enabling
+   scroll-driven effects. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .img-reveal::after, .img-reveal img { opacity: 1; transform: none; }
+}
+
+/* No-JS fallback: everything visible, loader hidden */
+.no-js .reveal { opacity: 1; transform: none; }
+.no-js .img-reveal::after { display: none; }
+.no-js .loader { display: none; }
+
+/* ============================================================
+   18. SCROLL-ANIMATION SYSTEM (v2)
+   Split-text line reveals, parallax depth, velocity marquee,
+   scroll progress bar. See script.js for the driving logic.
+   ============================================================ */
+
+/* --- GIANT BACKGROUND TYPE (poster move) ---------------------
+   Oversized, cropped display words sit behind section content
+   at whisper contrast — like the huge "chassis code" type on
+   race posters. They drift slowly via data-parallax. */
+.bg-word {
+  position: absolute;
+  z-index: 0;
+  right: -0.1em;
+  bottom: -0.18em;
+  font-family: var(--font-display);
+  font-size: clamp(9rem, 28vw, 26rem);
+  line-height: 0.8;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--ink) 7%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+/* keep real content above the giant word */
+.hero .container, .cta .container { position: relative; z-index: 1; }
+.cta { position: relative; overflow: clip; }
+
+/* --- Split-text masked line reveal --------------------------
+   JS wraps each visual line of a [data-split] element in
+   .split-line (the mask) + .split-line-inner (the slider).
+   Lines start below the mask and slide up, staggered by --li. */
+[data-split] .split-line {
+  display: block;
+  overflow: clip;
+  /* small padding keeps descenders (g, y, j) from being shaved */
+  padding-block-end: 0.08em;
+  margin-block-end: -0.08em;
+}
+[data-split] .split-line-inner {
+  display: block;
+  transform: translateY(115%);
+  transition: transform 0.9s var(--ease);
+  transition-delay: calc(var(--li, 0) * 110ms);
+}
+[data-split].is-visible .split-line-inner { transform: translateY(0); }
+.split-word { display: inline-block; }
+
+/* --- Parallax images -----------------------------------------
+   Containers marked data-parallax-img get their inner image
+   overscanned with the `scale` property (independent from
+   `transform`, so hover/reveal transitions keep working) and
+   JS drifts it vertically with the `translate` property. */
+[data-parallax-img] { overflow: clip; }
+[data-parallax-img] img {
+  scale: 1.18;
+  will-change: translate;
+}
+
+/* --- Velocity marquee ----------------------------------------
+   When JS drives the ribbon (scroll-speed + direction aware)
+   it adds .is-js and the CSS keyframe fallback is disabled. */
+.marquee__track.is-js { animation: none; }
+
+/* --- Reduced motion / no-JS guards for the v2 system --------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-parallax-img] img { scale: 1; }
+  [data-split] .split-line-inner { transform: none; }
+}
+.no-js [data-parallax-img] img { scale: 1; }
+
+/* ============================================================
+   19. LUXE THEME REFINEMENTS + VIDEO PLACEMENTS (v3)
+   ============================================================ */
+
+/* Archivo Black ships a single 400 weight — declare it so the
+   browser never synthesizes a faux-bold on display type. */
+.hero__name, .display, .loader__word, .logo, .menu__list a,
+.statement p, .page-hero h1, .project h2, .timeline h3,
+.cta h2, .stat b, .teaser h2, .hof-card h3 {
+  font-weight: 400;
+  letter-spacing: -0.01em; /* poster-tight tracking */
+}
+
+/* --- Base video styling -------------------------------------- */
+video {
+  display: block;
+  width: 100%;
+  background: var(--bg-alt);
+}
+
+/* --- CINEMA: scroll-scrubbed video ---------------------------
+   Tall wrapper pins a sticky stage; JS maps scroll progress to
+   video.currentTime AND a scale ramp (the media grows from 84%
+   to full size as it pins — the reference's pinned-canvas move).
+   Swap the placeholder mp4 for real footage anytime. */
+.vscrub { height: 260vh; }
+.vscrub__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+}
+.vscrub__media {
+  width: min(92vw, 70rem);
+  margin: 0;
+  position: relative;
+  scale: 0.84;              /* JS animates this with scroll */
+  will-change: scale;
+}
+.vscrub__media video {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.vscrub__caption {
+  position: absolute;
+  left: var(--space-2);
+  bottom: var(--space-2);
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+}
+
+/* --- REELS: in-view autoplay video cards --------------------- */
+.reel-grid {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-3);
+}
+.reel-card {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: clip;
+  border: 1px solid var(--line);
+  position: relative;
+  transition: border-color 0.3s, transform 0.5s var(--ease);
+}
+.reel-card:hover { border-color: var(--accent); transform: translateY(-6px); }
+.reel-card video {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  transition: scale 0.8s var(--ease);
+}
+.reel-card:hover video { scale: 1.05; }
+.reel-card figcaption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 2.5rem var(--space-2) var(--space-2);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: linear-gradient(transparent,
+      color-mix(in srgb, var(--bg) 85%, transparent));
+}
+
+/* --- BANNER: full-width in-view video ------------------------ */
+.video-banner {
+  margin: 0;
+  position: relative;
+  border-radius: var(--radius);
+  overflow: clip;
+  border: 1px solid var(--line);
+}
+.video-banner video {
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+}
+.video-banner figcaption {
+  position: absolute;
+  left: var(--space-2);
+  bottom: var(--space-2);
+  padding: 0.5em 1em;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+/* --- Reduced motion: no pinning, no scrub, videos stay posters */
+@media (prefers-reduced-motion: reduce) {
+  .vscrub { height: auto; }
+  .vscrub__stage { position: static; height: auto; }
+  .vscrub__media { scale: 1; }
+}
+@media (max-width: 600px) {
+  .video-banner video { aspect-ratio: 16 / 9; }
+}
+
+/* ============================================================
+   20. LIGHT/DARK MODE + ONE-SCREEN PAGE END (v6)
+   ============================================================ */
+
+/* --- LIGHT / DARK MODE ---------------------------------------
+   The header toggle (and prefers-color-scheme on first visit)
+   adds .mode-light to <html>. Light mode simply adopts the
+   active theme's --flip-* palette site-wide, so every theme
+   (apex/royal/noir/mint) gets a matching light mode for free.
+   The choice persists in localStorage. */
+html.mode-light body {
+  --bg:      var(--flip-bg);
+  --bg-alt:  var(--flip-bg-alt);
+  --line:    var(--flip-line);
+  --ink:     var(--flip-ink);
+  --ink-dim: var(--flip-ink-dim);
+}
+
+/* Header action cluster (mode toggle + hamburger) */
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.mode-toggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.3s, rotate 0.5s var(--ease);
+}
+.mode-toggle::before { content: "\263E"; } /* ☾ moon (dark mode active) */
+html.mode-light .mode-toggle::before { content: "\2600"; } /* ☀ sun */
+.mode-toggle:hover { border-color: var(--accent); rotate: 25deg; }
+
+/* --- ONE-SCREEN PAGE END --------------------------------------
+   The final CTA + footer share a single viewport: the CTA is
+   dead-center in the remaining space, the footer sits compact
+   at the bottom. (min-height, so small screens still scroll.) */
+.page-end {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+.page-end .cta {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  padding-block: var(--space-3);
+}
+.page-end .site-footer {
+  padding-block: var(--space-3);
+  font-size: 0.85rem;
+}
+.page-end .site-footer__grid { gap: var(--space-2) var(--space-3); }
+.page-end .site-footer__legal {
+  margin-top: var(--space-2);
+  padding-top: var(--space-2);
+}
+
+/* ============================================================
+   21. HERO SHRINK SEQUENCE + SCROLL-DRAWN SIGNATURE (v7)
+   Recreates the reference's load/scroll set-piece: the hero
+   backdrop shrinks into a centered card while the page dims,
+   and a signature draws itself, scrubbed by scroll.
+   ============================================================ */
+
+/* The pin: extra height = the sequence's scroll timeline */
+.hero-pin { height: 220vh; }
+.hero-pin .hero {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 0;
+}
+
+/* Backdrop portrait → focused card (JS animates scale/opacity) */
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.35;               /* starts as an ambient backdrop */
+  will-change: scale, opacity;
+}
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--radius) * 2);
+  border: 1px solid var(--line);
+}
+.hero__inner { will-change: translate, opacity; }
+
+/* Signature — five normalized strokes; JS maps scroll progress
+   onto stroke-dashoffset so it draws (and un-draws) with scroll */
+.signature {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: min(72vw, 36rem);
+  rotate: -4deg;
+  z-index: 2;
+  color: var(--accent);
+  pointer-events: none;
+  filter: drop-shadow(0 2px 14px color-mix(in srgb, var(--accent) 35%, transparent));
+}
+.signature path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;        /* no-JS: signature fully drawn */
+}
+html.js .signature path { stroke-dashoffset: 1; } /* JS draws it */
+
+/* Name "inks in" on load: outline first (drawn look), then the
+   fill floods in once the loader clears (html.is-loaded). */
+html.js .hero__name span {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+  transition:
+    color 1s var(--ease) 0.45s,
+    -webkit-text-stroke-color 1s var(--ease) 0.85s;
+}
+html.js .hero__name span.hl { -webkit-text-stroke: 2px var(--accent); }
+html.is-loaded .hero__name span {
+  color: var(--ink);
+  -webkit-text-stroke-color: transparent;
+}
+html.is-loaded .hero__name span.hl { color: var(--accent); }
+
+/* Reduced motion / small screens: no pinning, everything static */
+@media (prefers-reduced-motion: reduce) {
+  .hero-pin { height: auto; }
+  .hero-pin .hero { position: static; height: auto; min-height: 100svh; }
+  html.js .signature path { stroke-dashoffset: 0; }
+  html.js .hero__name span { color: var(--ink); -webkit-text-stroke: 0; }
+  html.js .hero__name span.hl { color: var(--accent); }
+}
+
+/* ============================================================
+   22. SITE-WIDE BLOB LAYERS + PLACEHOLDER BADGES (v8)
+   ============================================================ */
+
+/* --- Auto-built blob layers ----------------------------------
+   JS clones the host's image into .blob-layer and tints it with
+   the theme accent (mix-blend-mode: color), so EVERY photo on
+   the site hides an accent-world version revealed by the fluid
+   blob. Cloned imgs share the parallax drift of the original,
+   so the two layers stay pixel-aligned. */
+[data-blob] { position: relative; }
+.blob-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: clip-path;
+  clip-path: path("M0 0 Z"); /* closed until JS draws the blob */
+}
+.blob-layer > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+.blob-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  mix-blend-mode: color; /* recolors the clone to the accent hue */
+}
+/* teaser images live behind their text — keep the layer there too */
+.teaser .blob-layer { z-index: -1; }
+/* keep gallery captions above the layer */
+.gallery-card figcaption { position: relative; z-index: 2; }
+
+/* --- PLACEHOLDER BADGES ---------------------------------------
+   Every media slot is labeled so it's obvious what to replace.
+   DELETE THIS WHOLE BLOCK (or the data-ph attributes-free rule
+   below) once real photos/footage are in. See PLACEHOLDERS.md
+   for the slot-by-slot swap list. */
+.gallery-card::before,
+.project__media::before,
+.hof-card__media::before,
+.reel-card::before,
+.video-banner::before,
+.vscrub__media::before,
+.teaser::before,
+.hero__media::before {
+  content: "PLACEHOLDER";
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 6;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 0.4em 0.9em;
+  border: 1px dashed color-mix(in srgb, var(--ink-dim) 70%, transparent);
+  border-radius: 999px;
+  color: var(--ink-dim);
+  background: color-mix(in srgb, var(--bg) 65%, transparent);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}

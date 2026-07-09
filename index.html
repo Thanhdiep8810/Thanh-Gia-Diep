@@ -1,499 +1,367 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thanh Diep · Mechatronics &amp; AI Systems Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<style>
-:root{
-  --bg:#0C0C0D;
-  --ink:#F5F4F1;
-  --paper:#F5F4F1;
-  --paper-ink:#0C0C0D;
-  --muted:#8C8A85;
-  --muted-dark:#5A5854;
-  --line:rgba(245,244,241,0.14);
-  --line-strong:rgba(245,244,241,0.3);
-  --line-dark:rgba(12,12,13,0.12);
-  --line-dark-strong:rgba(12,12,13,0.28);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--paper);color:var(--paper-ink);
-  font-family:'IBM Plex Sans',sans-serif;overflow-x:hidden;cursor:none;
-  -webkit-font-smoothing:antialiased;
-}
-a{color:inherit;text-decoration:none;}
-.mono{font-family:'IBM Plex Mono',monospace;}
-::selection{background:var(--paper-ink);color:var(--paper);}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thanh Diep — Mechatronics &amp; AI Systems Engineering</title>
+  <meta name="description" content="Portfolio of Thanh Diep — mechatronics & AI systems engineering student, Formula SAE team member, and robotics builder." />
 
-/* ---------- custom cursor ---------- */
-#cursor{
-  position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;
-  background:var(--paper-ink);pointer-events:none;z-index:999;
-  transform:translate(-50%,-50%);mix-blend-mode:difference;
-  transition:width .25s ease, height .25s ease, background .25s ease;
-}
-#cursor.big{width:52px;height:52px;background:var(--paper-ink);}
-@media (pointer:coarse){#cursor{display:none;} body{cursor:auto;}}
+  <!-- Fonts: heavy display face + technical grotesque (with system fallbacks in CSS) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
 
-/* ---------- intro (full-bleed loop) ---------- */
-.intro{
-  height:100vh;width:100%;position:relative;background:var(--bg);overflow:hidden;
-  display:flex;align-items:flex-end;
-}
-.intro canvas{position:absolute;inset:0;width:100%;height:100%;}
-#introVideo{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity .6s ease;z-index:1;
-}
-#introVideo.is-ready{opacity:1;}
-.intro__caption{
-  position:relative;z-index:2;color:var(--ink);padding:0 48px 56px;
-  display:flex;justify-content:space-between;align-items:flex-end;width:100%;
-}
-.intro__caption .tag{font-size:12.5px;color:var(--muted);letter-spacing:.04em;}
-.intro__caption .cue{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px;}
-.intro__caption .cue span{display:inline-block;animation:bob 2s ease-in-out infinite;}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-
-/* ---------- about / hi i'm ---------- */
-.about{padding:140px 48px 100px;position:relative;}
-.about__title{
-  font-size:clamp(3.4rem,9vw,7.5rem);line-height:.98;font-weight:500;letter-spacing:-.03em;
-}
-.about__title .greet,.about__title .are{display:block;color:var(--muted-dark);font-weight:400;}
-.about__title b{font-weight:500;}
-.about__intro{max-width:520px;margin-top:34px;font-size:1.15rem;line-height:1.7;color:#2E2C28;}
-.about__buttons{margin-top:44px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;position:relative;min-height:52px;}
-.btn{
-  display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:100px;
-  border:1px solid var(--line-dark-strong);font-size:.95rem;background:transparent;
-  transition:background .25s ease, color .25s ease, border-color .25s ease;cursor:none;
-}
-.btn--hi{background:var(--paper-ink);color:var(--paper);border-color:var(--paper-ink);}
-.btn--hi:hover{background:transparent;color:var(--paper-ink);}
-.btn--snd{opacity:0;pointer-events:none;transform:translateX(-10px);}
-.btn--snd.show{opacity:1;pointer-events:auto;transform:translateX(0);}
-.btn__icon{transition:transform .3s ease;}
-.contact-panel{
-  position:absolute;top:0;left:0;width:100%;max-width:560px;
-  opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .3s ease, transform .3s ease;
-}
-.contact-panel.show{opacity:1;pointer-events:auto;transform:translateY(0);}
-.contact-panel textarea{
-  width:100%;min-height:120px;resize:vertical;border:1px solid var(--line-dark-strong);
-  background:transparent;font-family:'IBM Plex Sans',sans-serif;font-size:1rem;padding:16px;
-  color:var(--paper-ink);outline:none;
-}
-.contact-panel textarea::placeholder{color:var(--muted);}
-
-/* ---------- work grid ---------- */
-.work{padding:0 48px 60px;}
-.work__label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted-dark);padding-bottom:18px;border-bottom:1px solid var(--line-dark);margin-bottom:24px;}
-.workgrid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:120px;gap:14px;}
-.wg-item{
-  position:relative;overflow:hidden;border-radius:6px;background:#EAE8E2;
-  border:1px solid var(--line-dark);
-}
-.wg-item.plain{background:#EAE8E2;}
-.wg-item__container{width:100%;height:100%;display:block;position:relative;}
-.wg-item__content{width:100%;height:100%;}
-.wg-item__content img,.wg-item__content video{width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .4s ease, transform .5s ease;}
-.wg-item:hover .wg-item__content img,.wg-item:hover .wg-item__content video{filter:grayscale(0);transform:scale(1.04);}
-.wg-item__ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:var(--muted-dark);text-align:center;padding:10px;line-height:1.5;}
-.wg-item__title{
-  position:absolute;left:14px;bottom:14px;z-index:3;font-size:.85rem;color:#fff;
-  background:rgba(12,12,13,0.72);padding:6px 12px;border-radius:100px;
-  opacity:0;transform:translateY(6px);transition:opacity .25s ease, transform .25s ease;
-}
-.wg-item:hover .wg-item__title{opacity:1;transform:translateY(0);}
-.wg-item__stat{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-  padding:14px;
-}
-.wg-item__stat .num{font-size:1.9rem;font-weight:600;}
-.wg-item__stat .lbl{font-size:11px;color:var(--muted-dark);margin-top:4px;}
-
-/* bento spans */
-.wg--1{grid-column:span 6;grid-row:span 3;}
-.wg--2{grid-column:span 3;grid-row:span 4;}
-.wg--3{grid-column:span 3;grid-row:span 2;}
-.wg--4{grid-column:span 3;grid-row:span 2;}
-.wg--5{grid-column:span 6;grid-row:span 2;}
-.wg--6{grid-column:span 3;grid-row:span 2;}
-.wg--7{grid-column:span 3;grid-row:span 2;}
-.wg--8{grid-column:span 6;grid-row:span 2;}
-
-/* ---------- build log (write) ---------- */
-.log{padding:100px 48px;}
-.log h2{font-size:2.6rem;font-weight:500;letter-spacing:-.02em;}
-.log__intro{max-width:480px;margin-top:18px;font-size:1.05rem;color:#3A3833;line-height:1.7;}
-.log__carousel{display:flex;gap:20px;margin-top:48px;flex-wrap:wrap;}
-.log__card{flex:1 1 260px;}
-.log__card .tile{aspect-ratio:4/3;background:#EAE8E2;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted-dark);text-align:center;border:1px solid var(--line-dark);transition:background .3s ease;}
-.log__card:hover .tile{background:#e0ddd4;}
-.log__card figcaption{margin-top:14px;font-size:.98rem;font-weight:500;}
-.log__drawer{margin-top:64px;border-top:1px solid var(--line-dark);}
-.log__drawer li{border-bottom:1px solid var(--line-dark);}
-.log__drawer a{display:flex;justify-content:space-between;align-items:baseline;padding:20px 0;gap:20px;}
-.log__drawer dt{font-size:1.02rem;font-weight:500;}
-.log__drawer dd{font-size:.9rem;color:var(--muted-dark);margin-top:4px;}
-.log__drawer .time{font-size:12.5px;color:var(--muted-dark);white-space:nowrap;}
-
-/* ---------- now (play) ---------- */
-.now{padding:20px 48px 100px;}
-.now__box{
-  background:var(--bg);color:var(--ink);border-radius:16px;padding:64px 48px;
-  display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
-}
-.now__visual{aspect-ratio:4/3;background:#1c1c1e;border-radius:10px;overflow:hidden;position:relative;}
-.now__visual img,.now__visual video{width:100%;height:100%;object-fit:cover;}
-.now__visual .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);text-align:center;padding:16px;}
-.now h2{font-size:2.2rem;font-weight:500;}
-.now p{margin-top:16px;color:var(--muted);line-height:1.7;max-width:420px;}
-.now .btn--go{margin-top:24px;display:inline-flex;color:var(--ink);border-color:var(--line-strong);}
-.now .btn--go:hover{background:var(--ink);color:var(--bg);}
-
-/* ---------- footer ---------- */
-.footer{padding:40px 48px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line-dark);}
-.footer__links{display:flex;gap:26px;font-size:.9rem;}
-.footer__links a{opacity:.7;transition:opacity .2s;}
-.footer__links a:hover{opacity:1;}
-.footer p{font-size:.85rem;color:var(--muted-dark);}
-
-.reveal{opacity:0;transform:translateY(22px);}
-
-@media (max-width:860px){
-  .about,.work,.log,.now,.footer{padding-left:24px;padding-right:24px;}
-  .workgrid{grid-template-columns:repeat(6,1fr);grid-auto-rows:110px;}
-  .wg--1{grid-column:span 6;grid-row:span 3;}
-  .wg--2,.wg--3,.wg--4,.wg--6,.wg--7{grid-column:span 3;grid-row:span 2;}
-  .wg--5,.wg--8{grid-column:span 6;grid-row:span 2;}
-  .now__box{grid-template-columns:1fr;padding:40px 28px;}
-  #cursor{display:none;}
-  body{cursor:auto;}
-}
-@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important;}}
-</style>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Swap the no-js class ASAP so CSS knows JS is available -->
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    // Apply saved (or OS-preferred) color mode before first paint
+    try {
+      var m = localStorage.getItem('color-mode') ||
+        (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      if (m === 'light') document.documentElement.classList.add('mode-light');
+    } catch (e) {}
+  </script>
+  <script src="script.js" defer></script>
 </head>
-<body class="home">
+<body>
 
-<div id="cursor"></div>
+  <!-- Accessibility: keyboard users can jump past the nav -->
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<section class="intro">
-  <canvas id="introCanvas"></canvas>
-  <video id="introVideo" muted playsinline preload="auto" data-src="Timelapse-video.mov"></video>
-  <div class="intro__caption">
-    <span class="tag mono">THANH DIEP — LONDON, ON</span>
-    <span class="cue mono">scroll<span>↓</span></span>
+  <!-- ===== LOADER (removed by JS on window load) ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <p class="loader__word">Torque<span class="hl">.</span> Loading<span class="hl">…</span></p>
+    <div class="loader__bar"></div>
   </div>
-</section>
 
-<section class="about">
-  <h1 class="about__title">
-    <span class="greet">hi,</span>
-    <span class="are">i'm</span>
-    <b>thanh</b>.
-  </h1>
-  <p class="about__intro">I'm a Mechatronics / AI Systems Engineering student at Western, splitting my time between SOLIDWORKS, an Arduino IDE, and a vacuum bag full of carbon fiber. I design structural parts for a Formula SAE car and build robots on the side.</p>
-  <div class="about__buttons">
-    <a href="#" class="btn btn--icon btn--hi" id="hiBtn"><span class="btn__icon">→</span><span class="btn__text">say hi</span></a>
-    <div class="contact-panel" id="contactPanel">
-      <textarea id="msgBox" placeholder="Type your message…"></textarea>
-      <a href="#" class="btn btn--snd" id="sendBtn" style="margin-top:14px;">send</a>
+  <!-- ===== STICKY HEADER ===== -->
+  <header class="site-header" id="header">
+    <div class="container site-header__inner">
+      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl">/</span>28</a>
+      <div class="site-header__actions">
+        <button class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Switch color mode"></button>
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-  </div>
-</section>
+  </header>
 
-<section class="work" id="work">
-  <div class="work__label mono"><span>WORK</span><span>SELECTED, 2025—2026</span></div>
-  <div class="workgrid">
+  <!-- ===== FULL-SCREEN OVERLAY MENU ===== -->
+  <nav class="menu" id="menu" aria-label="Main navigation">
+    <div class="container">
+      <ul class="menu__list">
+        <li><a href="index.html" aria-current="page" style="--i:0">Home</a></li>
+        <li><a href="projects.html" style="--i:1">Projects</a></li>
+        <li><a href="about.html" style="--i:2">About</a></li>
+        <li><a href="index.html#contact" style="--i:3">Contact</a></li>
+      </ul>
+      <div class="menu__meta">
+        <span>Western Formula Racing — since 2025</span>
+        <a href="mailto:thanhgdiep@gmail.com">thanhgdiep@gmail.com</a>
+        <a href="https://linkedin.com/in/thanhgdiep" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
 
-    <div class="wg-item wg--1">
-      <a class="wg-item__container" href="#log">
-        <div class="wg-item__content">
-          <img data-src="media/delivery-robot.jpg" alt="">
-          <div class="wg-item__ph">campus delivery robot<br>media/delivery-robot.jpg</div>
+  <main id="main">
+
+    <!-- ===== HERO: pinned shrink sequence =====
+         The 220vh pin gives the sticky hero a scroll timeline:
+         1. copy exits upward and fades
+         2. the backdrop portrait shrinks into a centered card
+            while the ambient glows fade away
+         3. the signature draws itself stroke-by-stroke, linked
+            to scroll (scrub it back and forth!)               -->
+    <div class="hero-pin" id="heroPin">
+    <section class="hero" aria-label="Introduction">
+      <!-- backdrop portrait that shrinks into a focused card -->
+      <div class="hero__media" aria-hidden="true">
+        <img src="assets/hero-portrait.svg" alt="" />
+      </div>
+      <div class="container hero__inner">
+        <p class="eyebrow reveal" style="--i:0">Mechatronics &times; AI Systems</p>
+        <h1 class="hero__name">
+          <span class="reveal" style="--i:1">Thanh</span>
+          <span class="reveal hl" style="--i:2">Diep</span>
+        </h1>
+        <p class="hero__sub reveal" style="--i:3">
+          Engineering student at Western University building race-car aero,
+          embedded systems, and robots that actually ship.
+        </p>
+        <div class="hero__row reveal" style="--i:4">
+          <a class="chip" href="projects.html">
+            <span class="dot" aria-hidden="true"></span>
+            Next build&nbsp;— Campus Delivery Robot
+          </a>
+          <a class="btn" href="projects.html">See the work <span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
-        <div class="wg-item__title">campus delivery robot</div>
-      </a>
+      </div>
+      <!-- Hand-drawn signature — five strokes, drawn by scroll.
+           pathLength="1" normalizes every stroke so JS can map
+           scroll progress straight onto stroke-dashoffset. -->
+      <svg class="signature" viewBox="0 0 600 220" aria-hidden="true" focusable="false">
+        <path pathLength="1" d="M20 66 C 90 38, 170 34, 235 48"/>
+        <path pathLength="1" d="M120 40 C 108 92, 96 150, 88 186"/>
+        <path pathLength="1" d="M150 170 C 165 96, 178 84, 184 132 C 188 164, 204 168, 218 140 C 230 116, 246 116, 250 142 C 254 166, 272 168, 286 140 C 296 118, 312 118, 316 142 C 320 168, 338 168, 352 148"/>
+        <path pathLength="1" d="M60 196 C 220 226, 420 210, 560 168"/>
+        <path pathLength="1" d="M540 60 C 548 72, 544 84, 532 88"/>
+      </svg>
+      <!-- Giant cropped background type — poster move; drifts via parallax -->
+      <span class="bg-word" data-parallax="0.06" aria-hidden="true">TD&middot;28</span>
+      <p class="scroll-cue" aria-hidden="true">Scroll</p>
+    </section>
     </div>
 
-    <div class="wg-item wg--2">
-      <a class="wg-item__container" href="#log">
-        <div class="wg-item__content">
-          <img data-src="media/bb8-droid.jpg" alt="">
-          <div class="wg-item__ph">bb-8 droid<br>media/bb8-droid.jpg</div>
-        </div>
-        <div class="wg-item__title">bb-8 droid</div>
-      </a>
-    </div>
-
-    <div class="wg-item wg--3 plain">
-      <div class="wg-item__container">
-        <div class="wg-item__stat"><div class="num">2.0×</div><div class="lbl mono">FEA safety factor</div></div>
+    <!-- ===== MARQUEE RIBBON (content duplicated for seamless loop) ===== -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Western Formula Racing</span><span class="sep">&#9670;</span>
+        <span>CFRP Composites</span><span class="sep">&#9670;</span>
+        <span>Embedded Systems</span><span class="sep">&#9670;</span>
+        <span>FEA &amp; CFD</span><span class="sep">&#9670;</span>
+        <span>Robotics</span><span class="sep">&#9670;</span>
+        <!-- duplicate set -->
+        <span>Western Formula Racing</span><span class="sep">&#9670;</span>
+        <span>CFRP Composites</span><span class="sep">&#9670;</span>
+        <span>Embedded Systems</span><span class="sep">&#9670;</span>
+        <span>FEA &amp; CFD</span><span class="sep">&#9670;</span>
+        <span>Robotics</span><span class="sep">&#9670;</span>
       </div>
     </div>
 
-    <div class="wg-item wg--4">
-      <a class="wg-item__container" href="#log">
-        <div class="wg-item__content">
-          <img data-src="media/line-follower.jpg" alt="">
-          <div class="wg-item__ph">line follower<br>media/line-follower.jpg</div>
-        </div>
-        <div class="wg-item__title">line following robot</div>
-      </a>
-    </div>
+    <!-- ===== STATEMENT: personal voice ===== -->
+    <section class="section statement">
+      <div class="container">
+        <!-- data-split: JS masks each visual line and slides it up -->
+        <p class="reveal" data-split>
+          <span class="hl">Iterate</span> fast, validate hard,
+          and never ship a part you wouldn't <span class="hl-2">race</span> on.
+        </p>
+        <p class="sig reveal" style="--i:1">— Thanh Diep, London ON</p>
+      </div>
+    </section>
 
-    <div class="wg-item wg--5">
-      <a class="wg-item__container" href="#log">
-        <div class="wg-item__content">
-          <img data-src="media/fsae-rearwing.jpg" alt="">
-          <div class="wg-item__ph">FSAE rear wing, CFRP<br>media/fsae-rearwing.jpg</div>
-        </div>
-        <div class="wg-item__title">FSAE rear wing — CFRP</div>
-      </a>
-    </div>
+    <!-- ===== CINEMA: scroll-scrubbed video placement =====
+         The 260vh wrapper pins the stage; scroll progress drives
+         BOTH video.currentTime (scrub) and a scale ramp.
+         The mp4 is a procedurally generated placeholder — drop in
+         real footage (same filename or new src) whenever ready. -->
+    <section class="vscrub" aria-label="Build reel">
+      <div class="vscrub__stage">
+        <figure class="vscrub__media" id="vscrubMedia">
+          <video data-video-scrub
+                 src="assets/scrub-reel.mp4"
+                 muted playsinline preload="auto"
+                 aria-label="Abstract placeholder reel, scrubbed by scrolling"></video>
+          <figcaption class="vscrub__caption eyebrow">Build reel — scroll to scrub</figcaption>
+        </figure>
+      </div>
+    </section>
 
-    <div class="wg-item wg--6 plain">
-      <div class="wg-item__container">
-        <div class="wg-item__stat"><div class="num">$2,500+</div><div class="lbl mono">sponsorship secured</div></div>
+    <!-- ===== HORIZONTAL SCROLL GALLERY =====
+         Vertical scroll drives horizontal motion (JS).
+         On mobile it degrades to a native swipe strip. -->
+    <section class="hscroll" id="hscroll" aria-label="Build log gallery">
+      <div class="hscroll__stage">
+        <div class="container hscroll__head">
+          <p class="eyebrow reveal">Build log</p>
+          <h2 class="display reveal" data-split style="--i:1">From bench<br />to <span class="hl">track</span></h2>
+        </div>
+        <div class="hscroll__track" id="hscrollTrack">
+          <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:0">
+            <img src="assets/gallery-1.svg" alt="Abstract blueprint graphic of a rear wing profile" />
+            <figcaption>Rear Wing Mounts — Shop Floor, 2025</figcaption>
+          </figure>
+          <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:1">
+            <img src="assets/gallery-2.svg" alt="Abstract circuit-trace graphic" />
+            <figcaption>TSSI Fault Logic — E-Bay, 2025</figcaption>
+          </figure>
+          <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:2">
+            <img src="assets/gallery-3.svg" alt="Abstract spherical robot sketch" />
+            <figcaption>Sphere Droid — Home Lab, 2025</figcaption>
+          </figure>
+          <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:3">
+            <img src="assets/gallery-4.svg" alt="Abstract finite-element mesh graphic" />
+            <figcaption>FEA Validation — 10g Load Case, 2025</figcaption>
+          </figure>
+          <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:4">
+            <img src="assets/gallery-5.svg" alt="Abstract calibration gauge graphic" />
+            <figcaption>Sensor Calibration — Research Lab, 2025</figcaption>
+          </figure>
+          <figure class="gallery-card img-reveal" data-parallax-img data-blob style="--i:5">
+            <img src="assets/gallery-6.svg" alt="Abstract composite shell profile graphic" />
+            <figcaption>Composite Layup — Vacuum Bagged, 2025</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS BAND ===== -->
+    <section class="section" aria-label="Highlights">
+      <div class="container">
+        <div class="stats">
+          <div class="stat reveal" style="--i:0"><b data-count="600">0</b><span>N of downforce supported</span></div>
+          <div class="stat reveal" style="--i:1"><b data-count="2500">0</b><span>$ sponsorship secured</span></div>
+          <div class="stat reveal" style="--i:2"><b data-count="5">0</b><span>CFRP layups executed</span></div>
+          <div class="stat reveal" style="--i:3"><b data-count="99">0</b><span>% RFID access accuracy</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TEASERS: big wayfinding panels ===== -->
+    <section class="section" aria-label="Explore">
+      <div class="container teasers">
+        <article class="teaser reveal" data-parallax-img data-blob style="--i:0">
+          <img src="assets/project-wing.svg" alt="" aria-hidden="true" />
+          <h2>Pro<br />jects</h2>
+          <p>Race-car aero, delivery robots, droids and sensors — the full build log with numbers.</p>
+          <a href="projects.html"><span class="teaser__cta">/projects &rarr;</span></a>
+        </article>
+        <article class="teaser reveal" data-parallax-img data-blob style="--i:1">
+          <img src="assets/about-1.svg" alt="" aria-hidden="true" />
+          <h2>Ab<br />out</h2>
+          <p>Education, Formula SAE experience, and the toolbox behind the work.</p>
+          <a href="about.html"><span class="teaser__cta">/about &rarr;</span></a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== HALL OF FAME: hover-swap collection grid =====
+         data-theme-section="light": the whole page crossfades to a
+         light palette while this section is centered in the viewport -->
+    <section class="section" data-theme-section="light" aria-labelledby="hof-title">
+      <div class="container">
+        <p class="eyebrow reveal">Build hall of fame</p>
+        <h2 class="display reveal" data-split id="hof-title" style="--i:1">Greatest <span class="hl">hits</span></h2>
+        <div class="hof-grid">
+          <article class="hof-card reveal" style="--i:0">
+            <div class="hof-card__media">
+              <img src="assets/project-wing.svg" alt="Rear wing aero package graphic" />
+              <img class="swap" src="assets/gallery-4.svg" alt="" aria-hidden="true" />
+            </div>
+            <h3><a href="projects.html#wing">Rear Wing Mounts</a></h3>
+            <p class="year">2025 — Formula SAE</p>
+          </article>
+          <article class="hof-card reveal" style="--i:1">
+            <div class="hof-card__media">
+              <img src="assets/project-robot.svg" alt="Campus delivery robot graphic" />
+              <img class="swap" src="assets/gallery-5.svg" alt="" aria-hidden="true" />
+            </div>
+            <h3><a href="projects.html#robot">Delivery Robot</a></h3>
+            <p class="year">2026 — Prototype</p>
+          </article>
+          <article class="hof-card reveal" style="--i:2">
+            <div class="hof-card__media">
+              <img src="assets/project-bb8.svg" alt="Spherical droid graphic" />
+              <img class="swap" src="assets/gallery-3.svg" alt="" aria-hidden="true" />
+            </div>
+            <h3><a href="projects.html#droid">Sphere Droid</a></h3>
+            <p class="year">2025 — Personal build</p>
+          </article>
+          <article class="hof-card reveal" style="--i:3">
+            <div class="hof-card__media">
+              <img src="assets/project-tssi.svg" alt="Tractive system status indicator graphic" />
+              <img class="swap" src="assets/gallery-2.svg" alt="" aria-hidden="true" />
+            </div>
+            <h3><a href="projects.html#tssi">TSSI System</a></h3>
+            <p class="year">2025 — Formula SAE</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REELS: in-view autoplay video placements =====
+         Each card plays only while ~35% visible (IntersectionObserver)
+         and pauses off-screen — zero wasted decode work.
+         Placeholder loops; swap srcs for real shop footage. -->
+    <section class="section" aria-labelledby="reels-title">
+      <div class="container">
+        <p class="eyebrow reveal">In motion</p>
+        <h2 class="display reveal" data-split id="reels-title" style="--i:1">Shop <span class="hl">reels</span></h2>
+        <div class="reel-grid">
+          <figure class="reel-card reveal" style="--i:0">
+            <video data-video-inview src="assets/loop-coral.mp4"
+                   muted loop playsinline preload="metadata"
+                   aria-label="Abstract coral gradient loop placeholder"></video>
+            <figcaption>Layup Timelapse — placeholder</figcaption>
+          </figure>
+          <figure class="reel-card reveal" style="--i:1">
+            <video data-video-inview src="assets/loop-sky.mp4"
+                   muted loop playsinline preload="metadata"
+                   aria-label="Abstract blue gradient loop placeholder"></video>
+            <figcaption>Wind Tunnel Session — placeholder</figcaption>
+          </figure>
+          <figure class="reel-card reveal" style="--i:2">
+            <video data-video-inview src="assets/loop-gold.mp4"
+                   muted loop playsinline preload="metadata"
+                   aria-label="Abstract gold gradient loop placeholder"></video>
+            <figcaption>First Fire-Up — placeholder</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TOOLBOX (skills strip) ===== -->
+    <section class="section" aria-labelledby="tools-title">
+      <div class="container">
+        <p class="eyebrow reveal">Toolbox</p>
+        <h2 class="display reveal" data-split id="tools-title" style="--i:1">Trusted <span class="hl-2">tools</span></h2>
+        <ul class="tags">
+          <li>SOLIDWORKS</li><li>ANSYS Fluent</li><li>MATLAB</li><li>C++</li>
+          <li>Java</li><li>Arduino</li><li>JavaScript</li><li>FEA</li>
+          <li>CFD</li><li>Resin Infusion</li><li>3D Printing</li><li>Git</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT CTA ===== -->
+  </main>
+
+  <!-- ===== PAGE END: CTA centered + compact footer, one viewport ===== -->
+  <div class="page-end">
+    <section class="cta" id="contact" aria-labelledby="cta-title">
+      <span class="bg-word" data-parallax="0.05" aria-hidden="true">Build</span>
+      <div class="container">
+        <h2 id="cta-title" class="reveal" data-split>Always<br /><span class="hl">iterating.</span></h2>
+        <a class="btn btn--solid reveal" style="--i:1" href="mailto:thanhgdiep@gmail.com">
+          Get in touch <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <h3>Thanh Diep</h3>
+          <p>Mechatronics &amp; AI Systems Engineering student at Western University.
+             Formula SAE. Robotics. Composites.</p>
+        </div>
+        <div>
+          <h3>Pages</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Connect</h3>
+          <ul>
+            <li><a href="mailto:thanhgdiep@gmail.com">Email</a></li>
+            <li><a href="https://linkedin.com/in/thanhgdiep" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://thanhdiep.co" rel="noopener">thanhdiep.co</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__legal">
+        <span>&copy; 2026 Thanh Diep. Educational design study — all content and artwork original.</span>
+        <span>Built with HTML, CSS &amp; vanilla JS</span>
       </div>
     </div>
-
-    <div class="wg-item wg--7">
-      <a class="wg-item__container" href="#log">
-        <div class="wg-item__content">
-          <img data-src="media/breathalyzer.jpg" alt="">
-          <div class="wg-item__ph">breathalyzer<br>media/breathalyzer.jpg</div>
-        </div>
-        <div class="wg-item__title">breathalyzer research</div>
-      </a>
-    </div>
-
-    <div class="wg-item wg--8">
-      <a class="wg-item__container" href="#log">
-        <div class="wg-item__content">
-          <img data-src="media/tssi.jpg" alt="">
-          <div class="wg-item__ph">TSSI fault indicator<br>media/tssi.jpg</div>
-        </div>
-        <div class="wg-item__title">TSSI — EV.5.11 compliance</div>
-      </a>
-    </div>
-
+  </footer>
   </div>
-</section>
-
-<section class="log" id="log">
-  <h2>Log</h2>
-  <p class="log__intro">Short notes from things I've built — mostly what broke, and what I changed because of it.</p>
-
-  <div class="log__carousel">
-    <figure class="log__card">
-      <div class="tile">rear wing render</div>
-      <figcaption>Correcting a CFRP failure mode</figcaption>
-    </figure>
-    <figure class="log__card">
-      <div class="tile">TSSI board</div>
-      <figcaption>Getting a fault indicator to EV.5.11</figcaption>
-    </figure>
-    <figure class="log__card">
-      <div class="tile">resin infusion</div>
-      <figcaption>Cutting resin waste in half</figcaption>
-    </figure>
-  </div>
-
-  <ul class="log__drawer">
-    <li><a href="#"><dl><dt>Why the first BB-8 shell cracked</dt><dd>Cardboard to PLA, four prototypes in</dd></dl><span class="time mono">2 min</span></a></li>
-    <li><a href="#"><dl><dt>40 sponsors, 5 pitches deep</dt><dd>What actually got replies</dd></dl><span class="time mono">4 min</span></a></li>
-    <li><a href="#"><dl><dt>Calibrating a breathalyzer without a lab</dt><dd>Fuel-cell redox, ±0.02 BAC</dd></dl><span class="time mono">6 min</span></a></li>
-    <li><a href="#"><dl><dt>A line follower's 12-second problem</dt><dd>Three sensors, one stubborn corner</dd></dl><span class="time mono">3 min</span></a></li>
-    <li><a href="#"><dl><dt>5L, 12V, and a UV lamp</dt><dd>Isolating a thermal subsystem from the rest</dd></dl><span class="time mono">5 min</span></a></li>
-  </ul>
-</section>
-
-<section class="now">
-  <div class="now__box">
-    <div class="now__visual">
-      <img data-src="media/portrait.jpg" alt="">
-      <div class="ph">your photo<br>media/portrait.jpg</div>
-    </div>
-    <div>
-      <h2>Now</h2>
-      <p>Deep in Formula SAE season — CAD by day, resin infusion on weekends. Looking for an internship that keeps this pace up.</p>
-      <a href="#contactPanel" class="btn btn--go" onclick="document.getElementById('hiBtn').click();return false;">→ say hi</a>
-    </div>
-  </div>
-</section>
-
-<section class="footer">
-  <div>
-    <span class="footer__links">
-      <a href="#hero">⌂</a>
-      <a href="https://linkedin.com/in/thanhgdiep" target="_blank" rel="noopener">linkedIn</a>
-      <a href="mailto:thanhgdiep@gmail.com">email</a>
-    </span>
-  </div>
-  <p>made in London, Ontario</p>
-</section>
-
-<script>
-/* custom cursor */
-(function(){
-  const cur = document.getElementById('cursor');
-  const isTouch = matchMedia('(pointer:coarse)').matches;
-  if(isTouch) return;
-  window.addEventListener('mousemove', e=>{
-    cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
-  });
-  document.querySelectorAll('a,.btn,.wg-item,textarea').forEach(el=>{
-    el.addEventListener('mouseenter', ()=>cur.classList.add('big'));
-    el.addEventListener('mouseleave', ()=>cur.classList.remove('big'));
-  });
-})();
-
-/* landing/hero video — scrub and pin on scroll */
-(function(){
-  const vid = document.getElementById('introVideo');
-  const src = vid.dataset.src;
-  vid.src = src;
-
-  vid.addEventListener('loadeddata', ()=>{
-    vid.classList.add('is-ready');
-  });
-
-  vid.addEventListener('loadedmetadata', ()=>{
-    gsap.to(vid, {
-      scrollTrigger: {
-        trigger: ".intro",
-        start: "top top",
-        end: "+=2000",   // Stays pinned for 2000px of scrolling distance
-        scrub: 0.5,      // Smooth scrubbing lag
-        pin: true        // This locks the screen until video finishes playhead
-      },
-      currentTime: vid.duration || 1, 
-      ease: "none"
-    });
-  });
-
-  vid.addEventListener('error', ()=>{ vid.style.display = 'none'; });
-})();
-
-/* intro canvas — abstract monochrome circuit-trace loop (fallback background) */
-(function(){
-  const canvas = document.getElementById('introCanvas');
-  const ctx = canvas.getContext('2d');
-  let w,h,dpr=Math.min(window.devicePixelRatio,2);
-  function resize(){
-    w = canvas.clientWidth; h = canvas.clientHeight;
-    canvas.width = w*dpr; canvas.height = h*dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  window.addEventListener('resize', resize); resize();
-
-  const cols = 14, rows = 8;
-  const nodes = [];
-  for(let i=0;i<cols;i++){
-    for(let j=0;j<rows;j++){
-      nodes.push({x:i,y:j,phase:Math.random()*Math.PI*2});
-    }
-  }
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let t=0;
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    ctx.fillStyle = '#0C0C0D'; ctx.fillRect(0,0,w,h);
-    const gx = w/cols, gy = h/rows;
-    ctx.strokeStyle = 'rgba(245,244,241,0.14)';
-    ctx.lineWidth = 1;
-    nodes.forEach(n=>{
-      const px = n.x*gx + gx/2, py = n.y*gy + gy/2;
-      const pulse = (Math.sin(t*0.6+n.phase)+1)/2;
-      const r = 1.4 + pulse*2.2;
-      ctx.beginPath();
-      ctx.globalAlpha = 0.15 + pulse*0.5;
-      ctx.arc(px,py,r,0,Math.PI*2);
-      ctx.fillStyle = '#F5F4F1';
-      ctx.fill();
-      if(n.x < cols-1){
-        ctx.globalAlpha = 0.08 + pulse*0.14;
-        ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px+gx,py); ctx.stroke();
-      }
-      if(n.y < rows-1){
-        ctx.globalAlpha = 0.08 + pulse*0.14;
-        ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(px,py+gy); ctx.stroke();
-      }
-    });
-    ctx.globalAlpha = 1;
-    if(!reduceMotion){ t += 0.016; requestAnimationFrame(draw); }
-  }
-  draw();
-})();
-
-/* media drop-in — EXCLUDES #introVideo to prevent unwanted auto-play */
-document.querySelectorAll('[data-src]:not(#introVideo)').forEach(el=>{
-  const src = el.dataset.src;
-  if(el.tagName === 'VIDEO'){
-    el.src = src;
-    el.addEventListener('loadeddata', ()=>{ el.style.opacity=1; el.play().catch(()=>{}); });
-  } else {
-    const test = new Image();
-    test.onload = ()=>{ el.src = src; el.nextElementSibling && (el.nextElementSibling.style.display='none'); };
-    test.src = src;
-  }
-});
-
-/* say hi -> reveal textarea + send, mailto compile */
-(function(){
-  const hiBtn = document.getElementById('hiBtn');
-  const panel = document.getElementById('contactPanel');
-  const sendBtn = document.getElementById('sendBtn');
-  const msgBox = document.getElementById('msgBox');
-  hiBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    panel.classList.add('show');
-    sendBtn.classList.add('show');
-    msgBox.focus();
-    hiBtn.style.opacity = 0.4;
-  });
-  sendBtn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    const body = encodeURIComponent(msgBox.value || 'Hi Thanh!');
-    window.location.href = `mailto:thanhgdiep@gmail.com?subject=${encodeURIComponent('Hi from your site')}&body=${body}`;
-  });
-})();
-
-/* scroll reveals */
-gsap.registerPlugin(ScrollTrigger);
-document.querySelectorAll('.reveal').forEach(el=>{
-  gsap.fromTo(el,{opacity:0,y:22},{opacity:1,y:0,duration:.8,ease:'power2.out',
-    scrollTrigger:{trigger:el,start:'top 90%',toggleActions:'play none none reverse'}});
-});
-gsap.utils.toArray('.wg-item').forEach((el,i)=>{
-  const dirs = [
-    {x:-120,y:0}, {x:120,y:0}, {x:0,y:-100}, {x:0,y:100},
-    {x:-90,y:-70}, {x:90,y:-70}, {x:-90,y:70}, {x:90,y:70}
-  ];
-  const d = dirs[Math.floor(Math.random()*dirs.length)];
-  const dur = 0.7 + Math.random()*0.9;      
-  const rot = (Math.random()-0.5)*6;         
-
-  gsap.fromTo(el,
-    {opacity:0, x:d.x, y:d.y, rotation:rot, scale:0.92},
-    {
-      opacity:1, x:0, y:0, rotation:0, scale:1,
-      duration:dur, delay:(i%6)*0.06, ease:'power3.out',
-      // Trigger set to start when the top of the gallery hits 85% of the viewport height
-      scrollTrigger:{trigger:'.workgrid', start:'top 85%', toggleActions:'play none none reverse'}
-    }
-  );
-});
-</script>
 </body>
 </html>
