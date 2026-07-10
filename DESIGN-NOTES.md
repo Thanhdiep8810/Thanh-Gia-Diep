@@ -311,6 +311,20 @@ Also: the fluid blob reveal is scoped to the landing page only, and grids
 were hardened for small screens (`minmax(min(…,100%),1fr)`, tighter teaser
 and signature sizing under 600px).
 
+## 19. Radial reveals + polish pass (v11)
+
+**Radial text reveal.** `[data-radial]` headings split into words that swing
+up into an arc — rotation grows with distance from the center word, lift
+follows the curve (y ∝ d²), staggered outward from the middle. **Card fan:**
+five archive cards pivot around a point far below (wide radius) and fan out
+in lockstep with scroll progress, reversible.
+
+**Polish pass.** Film-grain overlay (inline SVG turbulence, 5% opacity);
+custom cursor (accent dot + lagging ring that swells over interactive
+elements, fine pointers only); page-fade transitions between internal
+pages; slim accent scrollbar; button sheen sweep; accent glow shadows on
+lifted cards. All skipped under reduced motion / touch.
+
 ## Performance notes
 
 - One scroll listener (passive) + one rAF loop guard; no per-frame layout reads

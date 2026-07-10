@@ -31,14 +31,14 @@
 
   <!-- ===== LOADER (removed by JS on window load) ===== -->
   <div class="loader" id="loader" aria-hidden="true">
-    <p class="loader__word">Thanh<span class="hl fx">.</span> Diep<span class="hl fx">…</span></p>
+    <p class="loader__word">Torque<span class="hl fx">.</span> Loading<span class="hl fx">…</span></p>
     <div class="loader__bar"></div>
   </div>
 
   <!-- ===== STICKY HEADER ===== -->
   <header class="site-header" id="header">
     <div class="container site-header__inner">
-      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl fx">/</span>29</a>
+      <a class="logo" href="index.html" aria-label="Thanh Diep — home">TD<span class="hl fx">/</span>28</a>
       <div class="site-header__actions">
         <button class="mode-toggle" id="modeToggle" aria-pressed="false" aria-label="Switch color mode"></button>
         <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
@@ -78,7 +78,7 @@
     <section class="hero" aria-label="Introduction">
       <!-- backdrop portrait that shrinks into a focused card -->
       <div class="hero__media" aria-hidden="true">
-        <img src="assets/sunsetAcel.mov" alt="" />
+        <img src="assets/hero-portrait.svg" alt="" />
       </div>
       <div class="container hero__inner">
         <p class="eyebrow reveal" style="--i:0">Mechatronics &times; AI Systems</p>
@@ -210,6 +210,26 @@
       </div>
     </section>
 
+
+    <!-- ===== CONVERGE: two images meet in the middle =====
+         Pinned 220vh section — as you scroll, the left and right
+         images travel from the edges toward the center (scroll-
+         position driven, reversible), framing the headline. -->
+    <section class="converge" id="converge" aria-labelledby="conv-title">
+      <div class="converge__stage">
+        <img class="converge__img is-left" src="assets/gallery-6.svg"
+             alt="Abstract composite shell graphic" />
+        <div class="converge__text">
+          <p class="eyebrow">Two sides, one garage</p>
+          <h2 class="display" data-split id="conv-title">
+            Design <span class="hl fx">it.</span><br />Race <span class="hl-2 fx">it.</span>
+          </h2>
+        </div>
+        <img class="converge__img is-right" src="assets/hero-portrait.svg"
+             alt="Abstract portrait mesh graphic" />
+      </div>
+    </section>
+
     <!-- ===== TEASERS: big wayfinding panels ===== -->
     <section class="section" aria-label="Explore">
       <div class="container teasers">
@@ -313,6 +333,24 @@
           <li>Java</li><li>Arduino</li><li>JavaScript</li><li>FEA</li>
           <li>CFD</li><li>Resin Infusion</li><li>3D Printing</li><li>Git</li>
         </ul>
+      </div>
+    </section>
+
+
+    <!-- ===== FAN: radial reveal =====
+         The heading's words rise along an arc, and the cards fan
+         out in a radius beneath it, driven by scroll progress. -->
+    <section class="fan section" id="fan" aria-labelledby="fan-title">
+      <div class="container fan__head">
+        <p class="eyebrow reveal">From the archive</p>
+        <h2 class="display" data-radial id="fan-title">Fresh from the workshop</h2>
+      </div>
+      <div class="fan__stage" aria-hidden="true">
+        <img class="fan__card" src="assets/gallery-1.svg" alt="" />
+        <img class="fan__card" src="assets/gallery-3.svg" alt="" />
+        <img class="fan__card" src="assets/gallery-4.svg" alt="" />
+        <img class="fan__card" src="assets/gallery-5.svg" alt="" />
+        <img class="fan__card" src="assets/gallery-6.svg" alt="" />
       </div>
     </section>
 

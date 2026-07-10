@@ -257,7 +257,7 @@ function initSplitText() {
    5. SCROLL REVEALS (now also watches [data-split])
    ------------------------------------------------------------ */
 function initReveals() {
-  const targets = document.querySelectorAll('.reveal, .img-reveal, [data-split]');
+  const targets = document.querySelectorAll('.reveal, .img-reveal, [data-split], [data-radial]');
   if (!targets.length) return;
   if (REDUCED_MOTION || !('IntersectionObserver' in window)) {
     targets.forEach((el) => el.classList.add('is-visible'));
@@ -572,7 +572,8 @@ function initHeroShrink() {
     // 2 — backdrop shrinks into a focused card
     const mp = easeOut(clamp((p - 0.05) / 0.5, 0, 1));
     media.style.scale = (1 - 0.58 * mp).toFixed(3);
-    media.style.opacity = (0.35 + 0.65 * mp).toFixed(3);
+    // full-opacity portrait dissolves to a translucent card
+    media.style.opacity = (1 - 0.72 * mp).toFixed(3);
 
     // 3 — signature draw, stroke by stroke, scroll-linked
     const sp = clamp((p - 0.45) / 0.5, 0, 1);
@@ -580,6 +581,42 @@ function initHeroShrink() {
       const local = clamp(sp * N - i, 0, 1);
       path.style.strokeDashoffset = (1 - local).toFixed(3);
     });
+  });
+}
+
+/* ------------------------------------------------------------
+   9b. CONVERGE — two images meet in the middle
+   Pinned 220vh section. Scroll progress moves the left image
+   rightward and the right image leftward until they flank the
+   center headline — position-driven and fully reversible.
+   ------------------------------------------------------------ */
+function initConverge() {
+  const section = document.getElementById('converge');
+  if (!section || REDUCED_MOTION) return;
+  const mobile = window.matchMedia('(max-width: 700px)');
+  const left = section.querySelector('.converge__img.is-left');
+  const right = section.querySelector('.converge__img.is-right');
+  if (!left || !right) return;
+
+  let secTop = 0, range = 1;
+  const measure = () => {
+    secTop = section.offsetTop;
+    range = Math.max(section.offsetHeight - innerHeight, 1);
+  };
+  measure();
+  onResize(measure);
+
+  const easeIO = (t) => t * t * (3 - 2 * t);
+
+  ScrollEngine.add((y) => {
+    if (mobile.matches) return; // CSS handles the stacked layout
+    const raw = (y - secTop) / range;
+    if (raw < -0.2 || raw > 1.2) return;
+    const p = easeIO(clamp(raw, 0, 1));
+    // travel distance: from the edges to ~flanking the headline
+    const travel = innerWidth * 0.17 * p;
+    left.style.translate = `${travel.toFixed(1)}px -66%`;
+    right.style.translate = `${(-travel).toFixed(1)}px -34%`;
   });
 }
 
@@ -845,6 +882,129 @@ function initModeToggle() {
 }
 
 /* ------------------------------------------------------------
+   16. RADIAL TEXT REVEAL
+   [data-radial] headings: each word is wrapped and given an arc
+   position — rotation grows with distance from the center word,
+   lift follows the curve (y ∝ distance²). Words start dropped
+   and swing up INTO the arc when the heading enters the
+   viewport (reveal observer adds .is-visible) — text revealed
+   in a radius.
+   ------------------------------------------------------------ */
+function initRadialText() {
+  const els = document.querySelectorAll('[data-radial]');
+  if (!els.length || REDUCED_MOTION) return;
+  els.forEach((el) => {
+    const words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    const mid = (words.length - 1) / 2;
+    words.forEach((word, i) => {
+      if (i) el.appendChild(document.createTextNode(' '));
+      const w = document.createElement('span');
+      w.className = 'radial-word';
+      w.textContent = word;
+      const d = i - mid;                      // signed distance from center
+      w.style.setProperty('--w', Math.abs(d)); // stagger outward from center
+      w.style.setProperty('--arc-r', `${(d * 4).toFixed(1)}deg`);
+      w.style.setProperty('--arc-y', `${(d * d * 0.09).toFixed(2)}em`);
+      el.appendChild(w);
+    });
+  });
+}
+
+/* ------------------------------------------------------------
+   17. CARD FAN
+   The archive cards fan out in a radius (pivot far below the
+   cards = wide arc) in lockstep with scroll progress through
+   the section — reversible, like every scroll-driven effect.
+   ------------------------------------------------------------ */
+function initFan() {
+  const section = document.getElementById('fan');
+  if (!section || REDUCED_MOTION) return;
+  const cards = [...section.querySelectorAll('.fan__card')];
+  if (!cards.length) return;
+  const mid = (cards.length - 1) / 2;
+
+  let top = 0;
+  const measure = () => {
+    top = section.getBoundingClientRect().top + window.scrollY;
+  };
+  measure();
+  onResize(measure);
+
+  ScrollEngine.add((y) => {
+    const vh = innerHeight;
+    const raw = (y + vh - top) / (vh * 0.9);
+    if (raw < -0.2 || raw > 2) return;
+    const p = clamp(raw, 0, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    cards.forEach((card, i) => {
+      const d = i - mid;
+      card.style.setProperty('--a', `${(d * 11 * ease).toFixed(2)}deg`);
+      card.style.opacity = ease.toFixed(3);
+      card.style.zIndex = String(10 - Math.abs(d) * 2);
+    });
+  });
+}
+
+/* ------------------------------------------------------------
+   18. CUSTOM CURSOR (desktop polish)
+   Accent dot glued to the pointer + a lagging ring (lerped in
+   the ScrollEngine frame loop). The ring swells over anything
+   interactive. Touch devices and reduced-motion never see it.
+   ------------------------------------------------------------ */
+function initCursor() {
+  if (REDUCED_MOTION || !matchMedia('(pointer: fine)').matches) return;
+  document.documentElement.classList.add('has-cursor');
+
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  const ring = document.createElement('div');
+  ring.className = 'cursor-ring';
+  document.body.append(dot, ring);
+
+  let mx = -100, my = -100, rx = -100, ry = -100;
+  window.addEventListener('pointermove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.translate = `${mx - 3.5}px ${my - 3.5}px`;
+  }, { passive: true });
+
+  // ring chases with lag (runs in the shared frame loop)
+  ScrollEngine.add(() => {
+    rx += (mx - rx) * 0.16;
+    ry += (my - ry) * 0.16;
+    ring.style.translate = `${rx.toFixed(1)}px ${ry.toFixed(1)}px`;
+  });
+
+  // swell over interactive elements (event delegation)
+  document.addEventListener('mouseover', (e) => {
+    ring.classList.toggle(
+      'is-on',
+      Boolean(e.target.closest('a, button, [data-blob], .hof-card, video'))
+    );
+  });
+}
+
+/* ------------------------------------------------------------
+   19. PAGE TRANSITIONS
+   Internal navigations fade the page out before leaving —
+   the loader covers the way back in. Modifier-clicks, new
+   tabs, hashes and downloads are left alone.
+   ------------------------------------------------------------ */
+function initPageFade() {
+  if (REDUCED_MOTION) return;
+  document.addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank') return;
+    const href = a.getAttribute('href');
+    if (!href || !href.endsWith('.html')) return; // internal pages only
+    e.preventDefault();
+    document.documentElement.classList.add('page-exit');
+    setTimeout(() => (location.href = href), 260);
+  });
+}
+
+/* ------------------------------------------------------------
    BOOT
    Split-text waits for fonts (line-wrap measurement depends on
    final font metrics); everything it gates comes after.
@@ -857,17 +1017,22 @@ initScrollGradient();
 initVideoInView();
 initBlobReveal();
 initModeToggle();
+initCursor();
+initPageFade();
 
 let _fxStarted = false;
 const startScrollFX = () => {
   if (_fxStarted) return; // run exactly once
   _fxStarted = true;
   initSplitText();
+  initRadialText();
   initSlideIn();
   initReveals();
   initParallax();
   initHeroShrink();
   initHScroll();
+  initConverge();
+  initFan();
   initMarqueeDrive();
   initVideoScrub();
 };
