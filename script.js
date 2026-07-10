@@ -961,18 +961,35 @@ function initFan() {
   title?.querySelectorAll('.fan-line').forEach((line) => {
     const text = line.textContent;
     line.textContent = '';
-    const spans = [];
+    line.dataset.ghost = text; // dim "unfilled" copy (CSS ::before)
     for (const ch of text) {
       if (ch === ' ') { line.appendChild(document.createTextNode(' ')); continue; }
       const c = document.createElement('span');
       c.className = 'fan-char';
       c.textContent = ch;
       line.appendChild(c);
-      spans.push(c);
+      chars.push({ el: c, rn: 0 });
     }
-    const mid = Math.max((spans.length - 1) / 2, 1);
-    spans.forEach((c, i) => chars.push({ el: c, cd: (i - mid) / mid }));
   });
+
+  /* Measure each char's distance from the heading's CENTER so the
+     ink fills outward in a true circle (both lines together). */
+  const measureChars = () => {
+    if (!title || !chars.length) return;
+    chars.forEach((c) => (c.el.style.translate = '0px 0px'));
+    const tb = title.getBoundingClientRect();
+    let maxR = 1;
+    chars.forEach((c) => {
+      const r = c.el.getBoundingClientRect();
+      const x = r.left - tb.left + r.width / 2 - tb.width / 2;
+      const yv = r.top - tb.top + r.height / 2 - tb.height / 2;
+      c.r = Math.hypot(x, yv);
+      maxR = Math.max(maxR, c.r);
+    });
+    chars.forEach((c) => (c.rn = c.r / maxR));
+  };
+  measureChars();
+  onResize(measureChars);
   const mid = (cards.length - 1) / 2;
 
   let top = 0;
@@ -984,8 +1001,12 @@ function initFan() {
 
   ScrollEngine.add((y) => {
     const vh = innerHeight;
-    const raw = (y + vh - top) / (vh * 0.9);
-    if (raw < -0.2 || raw > 2) return;
+    // starts once the section is ~80% up into the viewport —
+    // previously it fired as soon as the top edge appeared (too early)
+    const raw = (y + vh * 0.8 - top) / (vh * 0.8);
+    // NOTE: no upper cutoff — if the page loads already scrolled
+    // past this section, the fan must still render fully open.
+    if (raw < -0.3) return; // far above the viewport: still hidden
     const p = clamp(raw, 0, 1);
     const ease = 1 - Math.pow(1 - p, 3);
     cards.forEach((card, i) => {
@@ -994,14 +1015,13 @@ function initFan() {
       card.style.opacity = ease.toFixed(3);
       card.style.zIndex = String(10 - Math.abs(d) * 2);
     });
-    // heading ink blooms outward in a radius with the fan
-    if (title) title.style.setProperty('--fr', (ease * 130).toFixed(1));
-    // chars reveal from the center of each line outward
+    // circular ink fill: the wavefront (ease-driven radius) inks
+    // each char once it passes the char's distance from center
+    const wave = ease * 1.35;
     for (const c of chars) {
-      const a = clamp(ease * 1.5 - Math.abs(c.cd) * 0.45, 0, 1);
+      const a = clamp((wave - c.rn) * 3, 0, 1);
       c.el.style.opacity = a.toFixed(3);
-      c.el.style.translate = `0 ${((1 - a) * 0.55).toFixed(3)}em`;
-      c.el.style.rotate = `${(c.cd * 9 * (1 - a)).toFixed(2)}deg`;
+      c.el.style.translate = `0 ${((1 - a) * 0.35).toFixed(3)}em`;
     }
   });
 }
