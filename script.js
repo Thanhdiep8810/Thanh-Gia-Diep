@@ -740,7 +740,7 @@ function initScrollGradient() {
 
   const smooth = (t) => t * t * (3 - 2 * t); // smoothstep easing
 
-  ScrollEngine.add((y) => {
+  const apply = (y) => {
     const center = y + innerHeight / 2;
     const feather = innerHeight * 1.7; // wide feather = slow, long color travel
     let fm = 0;
@@ -751,7 +751,9 @@ function initScrollGradient() {
       fm = Math.max(fm, 1 - Math.min(d / feather, 1));
     }
     document.body.style.setProperty('--fm', smooth(fm).toFixed(4));
-  });
+  };
+  apply(window.scrollY); // correct palette from the first frame
+  ScrollEngine.add(apply);
 }
 
 /* ------------------------------------------------------------
@@ -951,6 +953,26 @@ function initFan() {
   const cards = [...section.querySelectorAll('.fan__card')];
   if (!cards.length) return;
   const title = section.querySelector('#fan-title');
+
+  /* Split each heading line into chars for the socials-style
+     reveal: letters rise and straighten radiating from the
+     center of the line outward. */
+  const chars = [];
+  title?.querySelectorAll('.fan-line').forEach((line) => {
+    const text = line.textContent;
+    line.textContent = '';
+    const spans = [];
+    for (const ch of text) {
+      if (ch === ' ') { line.appendChild(document.createTextNode(' ')); continue; }
+      const c = document.createElement('span');
+      c.className = 'fan-char';
+      c.textContent = ch;
+      line.appendChild(c);
+      spans.push(c);
+    }
+    const mid = Math.max((spans.length - 1) / 2, 1);
+    spans.forEach((c, i) => chars.push({ el: c, cd: (i - mid) / mid }));
+  });
   const mid = (cards.length - 1) / 2;
 
   let top = 0;
@@ -974,6 +996,13 @@ function initFan() {
     });
     // heading ink blooms outward in a radius with the fan
     if (title) title.style.setProperty('--fr', (ease * 130).toFixed(1));
+    // chars reveal from the center of each line outward
+    for (const c of chars) {
+      const a = clamp(ease * 1.5 - Math.abs(c.cd) * 0.45, 0, 1);
+      c.el.style.opacity = a.toFixed(3);
+      c.el.style.translate = `0 ${((1 - a) * 0.55).toFixed(3)}em`;
+      c.el.style.rotate = `${(c.cd * 9 * (1 - a)).toFixed(2)}deg`;
+    }
   });
 }
 

@@ -157,6 +157,7 @@ html[data-theme="mint"] {
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
+  color-scheme: dark;
   /* Smooth scrolling for same-page anchors (CSS-native) */
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
@@ -184,6 +185,7 @@ body {
   --ink:     color-mix(in oklab, var(--flip-ink)     calc(var(--fm, 0) * 100%), var(--base-ink));
   --ink-dim: color-mix(in oklab, var(--flip-ink-dim) calc(var(--fm, 0) * 100%), var(--base-ink-dim));
 }
+html.mode-light { color-scheme: light; }
 html.mode-light body {
   --bg:      color-mix(in oklab, var(--base-bg)      calc(var(--fm, 0) * 100%), var(--flip-bg));
   --bg-alt:  color-mix(in oklab, var(--base-bg-alt)  calc(var(--fm, 0) * 100%), var(--flip-bg-alt));
@@ -1723,3 +1725,40 @@ html.js #fan-title {
 @media (prefers-reduced-motion: reduce) {
   html.js #fan-title { background: none; color: var(--ink); }
 }
+
+/* ============================================================
+   26. HERO CONTRAST + SOCIALS-STYLE CHAR REVEAL (v13)
+   ============================================================ */
+
+/* --- HERO CONTRAST --------------------------------------------
+   The hero artwork is dark in every theme, so the copy sitting
+   on it uses a FIXED light on-media palette — in light mode the
+   page ink goes near-black, which was invisible over the image.
+   A scrim gradient behind the copy seals the contrast. */
+.hero__inner {
+  --ink: #f2f5f4;       /* fixed on-media text color            */
+  --ink-dim: #c3cfcb;   /* fixed on-media secondary             */
+}
+.hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgb(4 8 7 / 0.30) 0%,
+      rgb(4 8 7 / 0.05) 42%,
+      rgb(4 8 7 / 0.78) 100%);
+}
+.hero__name { filter: drop-shadow(0 6px 28px rgb(0 0 0 / 0.45)); }
+.scroll-cue { color: #c3cfcb; }
+
+/* --- SOCIALS-STYLE CHAR REVEAL (fan heading) -------------------
+   Each character rises, un-rotates and fades in radiating from
+   the CENTER of its line outward — driven by the fan's scroll
+   progress (see initFan). The radial ink fill layers on top. */
+.fan-char {
+  display: inline-block;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) { .fan-char { opacity: 1; } }
+.no-js .fan-char { opacity: 1; }
