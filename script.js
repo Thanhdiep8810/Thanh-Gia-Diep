@@ -244,11 +244,39 @@ function initSplitText() {
   };
 
   targets.forEach(split);
+
+  /* Each LINE gets its own observer entry: it wipes only once it
+     is actually shown in the window. Lines that appear together
+     get sequential --ld indexes → the block colors stagger. */
+  const lineIO = 'IntersectionObserver' in window
+    ? new IntersectionObserver((entries, obs) => {
+        let k = 0;
+        for (const en of entries) {
+          if (!en.isIntersecting) continue;
+          en.target.style.setProperty('--ld', k++);
+          en.target.classList.add('line-in');
+          obs.unobserve(en.target);
+        }
+      }, { threshold: 0.35, rootMargin: '0px 0px -5% 0px' })
+    : null;
+  const watchLines = (el) =>
+    el.querySelectorAll('.split-line').forEach((l) =>
+      lineIO ? lineIO.observe(l) : l.classList.add('line-in'));
+  targets.forEach(watchLines);
+
   onResize(() => {
     targets.forEach((el) => {
-      const wasVisible = el.classList.contains('is-visible');
+      const wasRevealed = el.querySelector('.split-line.line-in');
       split(el);
-      if (wasVisible) el.classList.add('is-visible');
+      if (wasRevealed) {
+        // already read — show instantly, no re-animation
+        el.querySelectorAll('.split-line').forEach((l, i) => {
+          l.style.setProperty('--ld', i % 3);
+          l.classList.add('line-in');
+        });
+      } else {
+        watchLines(el);
+      }
     });
   });
 }
@@ -922,6 +950,7 @@ function initFan() {
   if (!section || REDUCED_MOTION) return;
   const cards = [...section.querySelectorAll('.fan__card')];
   if (!cards.length) return;
+  const title = section.querySelector('#fan-title');
   const mid = (cards.length - 1) / 2;
 
   let top = 0;
@@ -943,6 +972,8 @@ function initFan() {
       card.style.opacity = ease.toFixed(3);
       card.style.zIndex = String(10 - Math.abs(d) * 2);
     });
+    // heading ink blooms outward in a radius with the fan
+    if (title) title.style.setProperty('--fr', (ease * 130).toFixed(1));
   });
 }
 
