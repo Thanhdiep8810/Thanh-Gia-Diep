@@ -1353,64 +1353,19 @@ html.mode-light .mode-toggle::before { content: "\2600"; } /* ☀ sun */
   pointer-events: none;
   filter: drop-shadow(0 2px 14px color-mix(in srgb, var(--accent) 35%, transparent));
 }
-/* --- SIGNATURE VIDEO: knocking out a white background ----------
-   H.264/MP4 has NO alpha channel, so the white can't be "made
-   transparent" inside the file. Blend modes get us there instead,
-   with zero re-encoding and full browser support:
+/* The ink layer: filled letterforms, tinted by the theme. */
+.signature .sig-ink { fill: currentColor; stroke: none; }
 
-   DARK MODE  black ink on white
-              → filter: invert(1)   = white ink on black
-              → mix-blend-mode: screen — screen keeps the lighter
-                pixel, and black is the identity for screen, so the
-                (now black) background disappears and only the
-                bright ink survives.
-
-   LIGHT MODE keep the original black ink and use multiply, where
-              white is the identity — so the white background drops
-              out and the black strokes stay.
-
-   Net effect either way: floating handwriting, no white box. */
-.signature-video {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  width: min(78vw, 40rem);
-  rotate: -4deg;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;                    /* revealed only once the file loads */
-  transition: opacity 0.4s var(--ease);
-}
-.signature-video.is-ready { opacity: 1; }
-.signature-video video {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: invert(1);
-  mix-blend-mode: screen;
-}
-html.mode-light .signature-video video {
-  filter: none;
-  mix-blend-mode: multiply;
-}
-/* Tint the ink with the theme accent instead of leaving it white:
-   uncomment, and adjust hue-rotate to taste.
-   .signature-video video {
-     filter: invert(1) sepia(1) saturate(6) hue-rotate(120deg);
-   } */
-
-.signature path {
+/* The pen layer lives inside a <mask>, so its colour is a MATTE, not
+   a visible colour: white = show the ink, black = hide it. Drawing
+   the stroke on wipes the letterforms into view. */
+.signature .sig-pen path {
   fill: none;
-  stroke: currentColor;
-  /* tuned for the 1200×340 viewBox — reads as an even monoline pen */
-  stroke-width: 9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;        /* no-JS: signature fully drawn */
+  stroke: #fff;
+  stroke-dasharray: 1;         /* pathLength="1" => 1 == whole stroke */
+  stroke-dashoffset: 0;        /* no-JS: signature fully revealed */
 }
-html.js .signature path { stroke-dashoffset: 1; } /* JS draws it */
+html.js .signature .sig-pen path { stroke-dashoffset: 1; } /* JS draws it */
 
 /* Name "inks in" on load: outline first (drawn look), then the
    fill floods in once the loader clears (html.is-loaded). */
@@ -1432,7 +1387,7 @@ html.is-loaded .hero__name span.hl { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .hero-pin { height: auto; }
   .hero-pin .hero { position: static; height: auto; min-height: 100svh; }
-  html.js .signature path { stroke-dashoffset: 0; }
+  html.js .signature .sig-pen path { stroke-dashoffset: 0; }
   html.js .hero__name span { color: var(--ink); -webkit-text-stroke: 0; }
   html.js .hero__name span.hl { color: var(--accent); }
 }
@@ -1576,7 +1531,7 @@ html.js [data-slide] { opacity: 0; will-change: translate, opacity; }
 .stats     { grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr)); }
 @media (max-width: 600px) {
   .teaser { min-height: 19rem; padding: var(--space-3); }
-  .signature { width: min(84vw, 22rem); }
+  .signature { width: min(88vw, 24rem); }
   .menu__meta { gap: var(--space-2); }
   .vscrub__media { width: 94vw; }
 }

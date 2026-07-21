@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Organic blob used as a CSS mask for the hover-reveal effect.
+       Edit this path to change the reveal shape — anything filled
+       is "revealed", everything else stays hidden. -->
+  <path fill="#000" d="M100 10
+    C 126 6, 154 18, 170 40
+    C 187 63, 194 94, 183 121
+    C 173 147, 149 166, 123 176
+    C 96 187, 63 188, 41 170
+    C 20 153, 8 124, 13 95
+    C 18 67, 34 42, 58 27
+    C 71 19, 85 12, 100 10 Z"/>
+</svg>

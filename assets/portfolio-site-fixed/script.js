@@ -573,7 +573,7 @@ function initHeroShrink() {
   const media = hero.querySelector('.hero__media');
   const cue = hero.querySelector('.scroll-cue');
   const word = hero.querySelector('.bg-word');
-  const strokes = hero.querySelectorAll('.signature path');
+  const strokes = hero.querySelectorAll('.signature .sig-pen path');
   const N = strokes.length;
 
   /* Constant pen speed.
@@ -596,33 +596,6 @@ function initHeroShrink() {
       return [start, acc / total];
     });
   };
-
-  /* Real handwriting clip, if the user supplied one.
-     We scrub video.currentTime off the same scroll progress that
-     drives the SVG draw, so the pen tracks the wheel and reverses
-     when you scroll back up. The <video> only reveals itself once
-     metadata loads — if assets/signature.mp4 is absent or fails to
-     decode, we silently keep the drawn SVG instead. */
-  const sigWrap = hero.querySelector('[data-signature-video]');
-  const sigVideo = sigWrap?.querySelector('video');
-  const sigSvg = hero.querySelector('.signature');
-  let sigDur = 0;
-
-  if (sigVideo) {
-    sigVideo.pause(); // we own this timeline
-    sigVideo.addEventListener(
-      'loadedmetadata',
-      () => {
-        sigDur = sigVideo.duration || 0;
-        if (!sigDur) return;
-        sigWrap.classList.add('is-ready');
-        if (sigSvg) sigSvg.style.display = 'none'; // footage wins
-      },
-      { once: true }
-    );
-    // missing file / unsupported codec → leave the SVG in place
-    sigVideo.addEventListener('error', () => { sigDur = 0; }, { once: true });
-  }
 
   let range = 1;
   const measure = () => {
@@ -655,20 +628,13 @@ function initHeroShrink() {
     // 3 — signature writes itself, scroll-linked
     const sp = clamp((p - 0.45) / 0.5, 0, 1);
 
-    if (sigDur) {
-      // Real footage: scroll position IS the playhead. Only seek on
-      // a meaningful delta, or we thrash the decoder every frame.
-      const t = sp * Math.max(sigDur - 0.05, 0);
-      if (Math.abs(sigVideo.currentTime - t) > 0.03) sigVideo.currentTime = t;
-    } else {
-      // Drawn fallback: each stroke owns a slice of the phase sized
-      // to its length, so the pen keeps a constant speed throughout.
-      strokes.forEach((path, i) => {
-        const [start, end] = spans[i] || [i / N, (i + 1) / N];
-        const local = clamp((sp - start) / Math.max(end - start, 1e-4), 0, 1);
-        path.style.strokeDashoffset = (1 - local).toFixed(3);
-      });
-    }
+    // Each traced stroke owns a slice of the phase sized to its
+    // real length, so the pen keeps a constant speed throughout.
+    strokes.forEach((path, i) => {
+      const [start, end] = spans[i] || [i / N, (i + 1) / N];
+      const local = clamp((sp - start) / Math.max(end - start, 1e-4), 0, 1);
+      path.style.strokeDashoffset = (1 - local).toFixed(3);
+    });
   });
 }
 
