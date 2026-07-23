@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Projects — Thanh Diep</title>
-  <meta name="description" content="Engineering projects by Thanh Diep: Formula SAE aero and electrical systems, delivery robot, spherical droid, line follower, and sensor research." />
+  <meta name="description"
+    content="Engineering projects by Thanh Diep: Formula SAE aero and electrical systems, delivery robot, spherical droid, line follower, and sensor research." />
+  <link rel="icon" type="image/png" href="tBlack.png" />
+  <link rel="apple-touch-icon" href="tBlack.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@1,9..144,500..700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Fraunces:ital,opsz,wght@1,9..144,500..700&family=Manrope:wght@400;600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script>
     document.documentElement.classList.replace('no-js', 'js');
@@ -16,10 +22,11 @@
       var m = localStorage.getItem('color-mode') ||
         (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
       if (m === 'light') document.documentElement.classList.add('mode-light');
-    } catch (e) {}
+    } catch (e) { }
   </script>
   <script src="script.js" defer></script>
 </head>
+
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -72,7 +79,8 @@
       <!-- Each project: media + meta. Alternating sides via CSS nth-child. -->
       <article class="project" id="wing">
         <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
-          <img src="https://images.unsplash.com/photo-1771461848585-d6f00b69691e?auto=format&fit=crop&w=1600&q=80" alt="Formula Student race car rear wing" />
+          <img src="https://images.unsplash.com/photo-1771461848585-d6f00b69691e?auto=format&fit=crop&w=1600&q=80"
+            alt="Formula Student race car rear wing" />
         </div>
         <div data-slide="right">
           <p class="meta"><span>2025</span><span>Formula SAE</span><span>SOLIDWORKS · FEA · CFRP</span></p>
@@ -82,15 +90,18 @@
           </p>
           <ul class="reveal" style="--i:2">
             <li>Validated via FEA with a <b>2.0 safety factor</b> under a 10g load case (5g bump at 120 km/h).</li>
-            <li>Corrected a prior-year CFRP failure mode — now supports <b>600 N of downforce</b>, a 50% increase with only a 5% drag penalty.</li>
-            <li>Vacuum-assisted resin infusion across <b>5+ CFRP layups</b>; in-house endplate machining saved ~$800.</li>
+            <li>Corrected a prior-year CFRP failure mode — now supports <b>600 N of downforce</b>, a 50% increase with
+              only a 5% drag penalty.</li>
+            <li>Vacuum-assisted resin infusion across <b>5+ CFRP layups</b>; in-house endplate machining saved ~$800.
+            </li>
           </ul>
         </div>
       </article>
 
       <article class="project" id="tssi">
         <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
-          <img src="https://images.unsplash.com/photo-1631376178637-392efc9e356b?auto=format&fit=crop&w=1600&q=80" alt="Printed circuit board close-up" />
+          <img src="https://images.unsplash.com/photo-1631376178637-392efc9e356b?auto=format&fit=crop&w=1600&q=80"
+            alt="Printed circuit board close-up" />
         </div>
         <div data-slide="right">
           <p class="meta"><span>2025</span><span>Formula SAE</span><span>Electrical · Safety systems</span></p>
@@ -107,7 +118,8 @@
 
       <article class="project" id="robot">
         <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
-          <img src="https://images.unsplash.com/photo-1558137623-ce933996c730?auto=format&fit=crop&w=1600&q=80" alt="Small tracked robot prototype" />
+          <img src="https://images.unsplash.com/photo-1558137623-ce933996c730?auto=format&fit=crop&w=1600&q=80"
+            alt="Small tracked robot prototype" />
         </div>
         <div data-slide="right">
           <p class="meta"><span>2026</span><span>Prototype</span><span>Peltier · UV-C · RFID · Arduino</span></p>
@@ -116,7 +128,8 @@
             Temperature-controlled, sterilized, access-controlled delivery payload.
           </p>
           <ul class="reveal" style="--i:2">
-            <li>5 L compartment held below <b>5&nbsp;&deg;C</b> with a 12 V Peltier module, plus UV-C sterilization.</li>
+            <li>5 L compartment held below <b>5&nbsp;&deg;C</b> with a 12 V Peltier module, plus UV-C sterilization.
+            </li>
             <li>13.56 MHz RFID scanner achieving <b>99% access-control accuracy</b>.</li>
             <li>Shared 12 V electromechanical power distribution with thermal subsystem isolation.</li>
           </ul>
@@ -125,7 +138,8 @@
 
       <article class="project" id="droid">
         <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
-          <img src="https://images.unsplash.com/photo-1653850407181-2b5f53fe953b?auto=format&fit=crop&w=1600&q=80" alt="BB-8 style spherical droid" />
+          <img src="https://images.unsplash.com/photo-1653850407181-2b5f53fe953b?auto=format&fit=crop&w=1600&q=80"
+            alt="BB-8 style spherical droid" />
         </div>
         <div data-slide="right">
           <p class="meta"><span>2025</span><span>Personal build</span><span>C++ · Arduino · 3D printing</span></p>
@@ -134,7 +148,8 @@
             A functional ball-drive droid with a magnetically coupled head.
           </p>
           <ul class="reveal" style="--i:2">
-            <li>Stable spherical motion at <b>0.5 m/s</b> inside a 20 cm acrylic shell; 5 lb neodymium head coupling.</li>
+            <li>Stable spherical motion at <b>0.5 m/s</b> inside a 20 cm acrylic shell; 5 lb neodymium head coupling.
+            </li>
             <li>Iterated 4 cardboard prototypes before a PLA chassis cut weight <b>15%</b>.</li>
             <li>C++ motor control with synchronized light and sound; <b>20+ hours</b> of soldering and testing.</li>
           </ul>
@@ -143,13 +158,15 @@
 
       <article class="project" id="line">
         <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
-          <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1600&q=80" alt="Arduino microcontroller board" />
+          <img src="https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=1600&q=80"
+            alt="Arduino microcontroller board" />
         </div>
         <div data-slide="right">
           <p class="meta"><span>2025</span><span>Autonomous</span><span>Arduino · IR sensors</span></p>
           <h2 class="reveal" data-split>Line Following Robot</h2>
           <ul class="reveal" style="--i:1">
-            <li>Compact 15&times;15 cm robot (3 IR sensors, L293D driver) completing a 5 m track in <b>&lt;12 s</b>.</li>
+            <li>Compact 15&times;15 cm robot (3 IR sensors, L293D driver) completing a 5 m track in <b>&lt;12 s</b>.
+            </li>
             <li>Regulated 6 V power with organized wiring — <b>100% uptime</b> across all test phases.</li>
           </ul>
         </div>
@@ -157,22 +174,23 @@
 
       <article class="project" id="breathalyzer">
         <div class="project__media img-reveal reveal" data-parallax-img data-slide="left">
-          <img src="https://images.unsplash.com/photo-1631378297854-185cff6b0986?auto=format&fit=crop&w=1600&q=80" alt="Sensor board with jumper wires" />
+          <img src="https://images.unsplash.com/photo-1631378297854-185cff6b0986?auto=format&fit=crop&w=1600&q=80"
+            alt="Sensor board with jumper wires" />
         </div>
         <div data-slide="right">
           <p class="meta"><span>2025</span><span>Research</span><span>MQ-3 · Fuel cell · C++</span></p>
           <h2 class="reveal" data-split>Breathalyzer Research Project</h2>
           <ul class="reveal" style="--i:1">
             <li>Portable Arduino + MQ-3 breathalyzer calibrated to within <b>&plusmn;0.02 BAC</b>.</li>
-            <li>10-page technical report; presented fuel-cell redox data and calibration curves to <b>30+ peers</b>.</li>
+            <li>10-page technical report; presented fuel-cell redox data and calibration curves to <b>30+ peers</b>.
+            </li>
           </ul>
         </div>
       </article>
       <!-- Video placement: full-width banner, plays in view -->
       <figure class="video-banner img-reveal reveal" data-slide="up" aria-label="Test footage placeholder">
-        <video data-video-inview src="assets/loop-coral.mp4"
-               muted loop playsinline preload="metadata"
-               aria-label="Abstract gradient loop placeholder"></video>
+        <video data-video-inview src="assets/loop-coral.mp4" muted loop playsinline preload="metadata"
+          aria-label="Abstract gradient loop placeholder"></video>
         <figcaption class="eyebrow">Track Test — placeholder reel</figcaption>
       </figure>
     </div>
@@ -184,41 +202,43 @@
     <section class="cta" aria-labelledby="cta-title">
       <div class="container">
         <h2 id="cta-title" class="reveal" data-split>Next build<br /><span class="hl fx">loading&hellip;</span></h2>
-        <a class="btn reveal" style="--i:1" href="about.html">About me <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a class="btn reveal" style="--i:1" href="about.html">About me <span class="arrow"
+            aria-hidden="true">&rarr;</span></a>
       </div>
     </section>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="site-footer__grid">
-        <div>
-          <h3>Thanh Diep</h3>
-          <p>Mechatronics &amp; AI Systems Engineering student at Western University.
-             Formula SAE. Robotics. Composites.</p>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="site-footer__grid">
+          <div>
+            <h3>Thanh Diep</h3>
+            <p>Mechatronics &amp; AI Systems Engineering student at Western University.
+              Formula SAE. Robotics. Composites.</p>
+          </div>
+          <div>
+            <h3>Pages</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Connect</h3>
+            <ul>
+              <li><a href="mailto:thanhgdiep@gmail.com">Email</a></li>
+              <li><a href="https://linkedin.com/in/thanhgdiep" rel="noopener">LinkedIn</a></li>
+              <li><a href="https://thanhdiep.co" rel="noopener">thanhdiep.co</a></li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <h3>Pages</h3>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Connect</h3>
-          <ul>
-            <li><a href="mailto:thanhgdiep@gmail.com">Email</a></li>
-            <li><a href="https://linkedin.com/in/thanhgdiep" rel="noopener">LinkedIn</a></li>
-            <li><a href="https://thanhdiep.co" rel="noopener">thanhdiep.co</a></li>
-          </ul>
+        <div class="site-footer__legal">
+          <span>&copy; 2026 Thanh Diep. Educational design study — all content and artwork original.</span>
+          <span>Built with HTML, CSS &amp; vanilla JS</span>
         </div>
       </div>
-      <div class="site-footer__legal">
-        <span>&copy; 2026 Thanh Diep. Educational design study — all content and artwork original.</span>
-        <span>Built with HTML, CSS &amp; vanilla JS</span>
-      </div>
-    </div>
-  </footer>
+    </footer>
   </div>
 </body>
+
 </html>
